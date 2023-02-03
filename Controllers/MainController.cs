@@ -34,7 +34,7 @@ public class MainController : Controller
     }
 
     [HttpGet("download/{operatingSystem}")]
-    public async Task<Stream> Download(string operatingSystem)
+    public async Task<String> Download(string operatingSystem)
     {
         return await _mainService.Download(operatingSystem);
     }

@@ -13,7 +13,7 @@ public class DemoService
     {
         try
         {
-            var name = filename.Remove(filename.Length - 3);
+            var name = filename.Remove(filename.Length - 4);
             var number = String.Format("{0:D4}", timestampId);
             var extension = filename.Remove(0, filename.Length - 3);
             return await _amazonS3Service.GetObjectAsStream($"previews/{name}/scr-{number}.{extension}");

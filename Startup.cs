@@ -1,4 +1,3 @@
-using lanstreamer_api.Configuration;
 using lanstreamer_api.services;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,12 +11,14 @@ public class Startup
     }
 
     private IConfiguration Configuration { get; }
-    
+
     public void ConfigureServices(IServiceCollection services)
     {
+        services.AddCors();
+        
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
-        services.AddDbContext<ApiDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DbConnection")));
+        services.AddDbContext<ApiDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("db_connection")));
         services.AddMvc().AddXmlSerializerFormatters();
         services.AddControllers();
 
@@ -35,6 +36,7 @@ public class Startup
             app.UseSwaggerUI();
         }
 
+        app.UseCors(options => options.WithOrigins("*").AllowAnyMethod());
         app.UseHttpsRedirection();
         app.UseRouting();
         app.UseAuthorization();

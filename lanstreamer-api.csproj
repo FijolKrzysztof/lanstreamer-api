@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>lanstreamer_api</RootNamespace>
@@ -11,12 +11,26 @@
     <ItemGroup>
         <PackageReference Include="AWSSDK.S3" Version="3.7.9.55" />
         <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+        <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="obj\Debug\net6.0\staticwebassets" />
+        <Folder Include="obj\Debug\net7.0\staticwebassets" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Controllers\DemoController.cs" />
+      <Compile Remove="Services\DemoService.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="aws.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="docker" />
     </ItemGroup>
 </Project>

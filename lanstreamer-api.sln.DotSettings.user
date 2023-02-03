@@ -2,4 +2,5 @@
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;
   &lt;Assembly Path="/home/ja/Apps/lanstreamer-api/obj/Debug/net6.0/lanstreamer-api.dll" /&gt;
   &lt;Assembly Path="/home/ja/Apps/lanstreamer-api/obj/Debug/net6.0/ref/lanstreamer-api.dll" /&gt;
+  &lt;Assembly Path="/home/krzysztof/.nuget/packages/awssdk.s3/3.7.9.55/lib/netcoreapp3.1/AWSSDK.S3.dll" /&gt;
 &lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>

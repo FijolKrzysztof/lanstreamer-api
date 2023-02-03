@@ -1,5 +1,4 @@
 using System.Data;
-using lanstreamer_api.Configuration;
 using lanstreamer_api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -40,7 +39,11 @@ public class MainService
 
     public async Task<string> AppAccess(string authorizationString, string version)
     {
-        if (version != _configuration["Config:Version"])
+        var configurations = await (
+            from dbConfiguration in _apiDbContext.Configurations
+            select dbConfiguration).ToListAsync();
+        var versionConfig = configurations.Find(configuration => configuration.Key == "version")?.Value;
+        if (version != versionConfig)
         {
             throw new VersionNotFoundException();
         }
@@ -53,11 +56,15 @@ public class MainService
         }
         _apiDbContext.Authorizations.Remove(authorizations[Index.Start]);
         await _apiDbContext.SaveChangesAsync();
-        return _configuration["Config:AppOfflineLogins"] ?? "1";
+        return configurations.Find(configuration => configuration.Key == "offline_logins")?.Value ?? "0";
     }
 
-    public async Task<Stream> Download(string operatingSystem)
+    public async Task<String> Download(string operatingSystem)
     {
-        return await _amazonS3Service.GetObjectAsStream($"downloads/lanstreamer-{operatingSystem}.zip");
+        var configurations = await (
+            from dbConfiguration in _apiDbContext.Configurations
+            where dbConfiguration.Key.Equals($"{operatingSystem}_link")
+            select dbConfiguration).ToListAsync();
+        return configurations.First().Value ?? throw new DataException();
     }
 }
