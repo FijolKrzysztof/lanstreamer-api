@@ -1,6 +1,7 @@
 using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace lanstreamer_api.services;
 
@@ -49,5 +50,15 @@ public class AmazonS3Service
     public async Task<List<S3Object>> GetObjectList(string s3Path)
     {
         return (await _s3Client.ListObjectsAsync(BucketName, s3Path)).S3Objects;
+    }
+    
+    public async Task<List<S3Grant>> GetFilePermissions(string s3Path)
+    {
+        var getAclRequest = new GetACLRequest
+        {
+            BucketName = BucketName,
+            Key = s3Path
+        };
+        return (await _s3Client.GetACLAsync(getAclRequest)).AccessControlList.Grants;
     }
 }

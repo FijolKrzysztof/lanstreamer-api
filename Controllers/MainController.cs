@@ -1,5 +1,6 @@
 using lanstreamer_api.Models;
 using lanstreamer_api.services;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace lanstreamer_api.Controllers; 
@@ -21,15 +22,16 @@ public class MainController : Controller
         return await _mainService.Login(user);
     }
 
-    [HttpPost("authorize")]
-    public async Task<ActionResult> Authorize([FromBody] Authorization authorization)
+    [HttpPost("authorize/{authorizationString}")]
+    public async Task<ActionResult> Authorize(String authorizationString, [FromBody] User user)
     {
-        return await _mainService.Authorize(authorization);
+        return await _mainService.Authorize(authorizationString, user);
     }
 
     [HttpGet("app/access/{authorizationString}/{version}")]
     public async Task<string> AppAccess(string authorizationString, string version)
     {
+        Console.WriteLine("inn---nnn");
         return await _mainService.AppAccess(authorizationString, version);
     }
 

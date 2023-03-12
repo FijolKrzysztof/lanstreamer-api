@@ -1,4 +1,5 @@
 using System.Data;
+using Amazon.S3.Model;
 using lanstreamer_api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,31 +8,44 @@ namespace lanstreamer_api.services;
 
 public class MainService
 {
-    public MainService(ApiDbContext apiDbContext, AmazonS3Service amazonS3Service, IConfiguration configuration)
+    public MainService(ApiDbContext apiDbContext, AmazonS3Service amazonS3Service)
     {
         _apiDbContext = apiDbContext;
         _amazonS3Service = amazonS3Service;
-        _configuration = configuration;
     }
 
     private readonly ApiDbContext _apiDbContext;
     private readonly AmazonS3Service _amazonS3Service;
-    private readonly IConfiguration _configuration;
 
     public async Task<ActionResult> Login(User user)
     {
-        var users = await (from dbUser in _apiDbContext.Users where dbUser.Mail.Equals(dbUser.Mail) select user).ToListAsync();
+        var users = await (from dbUser in _apiDbContext.Users where dbUser.Mail.Equals(dbUser.Mail) select user)
+            .ToListAsync();
         if (users.Count > 0)
         {
             return new StatusCodeResult(StatusCodes.Status200OK);
         }
+
         await _apiDbContext.Users.AddAsync(user);
         await _apiDbContext.SaveChangesAsync();
         return new StatusCodeResult(StatusCodes.Status201Created);
     }
 
-    public async Task<ActionResult> Authorize(Authorization authorization)
+    public async Task<ActionResult> Authorize(String authorizationString, User user)
     {
+        Authorization authorization = new();
+        authorization.AuthorizationString = authorizationString;
+
+        var users = await (
+            from dbUser in _apiDbContext.Users
+            where dbUser.Mail.Equals(user.Mail)
+            select dbUser).ToListAsync();
+
+        if (users.Count == 0)
+        {
+            await _apiDbContext.Users.AddAsync(user);
+        }
+
         await _apiDbContext.Authorizations.AddAsync(authorization);
         await _apiDbContext.SaveChangesAsync();
         return new StatusCodeResult(StatusCodes.Status201Created);
@@ -47,6 +61,7 @@ public class MainService
         {
             throw new VersionNotFoundException();
         }
+
         var authorizations = await (from dbAuthorization in _apiDbContext.Authorizations
             where dbAuthorization.AuthorizationString.Equals(authorizationString)
             select dbAuthorization).ToListAsync();
@@ -54,6 +69,7 @@ public class MainService
         {
             throw new UnauthorizedAccessException();
         }
+
         _apiDbContext.Authorizations.Remove(authorizations[Index.Start]);
         await _apiDbContext.SaveChangesAsync();
         return configurations.Find(configuration => configuration.Key == "offline_logins")?.Value ?? "0";
@@ -61,10 +77,15 @@ public class MainService
 
     public async Task<String> Download(string operatingSystem)
     {
-        var configurations = await (
-            from dbConfiguration in _apiDbContext.Configurations
-            where dbConfiguration.Key.Equals($"{operatingSystem}_link")
-            select dbConfiguration).ToListAsync();
-        return configurations.First().Value ?? throw new DataException();
+        List<S3Object> s3Objects = (await _amazonS3Service.GetObjectList("downloads"))
+            .FindAll(obj => obj.Key.Contains(operatingSystem))
+            .FindAll(obj => _amazonS3Service.GetFilePermissions(obj.Key).Result
+                    .FindAll(grant => grant.Grantee.URI == "http://acs.amazonaws.com/groups/global/AllUsers"
+                                      && (grant.Permission.Value == "READ" || grant.Permission.Value == "READ_ACP"))
+                    .Count == 2
+            );
+        s3Objects.Sort((obj1, obj2) => obj2.LastModified.CompareTo(obj1.LastModified));
+        S3Object s3Object = s3Objects.First();
+        return $"https://lanstreamer.s3.eu-west-2.amazonaws.com/{s3Object.Key}";
     }
 }
