@@ -33,8 +33,9 @@ public class MainService
 
     public async Task<ActionResult> Authorize(String authorizationString, User user)
     {
-        Authorization authorization = new();
+        var authorization = new Authorization();
         authorization.AuthorizationString = authorizationString;
+        authorization.Timestamp = DateTime.Now.ToUniversalTime();
 
         var users = await (
             from dbUser in _apiDbContext.Users
@@ -45,6 +46,17 @@ public class MainService
         {
             await _apiDbContext.Users.AddAsync(user);
         }
+
+        DateTime yesterday = DateTime.Today.AddDays(-1);
+        var outdatedAuthorizations = await (
+            from dbAuthorization in _apiDbContext.Authorizations
+            where dbAuthorization.Timestamp.Value < yesterday.ToUniversalTime()
+            select dbAuthorization).ToListAsync();
+        
+        outdatedAuthorizations.ForEach(authorization =>
+        {
+            _apiDbContext.Authorizations.Remove(authorization);
+        });
 
         await _apiDbContext.Authorizations.AddAsync(authorization);
         await _apiDbContext.SaveChangesAsync();
@@ -62,15 +74,16 @@ public class MainService
             throw new VersionNotFoundException();
         }
 
-        var authorizations = await (from dbAuthorization in _apiDbContext.Authorizations
+        var foundAuthorizationList = await (
+            from dbAuthorization in _apiDbContext.Authorizations
             where dbAuthorization.AuthorizationString.Equals(authorizationString)
             select dbAuthorization).ToListAsync();
-        if (authorizations.Count == 0)
+        if (foundAuthorizationList.Count == 0)
         {
             throw new UnauthorizedAccessException();
         }
 
-        _apiDbContext.Authorizations.Remove(authorizations[Index.Start]);
+        _apiDbContext.Authorizations.Remove(foundAuthorizationList[Index.Start]);
         await _apiDbContext.SaveChangesAsync();
         return configurations.Find(configuration => configuration.Key == "offline_logins")?.Value ?? "0";
     }
@@ -87,5 +100,17 @@ public class MainService
         s3Objects.Sort((obj1, obj2) => obj2.LastModified.CompareTo(obj1.LastModified));
         S3Object s3Object = s3Objects.First();
         return $"https://lanstreamer.s3.eu-west-2.amazonaws.com/{s3Object.Key}";
+    }
+
+    public async Task<ActionResult> SaveReferrer(String name)
+    {
+        var referrer = new Referrer();
+        referrer.Name = name;
+        referrer.Timestamp = DateTime.Now.ToUniversalTime();
+
+        await _apiDbContext.Referrers.AddAsync(referrer);
+        await _apiDbContext.SaveChangesAsync();
+
+        return new StatusCodeResult(StatusCodes.Status201Created);
     }
 }

@@ -1,6 +1,5 @@
 using lanstreamer_api.Models;
 using lanstreamer_api.services;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace lanstreamer_api.Controllers; 
@@ -31,7 +30,6 @@ public class MainController : Controller
     [HttpGet("app/access/{authorizationString}/{version}")]
     public async Task<string> AppAccess(string authorizationString, string version)
     {
-        Console.WriteLine("inn---nnn");
         return await _mainService.AppAccess(authorizationString, version);
     }
 
@@ -39,5 +37,11 @@ public class MainController : Controller
     public async Task<String> Download(string operatingSystem)
     {
         return await _mainService.Download(operatingSystem);
+    }
+    
+    [HttpPost("referrer/{name}")]
+    public async Task<ActionResult> SaveReferrer(String name)
+    {
+        return await _mainService.SaveReferrer(name);
     }
 }

@@ -10,4 +10,5 @@ public class ApiDbContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Authorization> Authorizations { get; set; }
     public DbSet<Configuration> Configurations { get; set; }
+    public DbSet<Referrer> Referrers { get; set; }
 }
