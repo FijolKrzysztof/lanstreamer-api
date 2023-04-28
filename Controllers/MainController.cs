@@ -39,9 +39,9 @@ public class MainController : Controller
         return await _mainService.Download(operatingSystem);
     }
     
-    [HttpPost("referrer/{name}")]
-    public async Task<ActionResult> SaveReferrer(String name)
+    [HttpPost("referrer")]
+    public async Task<ActionResult> SaveReferrer([FromBody] Referrer referrer)
     {
-        return await _mainService.SaveReferrer(name);
+        return await _mainService.SaveReferrer(referrer);
     }
 }

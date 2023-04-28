@@ -102,10 +102,8 @@ public class MainService
         return $"https://lanstreamer.s3.eu-west-2.amazonaws.com/{s3Object.Key}";
     }
 
-    public async Task<ActionResult> SaveReferrer(String name)
+    public async Task<ActionResult> SaveReferrer(Referrer referrer)
     {
-        var referrer = new Referrer();
-        referrer.Name = name;
         referrer.Timestamp = DateTime.Now.ToUniversalTime();
 
         await _apiDbContext.Referrers.AddAsync(referrer);
