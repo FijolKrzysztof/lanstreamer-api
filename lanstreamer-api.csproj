@@ -13,6 +13,7 @@
         <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
         <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0" />
+        <PackageReference Include="MongoDB.Driver" Version="2.19.2" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
@@ -24,13 +25,20 @@
     <ItemGroup>
       <Compile Remove="Controllers\DemoController.cs" />
       <Compile Remove="Services\DemoService.cs" />
+      <Compile Remove="Configuration\**" />
     </ItemGroup>
 
     <ItemGroup>
       <Content Remove="aws.json" />
+      <Content Remove="Configuration\**" />
     </ItemGroup>
 
     <ItemGroup>
       <None Remove="docker" />
+      <None Remove="Configuration\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Configuration\**" />
     </ItemGroup>
 </Project>

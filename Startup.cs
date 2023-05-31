@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace lanstreamer_api;
 
+using MongoDB.Driver;
+
 public class Startup
 {
     public Startup(IConfiguration configuration)
@@ -18,19 +20,27 @@ public class Startup
         {
             builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
         }));
-        
+
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
-        services.AddDbContext<ApiDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("db_connection")));
-        services.AddMvc().AddXmlSerializerFormatters();
-        services.AddControllers();
-
+        
+        // Configure MongoDB connection
+        string mongoConnectionString = Configuration.GetConnectionString("db_connection");
+        services.AddSingleton<IMongoClient>(_ => new MongoClient(mongoConnectionString));
+        services.AddScoped<IMongoDatabase>(serviceProvider =>
+        {
+            var client = serviceProvider.GetRequiredService<IMongoClient>();
+            return client.GetDatabase("lanstreamer");
+        });
+        
         services.AddSingleton<AmazonS3Service>();
         services.AddSingleton<BlogService>();
         services.AddScoped<MainService>();
+        services.AddMvc().AddXmlSerializerFormatters();
+        services.AddControllers();
     }
-    
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApiDbContext apiDbContext)
+
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         if (env.IsDevelopment())
         {
@@ -40,9 +50,9 @@ public class Startup
         }
 
         app.UseCors("allowAll");
-        app.UseHttpsRedirection();
+        // app.UseHttpsRedirection();
         app.UseRouting();
-        app.UseAuthorization();
+        // app.UseAuthorization();
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();

@@ -6,109 +6,102 @@ using Microsoft.EntityFrameworkCore;
 
 namespace lanstreamer_api.services;
 
+using MongoDB.Driver;
+
 public class MainService
 {
-    public MainService(ApiDbContext apiDbContext, AmazonS3Service amazonS3Service)
+    private readonly IMongoCollection<User> _usersCollection;
+    private readonly IMongoCollection<Authorization> _authorizationsCollection;
+    private readonly IMongoCollection<Configuration> _configurationsCollection;
+    private readonly IMongoCollection<Referrer> _referrersCollection;
+    private readonly AmazonS3Service _amazonS3Service;
+
+    public MainService(IMongoDatabase database, AmazonS3Service amazonS3Service)
     {
-        _apiDbContext = apiDbContext;
+        _usersCollection = database.GetCollection<User>("Users");
+        _authorizationsCollection = database.GetCollection<Authorization>("Authorizations");
+        _configurationsCollection = database.GetCollection<Configuration>("Configurations");
+        _referrersCollection = database.GetCollection<Referrer>("Referrers");
         _amazonS3Service = amazonS3Service;
     }
 
-    private readonly ApiDbContext _apiDbContext;
-    private readonly AmazonS3Service _amazonS3Service;
-
     public async Task<ActionResult> Login(User user)
     {
-        var users = await (from dbUser in _apiDbContext.Users where dbUser.Mail.Equals(dbUser.Mail) select user)
-            .ToListAsync();
-        if (users.Count > 0)
+        var filter = Builders<User>.Filter.Eq(u => u.Mail, user.Mail);
+        var users = await _usersCollection.FindAsync(filter);
+
+        if (await users.AnyAsync())
         {
             return new StatusCodeResult(StatusCodes.Status200OK);
         }
 
-        await _apiDbContext.Users.AddAsync(user);
-        await _apiDbContext.SaveChangesAsync();
+        await _usersCollection.InsertOneAsync(user);
         return new StatusCodeResult(StatusCodes.Status201Created);
     }
 
-    public async Task<ActionResult> Authorize(String authorizationString, User user)
+    public async Task<ActionResult> Authorize(string authorizationString, User user)
     {
-        var authorization = new Authorization();
-        authorization.AuthorizationString = authorizationString;
-        authorization.Timestamp = DateTime.Now.ToUniversalTime();
-
-        var users = await (
-            from dbUser in _apiDbContext.Users
-            where dbUser.Mail.Equals(user.Mail)
-            select dbUser).ToListAsync();
-
-        if (users.Count == 0)
+        var authorization = new Authorization
         {
-            await _apiDbContext.Users.AddAsync(user);
+            AuthorizationString = authorizationString,
+            Timestamp = DateTime.UtcNow
+        };
+
+        var filter = Builders<User>.Filter.Eq(u => u.Mail, user.Mail);
+        var users = await _usersCollection.FindAsync(filter);
+
+        if (!await users.AnyAsync())
+        {
+            await _usersCollection.InsertOneAsync(user);
         }
 
-        DateTime yesterday = DateTime.Today.AddDays(-1);
-        var outdatedAuthorizations = await (
-            from dbAuthorization in _apiDbContext.Authorizations
-            where dbAuthorization.Timestamp.Value < yesterday.ToUniversalTime()
-            select dbAuthorization).ToListAsync();
-        
-        outdatedAuthorizations.ForEach(authorization =>
-        {
-            _apiDbContext.Authorizations.Remove(authorization);
-        });
+        var yesterday = DateTime.UtcNow.AddDays(-1);
+        var outdatedAuthorizationsFilter = Builders<Authorization>.Filter.Lt(a => a.Timestamp, yesterday);
+        await _authorizationsCollection.DeleteManyAsync(outdatedAuthorizationsFilter);
 
-        await _apiDbContext.Authorizations.AddAsync(authorization);
-        await _apiDbContext.SaveChangesAsync();
+        await _authorizationsCollection.InsertOneAsync(authorization);
         return new StatusCodeResult(StatusCodes.Status201Created);
     }
 
     public async Task<string> AppAccess(string authorizationString, string version)
     {
-        var configurations = await (
-            from dbConfiguration in _apiDbContext.Configurations
-            select dbConfiguration).ToListAsync();
+        var configurations = await _configurationsCollection.Find(_ => true).ToListAsync();
         var versionConfig = configurations.Find(configuration => configuration.Key == "version")?.Value;
         if (version != versionConfig)
         {
             throw new VersionNotFoundException();
         }
 
-        var foundAuthorizationList = await (
-            from dbAuthorization in _apiDbContext.Authorizations
-            where dbAuthorization.AuthorizationString.Equals(authorizationString)
-            select dbAuthorization).ToListAsync();
-        if (foundAuthorizationList.Count == 0)
+        var authorizationFilter = Builders<Authorization>.Filter.Eq(a => a.AuthorizationString, authorizationString);
+        var foundAuthorization = await _authorizationsCollection.Find(authorizationFilter).FirstOrDefaultAsync();
+        if (foundAuthorization == null)
         {
             throw new UnauthorizedAccessException();
         }
 
-        _apiDbContext.Authorizations.Remove(foundAuthorizationList[Index.Start]);
-        await _apiDbContext.SaveChangesAsync();
+        await _authorizationsCollection.DeleteOneAsync(authorizationFilter);
         return configurations.Find(configuration => configuration.Key == "offline_logins")?.Value ?? "0";
     }
 
-    public async Task<String> Download(string operatingSystem)
+    public async Task<string> Download(string operatingSystem)
     {
-        List<S3Object> s3Objects = (await _amazonS3Service.GetObjectList("downloads"))
+        var s3Objects = (await _amazonS3Service.GetObjectList("downloads"))
             .FindAll(obj => obj.Key.Contains(operatingSystem))
             .FindAll(obj => _amazonS3Service.GetFilePermissions(obj.Key).Result
-                    .FindAll(grant => grant.Grantee.URI == "http://acs.amazonaws.com/groups/global/AllUsers"
-                                      && (grant.Permission.Value == "READ" || grant.Permission.Value == "READ_ACP"))
-                    .Count == 2
-            );
+                .FindAll(grant => grant.Grantee.URI == "http://acs.amazonaws.com/groups/global/AllUsers"
+                                  && (grant.Permission.Value == "READ" || grant.Permission.Value == "READ_ACP"))
+                .Count == 2);
+
         s3Objects.Sort((obj1, obj2) => obj2.LastModified.CompareTo(obj1.LastModified));
-        S3Object s3Object = s3Objects.First();
+        var s3Object = s3Objects.First();
         return $"https://lanstreamer.s3.eu-west-2.amazonaws.com/{s3Object.Key}";
     }
 
     public async Task<ActionResult> SaveReferrer(Referrer referrer)
     {
-        referrer.Timestamp = DateTime.Now.ToUniversalTime();
+        referrer.Timestamp = DateTime.UtcNow;
 
-        await _apiDbContext.Referrers.AddAsync(referrer);
-        await _apiDbContext.SaveChangesAsync();
-
+        await _referrersCollection.InsertOneAsync(referrer);
         return new StatusCodeResult(StatusCodes.Status201Created);
     }
 }
