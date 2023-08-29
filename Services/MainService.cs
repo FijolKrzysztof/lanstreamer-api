@@ -14,6 +14,7 @@ public class MainService
     private readonly IMongoCollection<Authorization> _authorizationsCollection;
     private readonly IMongoCollection<Configuration> _configurationsCollection;
     private readonly IMongoCollection<Referrer> _referrersCollection;
+    private readonly IMongoCollection<Download> _downloadsCollecion;
     private readonly AmazonS3Service _amazonS3Service;
 
     public MainService(IMongoDatabase database, AmazonS3Service amazonS3Service)
@@ -22,6 +23,7 @@ public class MainService
         _authorizationsCollection = database.GetCollection<Authorization>("Authorizations");
         _configurationsCollection = database.GetCollection<Configuration>("Configurations");
         _referrersCollection = database.GetCollection<Referrer>("Referrers");
+        _downloadsCollecion = database.GetCollection<Download>("Downloads");
         _amazonS3Service = amazonS3Service;
     }
 
@@ -85,6 +87,11 @@ public class MainService
 
     public async Task<string> Download(string operatingSystem)
     {
+        var download = new Download();
+        download.Timestamp = DateTime.UtcNow;
+
+        await _downloadsCollecion.InsertOneAsync(download);
+        
         var s3Objects = (await _amazonS3Service.GetObjectList("downloads"))
             .FindAll(obj => obj.Key.Contains(operatingSystem))
             .FindAll(obj => _amazonS3Service.GetFilePermissions(obj.Key).Result
