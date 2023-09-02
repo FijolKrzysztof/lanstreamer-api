@@ -44,4 +44,10 @@ public class MainController : Controller
     {
         return await _mainService.SaveReferrer(referrer);
     }
+    
+    [HttpPost("feedback")]
+    public async Task<ActionResult> SaveFeedback([FromBody] Feedback feedback)
+    {
+        return await _mainService.SaveFeedback(feedback);
+    }
 }

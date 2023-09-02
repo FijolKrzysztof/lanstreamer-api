@@ -1,9 +1,7 @@
 using lanstreamer_api.services;
-using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
 
 namespace lanstreamer_api;
-
-using MongoDB.Driver;
 
 public class Startup
 {
@@ -34,7 +32,6 @@ public class Startup
         });
         
         services.AddSingleton<AmazonS3Service>();
-        services.AddSingleton<BlogService>();
         services.AddScoped<MainService>();
         services.AddMvc().AddXmlSerializerFormatters();
         services.AddControllers();
@@ -50,9 +47,7 @@ public class Startup
         }
 
         app.UseCors("allowAll");
-        // app.UseHttpsRedirection();
         app.UseRouting();
-        // app.UseAuthorization();
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();

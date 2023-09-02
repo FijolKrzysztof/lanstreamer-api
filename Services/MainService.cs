@@ -1,12 +1,9 @@
 using System.Data;
-using Amazon.S3.Model;
 using lanstreamer_api.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
 
 namespace lanstreamer_api.services;
-
-using MongoDB.Driver;
 
 public class MainService
 {
@@ -15,6 +12,7 @@ public class MainService
     private readonly IMongoCollection<Configuration> _configurationsCollection;
     private readonly IMongoCollection<Referrer> _referrersCollection;
     private readonly IMongoCollection<Download> _downloadsCollecion;
+    private readonly IMongoCollection<Feedback> _feedbacksCollection;
     private readonly AmazonS3Service _amazonS3Service;
 
     public MainService(IMongoDatabase database, AmazonS3Service amazonS3Service)
@@ -24,6 +22,7 @@ public class MainService
         _configurationsCollection = database.GetCollection<Configuration>("Configurations");
         _referrersCollection = database.GetCollection<Referrer>("Referrers");
         _downloadsCollecion = database.GetCollection<Download>("Downloads");
+        _feedbacksCollection = database.GetCollection<Feedback>("Feedbacks");
         _amazonS3Service = amazonS3Service;
     }
 
@@ -109,6 +108,14 @@ public class MainService
         referrer.Timestamp = DateTime.UtcNow;
 
         await _referrersCollection.InsertOneAsync(referrer);
+        return new StatusCodeResult(StatusCodes.Status201Created);
+    }
+
+    public async Task<ActionResult> SaveFeedback(Feedback feedback)
+    {
+        feedback.Timestamp = DateTime.UtcNow;
+
+        await _feedbacksCollection.InsertOneAsync(feedback);
         return new StatusCodeResult(StatusCodes.Status201Created);
     }
 }
