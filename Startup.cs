@@ -1,5 +1,8 @@
+using lanstreamer_api.Data.Context;
 using lanstreamer_api.services;
+using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
+using MySql.Data.MySqlClient;
 
 namespace lanstreamer_api;
 
@@ -14,21 +17,21 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddCors(options => options.AddPolicy("allowAll", builder =>
+        services.AddCors(options =>
         {
-            builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
-        }));
+            options.AddPolicy("allowAll", builder =>
+            {
+                builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+            });
+        });
 
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         
-        // Configure MongoDB connection
-        string mongoConnectionString = Configuration.GetConnectionString("db_connection");
-        services.AddSingleton<IMongoClient>(_ => new MongoClient(mongoConnectionString));
-        services.AddScoped<IMongoDatabase>(serviceProvider =>
+        services.AddDbContext<ApplicationDbContext>(options =>
         {
-            var client = serviceProvider.GetRequiredService<IMongoClient>();
-            return client.GetDatabase("lanstreamer");
+            options.UseMySql(Configuration.GetConnectionString("Database"),
+                new MySqlServerVersion(new Version(8, 0, 25)));
         });
         
         services.AddSingleton<AmazonS3Service>();
@@ -48,9 +51,6 @@ public class Startup
 
         app.UseCors("allowAll");
         app.UseRouting();
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapControllers();
-        });
+        app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
     }
 }
