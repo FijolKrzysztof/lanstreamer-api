@@ -23,6 +23,9 @@ public class ClientEntity
     [Column("time_on_site")]
     public TimeSpan timeOnSite { get; set; }
     
+    [Column("ip_address")]
+    public string ipAddress { get; set; }
+    
     [Column("referrer_page")]
     public string? referrerPage { get; set; }
     

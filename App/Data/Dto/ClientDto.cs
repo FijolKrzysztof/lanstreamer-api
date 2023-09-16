@@ -18,6 +18,9 @@ public class ClientDto
     [Required]
     public string defaultLanguage { get; set; }
     
+    [Required]
+    public string ipAddress { get; set; }
+    
     public string? referrerPage { get; set; }
     public int? downloads { get; set; }
     public List<string>? feedbacks { get; set; }

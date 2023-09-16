@@ -32,22 +32,4 @@ public class MainController : Controller
     {
         return await _mainService.AppAccess(authorizationString, version);
     }
-
-    [HttpGet("download/{operatingSystem}")]
-    public async Task<String> Download(string operatingSystem)
-    {
-        return await _mainService.Download(operatingSystem);
-    }
-    
-    [HttpPost("referrer")]
-    public async Task<ActionResult> SaveReferrer([FromBody] Referrer referrer)
-    {
-        return await _mainService.SaveReferrer(referrer);
-    }
-    
-    [HttpPost("feedback")]
-    public async Task<ActionResult> SaveFeedback([FromBody] Feedback feedback)
-    {
-        return await _mainService.SaveFeedback(feedback);
-    }
 }

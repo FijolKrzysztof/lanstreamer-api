@@ -1,3 +1,4 @@
+using AutoMapper;
 using lanstreamer_api.Entities;
 using lanstreamer_api.Models;
 
@@ -5,6 +6,13 @@ namespace lanstreamer_api.App.Client;
 
 public class ClientConverter
 {
+    private readonly IMapper _mapper;
+    
+    ClientConverter(IMapper mapper)
+    {
+        _mapper = mapper;
+    }
+    
     public ClientEntity Convert(ClientDto clientDto)
     {
         if (clientDto == null)
@@ -12,16 +20,7 @@ public class ClientConverter
             throw new ArgumentNullException(nameof(clientDto));
         }
 
-        var clientEntity = new ClientEntity
-        {
-            id = clientDto.id,
-            visitTime = clientDto.visitTime,
-            operatingSystem = clientDto.operatingSystem,
-            defaultLanguage = clientDto.defaultLanguage,
-            timeOnSite = clientDto.timeOnSite,
-            referrerPage = clientDto.referrerPage,
-            downloads = clientDto.downloads
-        };
+        var clientEntity = _mapper.Map<ClientEntity>(clientDto);
 
         if (clientDto.feedbacks != null)
         {
@@ -42,16 +41,7 @@ public class ClientConverter
             throw new ArgumentNullException(nameof(clientEntity));
         }
 
-        var clientDto = new ClientDto
-        {
-            id = clientEntity.id,
-            visitTime = clientEntity.visitTime,
-            operatingSystem = clientEntity.operatingSystem,
-            defaultLanguage = clientEntity.defaultLanguage,
-            timeOnSite = clientEntity.timeOnSite,
-            referrerPage = clientEntity.referrerPage,
-            downloads = clientEntity.downloads
-        };
+        var clientDto = _mapper.Map<ClientDto>(clientEntity);
 
         clientDto.feedbacks = clientEntity.feedbacks.Select(feedbackEntity => feedbackEntity.message).ToList();
 

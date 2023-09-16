@@ -1,5 +1,6 @@
 using lanstreamer_api.Models;
 using Microsoft.AspNetCore.Mvc;
+using OperatingSystem = lanstreamer_api.App.Data.Models.Enums.OperatingSystem;
 
 namespace lanstreamer_api.App.Client;
 
@@ -26,5 +27,11 @@ public class ClientController : Controller
     {
         var client = await _clientService.UpdateClient(clientDto);
         return Ok(client);
+    }
+    
+    [HttpGet("{clientId}/download/{operatingSystem}")]
+    public async Task<String> Download(int clientId, OperatingSystem operatingSystem)
+    {
+        return await _clientService.Download(clientId, operatingSystem);
     }
 }
