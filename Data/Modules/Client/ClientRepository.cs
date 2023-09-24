@@ -4,7 +4,7 @@ using lanstreamer_api.Entities;
 
 namespace lanstreamer_api.App.Client;
 
-public class ClientRepository : AbstractRepository<ClientEntity>
+public class ClientRepository : BaseRepository<ClientEntity>
 {
     ClientRepository(ApplicationDbContext dbContext) : base(dbContext)
     {

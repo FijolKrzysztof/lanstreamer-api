@@ -10,12 +10,12 @@ public class FeedbackEntity
     [Column("id")]
     public int id { get; set; }
 
-    [ForeignKey("Client")]
+    [ForeignKey("client")]
     [Column("client_id")]
     public int clientId { get; set; }
 
     [Column("message")] public string message { get; set; }
 
 
-    public ClientEntity Client { get; set; }
+    public ClientEntity client { get; set; }
 }

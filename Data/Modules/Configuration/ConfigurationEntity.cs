@@ -8,11 +8,11 @@ public class ConfigurationEntity
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("id")]
-    public string Id { get; set; }
+    public string id { get; set; }
     
     [Column("key")]
-    public string Key { get; set; }
+    public string key { get; set; }
     
     [Column("value")]
-    public string Value { get; set; }
+    public string value { get; set; }
 }

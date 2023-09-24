@@ -2,28 +2,30 @@ using Microsoft.EntityFrameworkCore;
 
 namespace lanstreamer_api.Data.Utils;
 
-public abstract class AbstractRepository<T> where T : class
+public abstract class BaseRepository<T> where T : class
 {
-    private readonly DbContext _dbContext;
+    protected readonly DbContext _dbContext;
+    protected readonly DbSet<T> _dbSet;
 
-    protected AbstractRepository(DbContext dbContext)
+    protected BaseRepository(DbContext dbContext)
     {
         _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        _dbSet = _dbContext.Set<T>();
     }
 
     public async Task<IEnumerable<T>> GetAllAsync()
     {
-        return await _dbContext.Set<T>().ToListAsync();
+        return await _dbSet.ToListAsync();
     }
 
     public async Task<T> GetByIdAsync(int id)
     {
-        return await _dbContext.Set<T>().FindAsync(id);
+        return await _dbSet.FindAsync(id);
     }
 
     public async Task<T> CreateAsync(T entity)
     {
-        _dbContext.Set<T>().Add(entity);
+        _dbSet.Add(entity);
         await _dbContext.SaveChangesAsync();
         return entity;
     }
@@ -40,7 +42,7 @@ public abstract class AbstractRepository<T> where T : class
         var entity = await _dbContext.Set<T>().FindAsync(id);
         if (entity != null)
         {
-            _dbContext.Set<T>().Remove(entity);
+            _dbSet.Remove(entity);
             await _dbContext.SaveChangesAsync();
         }
     }
