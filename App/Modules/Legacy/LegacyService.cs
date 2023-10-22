@@ -1,4 +1,5 @@
-using System.Data;
+using System.Net;
+using lanstreamer_api.App.Exceptions;
 using lanstreamer_api.Data.Authentication;
 using lanstreamer_api.Data.Configuration;
 using Org.BouncyCastle.Bcpg;
@@ -18,19 +19,28 @@ public class LegacyService
     
     public async Task<string> AppAccess(string authorizationString, string version)
     {
-        var versionValue = (await _configurationRepository.GetByKey("version")).value;
-        if (int.Parse(versionValue) > int.Parse(version))
+        var versionObj = await _configurationRepository.GetByKey("version");
+        if (versionObj == null)
         {
-            throw new UnsupportedPacketVersionException("Version is not supported!");
+            throw new InvalidDataException("Database error");
+        }
+        if (int.Parse(versionObj.value) > int.Parse(version))
+        {
+            throw new AppException(HttpStatusCode.UnprocessableEntity, "Version is not supported");
         }
 
         var accessEntity = await _accessRepository.GetByCode(authorizationString);
         if (accessEntity == null)
         {
-            throw new UnauthorizedAccessException();
+            throw new AppException(HttpStatusCode.Unauthorized, null);
         }
         await _accessRepository.DeleteAsync(accessEntity.id);
-        
-        return (await _configurationRepository.GetByKey("offline_logins")).value;
+
+        var offlineLoginsObj = await _configurationRepository.GetByKey("offline_logins");
+        if (offlineLoginsObj == null)
+        {
+            throw new InvalidDataException("Database error");
+        }
+        return offlineLoginsObj.value;
     }
 }

@@ -30,7 +30,7 @@ public class ClientController : Controller
     }
     
     [HttpGet("{clientId}/download/{operatingSystem}")]
-    public async Task<String> Download(int clientId, OperatingSystem operatingSystem)
+    public async Task<DownloadResponse> Download(int clientId, OperatingSystem operatingSystem)
     {
         return await _clientService.Download(clientId, operatingSystem);
     }

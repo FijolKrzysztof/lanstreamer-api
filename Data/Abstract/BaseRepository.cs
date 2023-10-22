@@ -4,46 +4,46 @@ namespace lanstreamer_api.Data.Utils;
 
 public abstract class BaseRepository<T> where T : class
 {
-    protected readonly DbContext _dbContext;
-    protected readonly DbSet<T> _dbSet;
+    protected readonly DbContext dbContext;
+    protected readonly DbSet<T> dbSet;
 
     protected BaseRepository(DbContext dbContext)
     {
-        _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-        _dbSet = _dbContext.Set<T>();
+        this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        dbSet = this.dbContext.Set<T>();
     }
 
     public async Task<IEnumerable<T>> GetAllAsync()
     {
-        return await _dbSet.ToListAsync();
+        return await dbSet.ToListAsync();
     }
 
-    public async Task<T> GetByIdAsync(int id)
+    public async Task<T?> GetByIdAsync(int id)
     {
-        return await _dbSet.FindAsync(id);
+        return await dbSet.FindAsync(id);
     }
 
     public async Task<T> CreateAsync(T entity)
     {
-        _dbSet.Add(entity);
-        await _dbContext.SaveChangesAsync();
+        dbSet.Add(entity);
+        await dbContext.SaveChangesAsync();
         return entity;
     }
 
     public async Task<T> UpdateAsync(T entity)
     {
-        _dbContext.Entry(entity).State = EntityState.Modified;
-        await _dbContext.SaveChangesAsync();
+        dbContext.Entry(entity).State = EntityState.Modified;
+        await dbContext.SaveChangesAsync();
         return entity;
     }
 
     public async Task DeleteAsync(int id)
     {
-        var entity = await _dbContext.Set<T>().FindAsync(id);
+        var entity = await dbContext.Set<T>().FindAsync(id);
         if (entity != null)
         {
-            _dbSet.Remove(entity);
-            await _dbContext.SaveChangesAsync();
+            dbSet.Remove(entity);
+            await dbContext.SaveChangesAsync();
         }
     }
 }

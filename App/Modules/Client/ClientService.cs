@@ -1,3 +1,5 @@
+using System.Net;
+using lanstreamer_api.App.Exceptions;
 using lanstreamer_api.Models;
 using lanstreamer_api.services;
 using OperatingSystem = lanstreamer_api.App.Data.Models.Enums.OperatingSystem;
@@ -33,7 +35,7 @@ public class ClientService
         return updatedClientDto;
     }
 
-    public async Task<string> Download(int clientId, OperatingSystem operatingSystem)
+    public async Task<DownloadResponse> Download(int clientId, OperatingSystem operatingSystem)
     {
         var s3Objects = (await _amazonS3Service.GetObjectList("downloads"))
             .FindAll(obj => obj.Key.Contains(operatingSystem.ToString().ToLower()))
@@ -48,11 +50,14 @@ public class ClientService
         var clientEntity = await _clientRepository.GetByIdAsync(clientId);
         if (clientEntity == null)
         {
-            throw new InvalidOperationException("Client with the specified id was not found");
+            throw new AppException(HttpStatusCode.NotFound, $"Client with ID {clientId} not found");
         }
         clientEntity.downloads++;
         await _clientRepository.UpdateAsync(clientEntity);
-        
-        return $"https://lanstreamer.s3.eu-west-2.amazonaws.com/{s3Object.Key}";
+
+        return new DownloadResponse()
+        {
+            link = $"https://lanstreamer.s3.eu-west-2.amazonaws.com/{s3Object.Key}"
+        }; 
     }
 }

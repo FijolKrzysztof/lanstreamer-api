@@ -19,5 +19,5 @@ public class UserDto
     [Required]
     public DateTime lastLogin { get; set; }
 
-    public Access access { get; set; }
+    public Access? access { get; set; }
 }

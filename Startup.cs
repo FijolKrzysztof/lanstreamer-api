@@ -1,8 +1,6 @@
 using lanstreamer_api.Data.Context;
 using lanstreamer_api.services;
 using Microsoft.EntityFrameworkCore;
-using MongoDB.Driver;
-using MySql.Data.MySqlClient;
 
 namespace lanstreamer_api;
 

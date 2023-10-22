@@ -26,10 +26,4 @@ public class MainController : Controller
     {
         return await _mainService.Authorize(authorizationString, user);
     }
-
-    [HttpGet("app/access/{authorizationString}/{version}")]
-    public async Task<string> AppAccess(string authorizationString, string version)
-    {
-        return await _mainService.AppAccess(authorizationString, version);
-    }
 }

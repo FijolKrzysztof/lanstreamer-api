@@ -13,6 +13,13 @@ public class UserController : Controller
     {
         _userService = userService;
     }
+
+    [HttpPost]
+    public async Task<ActionResult<UserDto>> Create([FromQuery] string idToken, [FromBody] UserDto userDto)
+    {
+        var user = await _userService.Create(userDto, idToken);
+        return Created("", user);
+    }
     
     [HttpPut]
     public async Task<ActionResult> Update([FromBody] UserDto userDto)

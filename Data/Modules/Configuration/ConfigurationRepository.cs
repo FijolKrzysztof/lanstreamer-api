@@ -10,8 +10,8 @@ public class ConfigurationRepository : BaseRepository<ConfigurationEntity>
     {
     }
     
-    public async Task<ConfigurationEntity> GetByKey(string key)
+    public async Task<ConfigurationEntity?> GetByKey(string key)
     {
-        return await _dbSet.FirstOrDefaultAsync(c => c.key == key);
+        return await dbSet.FirstOrDefaultAsync(c => c.key == key);
     }
 }
