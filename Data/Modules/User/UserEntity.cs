@@ -25,5 +25,5 @@ public class UserEntity
     [Column("last_login")]
     public DateTime lastLogin { get; set; }
     
-    public AccessEntity access { get; set; }
+    public AccessEntity? access { get; set; }
 }

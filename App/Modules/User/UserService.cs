@@ -1,6 +1,7 @@
 using System.Net;
 using Google.Apis.Auth;
 using lanstreamer_api.App.Exceptions;
+using lanstreamer_api.Data.Modules.User;
 using lanstreamer_api.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,15 @@ namespace lanstreamer_api.App.Modules;
 
 public class UserService
 {
+    private readonly UserConverter _userConverter;
+    private readonly UserRepository _userRepository;
+
+    UserService(UserConverter userConverter, UserRepository userRepository)
+    {
+        _userConverter = userConverter;
+        _userRepository = userRepository;
+    }
+    
     public async Task<ActionResult<UserDto>> Create(UserDto userDto, string idToken)
     {
         try
@@ -19,26 +29,12 @@ public class UserService
         {
             throw new AppException(HttpStatusCode.Unauthorized, "Invalid google id token");
         }
-        
-        
-        // try
-        // {
-        //     // Weryfikacja tokenu dostępowego z Google
-        //     var payload = await GoogleJsonWebSignature.ValidateAsync(request.IdToken);
-        //
-        //     // Pomyślna weryfikacja - przetwarzanie danych użytkownika
-        //     var userId = payload.Subject; // ID użytkownika Google
-        //     var email = payload.Email; // Adres e-mail użytkownika
-        //     var pictureUrl = payload.Picture; // URL do zdjęcia profilowego użytkownika
-        //
-        //     // Tutaj możesz zapisać informacje o użytkowniku w bazie danych lub przekazać je dalej w odpowiedzi
-        //
-        //     return Ok(new { UserId = userId, Email = email, PictureUrl = pictureUrl });
-        // }
-        // catch (InvalidJwtException)
-        // {
-        //     return BadRequest("Invalid token");
-        // }
+
+        var userEntity = _userConverter.Convert(userDto);
+        var createdUserEntity = await _userRepository.CreateAsync(userEntity);
+        var createdUserDto = _userConverter.Convert(createdUserEntity);
+
+        return createdUserDto;
     }
     
     public Task<ActionResult> Update(UserDto userDto)
