@@ -1,3 +1,4 @@
+using lanstreamer_api.App.Middleware;
 using lanstreamer_api.Data.Context;
 using lanstreamer_api.services;
 using Microsoft.EntityFrameworkCore;
@@ -47,8 +48,12 @@ public class Startup
             app.UseSwaggerUI();
         }
 
+        app.UseGoogleSignInMiddleware();
         app.UseCors("allowAll");
         app.UseRouting();
-        app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
     }
 }
