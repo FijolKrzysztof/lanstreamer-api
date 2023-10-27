@@ -29,4 +29,7 @@ public class UserController : Controller
     {
         return await _userService.Update(userDto);
     }
+    
+    // TODO: SSE do app access
+    // TODO: Scheduler usuwający access które są stare
 }

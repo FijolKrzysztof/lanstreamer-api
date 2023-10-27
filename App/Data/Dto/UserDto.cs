@@ -13,10 +13,7 @@ public class UserDto
     [Required]
     public string googleId { get; set; }
     
-    [Required]
     public int appVersion { get; set; }
-    
-    [Required]
     public DateTime lastLogin { get; set; }
 
     public Access? access { get; set; }

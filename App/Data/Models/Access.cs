@@ -10,6 +10,5 @@ public class Access
     [Required]
     public string code { get; set; }
     
-    [Required]
     public Timestamp timestamp { get; set; }
 }
