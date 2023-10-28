@@ -3,7 +3,7 @@ using lanstreamer_api.App.Data.Models;
 
 namespace lanstreamer_api.Models;
 
-public class UserDto
+public class UserDto // TODO: nie wiem czy nie trzeba będzie dodać [Serializable], dodatkowo jest coś takiego jak [JsonPropertyName("name")] lub można poszukać jakiegoś automatycznego mappera UpperCamelCase na lowerCamelCase
 {
     public int id { get; set; }
     

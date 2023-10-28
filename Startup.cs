@@ -34,7 +34,7 @@ public class Startup
         });
         
         services.AddSingleton<AmazonS3Service>();
-        services.AddScoped<MainService>();
+        services.AddSingleton<ServerSentEventsService<bool>>();
         services.AddMvc().AddXmlSerializerFormatters();
         services.AddControllers();
     }

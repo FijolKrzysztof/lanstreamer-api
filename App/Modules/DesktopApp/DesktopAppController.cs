@@ -1,3 +1,4 @@
+using System.Text;
 using Microsoft.AspNetCore.Mvc;
 
 namespace lanstreamer_api.App.Modules.Access;
@@ -14,8 +15,16 @@ public class DesktopAppController : Controller
     }
     
     [HttpGet("access")]
-    public async Task<bool> Access([FromQuery] float version, [FromQuery] string accessCode)
+    public async Task Access([FromQuery] float version, [FromQuery] string accessCode)
     {
-        return await _desktopAppService.Access(version, accessCode);
+        Response.Headers.Add("Content-Type", "text/event-stream");
+        
+        var reader = await _desktopAppService.Access(version, accessCode);
+
+        await foreach (var item in reader.ReadAllAsync())
+        {
+            await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(item.ToString()));
+            await Response.Body.FlushAsync();
+        }
     }
 }

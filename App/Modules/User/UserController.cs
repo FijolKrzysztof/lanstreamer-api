@@ -27,7 +27,8 @@ public class UserController : Controller
     [Authorize]
     public async Task<ActionResult> Update([FromBody] UserDto userDto)
     {
-        return await _userService.Update(userDto);
+        var user = await _userService.Update(userDto);
+        return Ok(user);
     }
     
     // TODO: SSE do app access

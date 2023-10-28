@@ -24,9 +24,9 @@ public class LegacyService
         {
             throw new InvalidDataException("Database error");
         }
-        if (int.Parse(versionObj.value) > int.Parse(version))
+        if (float.Parse(versionObj.value) > float.Parse(version))
         {
-            throw new AppException(HttpStatusCode.UnprocessableEntity, "Version is not supported");
+            throw new AppException(HttpStatusCode.Unauthorized, "Version is not supported");
         }
 
         var accessEntity = await _accessRepository.GetByCode(authorizationString);

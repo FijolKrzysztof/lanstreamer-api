@@ -1,7 +1,7 @@
 using Google.Protobuf.WellKnownTypes;
 using lanstreamer_api.Data.Modules.User;
 using lanstreamer_api.Models;
-using Microsoft.AspNetCore.Mvc;
+using lanstreamer_api.services;
 
 namespace lanstreamer_api.App.Modules;
 
@@ -9,21 +9,18 @@ public class UserService
 {
     private readonly UserConverter _userConverter;
     private readonly UserRepository _userRepository;
+    private readonly ServerSentEventsService<bool> _serverSentEventsService;
 
-    UserService(UserConverter userConverter, UserRepository userRepository)
+    UserService(UserConverter userConverter, UserRepository userRepository, ServerSentEventsService<bool> serverSentEventsService)
     {
         _userConverter = userConverter;
         _userRepository = userRepository;
+        _serverSentEventsService = serverSentEventsService;
     }
     
-    public async Task<ActionResult<UserDto>> Create(UserDto userDto)
+    public async Task<UserDto> Create(UserDto userDto)
     {
-        userDto.lastLogin = DateTime.Now;
-        
-        if (userDto.access != null)
-        {
-            userDto.access.timestamp = Timestamp.FromDateTime(DateTime.Now);
-        }
+        userDto = await UpdateUserAndNotify(userDto);
         
         var userEntity = _userConverter.Convert(userDto);
         var createdUserEntity = await _userRepository.CreateAsync(userEntity);
@@ -32,8 +29,28 @@ public class UserService
         return createdUserDto;
     }
     
-    public Task<ActionResult> Update(UserDto userDto)
+    public async Task<UserDto> Update(UserDto userDto)
     {
-        throw new NotImplementedException();
+        userDto = await UpdateUserAndNotify(userDto);
+
+        var userEntity = _userConverter.Convert(userDto);
+        var updatedUserEntity = await _userRepository.UpdateAsync(userEntity);
+        var updatedUserDto = _userConverter.Convert(updatedUserEntity);
+
+        return updatedUserDto;
+    }
+
+    private async Task<UserDto> UpdateUserAndNotify(UserDto userDto)
+    {
+        userDto.lastLogin = DateTime.Now;
+
+        if (userDto.access != null)
+        {
+            userDto.access.timestamp = Timestamp.FromDateTime(DateTime.Now);
+            
+            await _serverSentEventsService.Send(userDto.access.code, true);
+        }
+
+        return userDto;
     }
 }
