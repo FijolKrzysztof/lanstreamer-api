@@ -1,6 +1,9 @@
 using System.Net;
+using System.Security.Claims;
 using Google.Apis.Auth;
+using lanstreamer_api.App.Data.Models.Enums;
 using lanstreamer_api.App.Exceptions;
+using lanstreamer_api.Data.Configuration;
 using Microsoft.Extensions.Primitives;
 
 namespace lanstreamer_api.App.Middleware;
@@ -8,10 +11,12 @@ namespace lanstreamer_api.App.Middleware;
 public class GoogleSignInMiddleware
 {
     private readonly RequestDelegate _next;
+    private readonly ConfigurationRepository _configurationRepository;
 
-    public GoogleSignInMiddleware(RequestDelegate next)
+    public GoogleSignInMiddleware(RequestDelegate next, ConfigurationRepository configurationRepository)
     {
         _next = next;
+        _configurationRepository = configurationRepository;
     }
     
     public async Task Invoke(HttpContext context)
@@ -35,15 +40,22 @@ public class GoogleSignInMiddleware
         try
         {
             var payload = await GoogleJsonWebSignature.ValidateAsync(idToken);
-            var identity = new System.Security.Claims.ClaimsIdentity(
+            var identity = new ClaimsIdentity(
                 new []
                 {
-                    new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.NameIdentifier, payload.Subject),
-                    new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Name, payload.Name)
+                    new Claim(ClaimTypes.NameIdentifier, payload.Subject),
+                    new Claim(ClaimTypes.Name, payload.Name)
                 }
             );
 
-            context.User = new System.Security.Claims.ClaimsPrincipal(identity);
+            var adminIdentifierObj = await _configurationRepository.GetByKey("admin_identifier");
+
+            if (adminIdentifierObj != null && payload.Subject == adminIdentifierObj.Value)
+            {
+                identity.AddClaim(new Claim(ClaimTypes.Role, Roles.Admin));
+            }
+
+            context.User = new ClaimsPrincipal(identity);
 
             await _next(context);
         }

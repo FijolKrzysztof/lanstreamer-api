@@ -12,6 +12,6 @@ public class AccessRepository : BaseRepository<AccessEntity>
     
     public async Task<AccessEntity?> GetByCode(string code)
     {
-        return await dbSet.FirstOrDefaultAsync(a => a.code == code);
+        return await dbSet.FirstOrDefaultAsync(a => a.Code == code);
     }
 }

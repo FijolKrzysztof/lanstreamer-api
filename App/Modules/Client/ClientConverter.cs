@@ -24,10 +24,10 @@ public class ClientConverter
 
         if (clientDto.Feedbacks != null)
         {
-            clientEntity.feedbacks = clientDto.Feedbacks.Select(feedbackDto => new FeedbackEntity
+            clientEntity.Feedbacks = clientDto.Feedbacks.Select(feedbackDto => new FeedbackEntity
             {
-                message = feedbackDto,
-                clientId = clientDto.Id
+                Message = feedbackDto,
+                ClientId = clientDto.Id
             }).ToList();
         }
 
@@ -43,7 +43,7 @@ public class ClientConverter
 
         var clientDto = _mapper.Map<ClientDto>(clientEntity);
 
-        clientDto.Feedbacks = clientEntity.feedbacks.Select(feedbackEntity => feedbackEntity.message).ToList();
+        clientDto.Feedbacks = clientEntity.Feedbacks.Select(feedbackEntity => feedbackEntity.Message).ToList();
 
         return clientDto;
     }

@@ -9,18 +9,18 @@ public class AccessEntity
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("id")]
-    public int id { get; set; }
+    public int Id { get; set; }
     
     [ForeignKey("user")]
     [Column("user_id")]
-    public int userId { get; set; }
+    public int UserId { get; set; }
     
     [Column("code")]
-    public string code { get; set; }
+    public string Code { get; set; }
     
     [Column("timestamp")]
-    public DateTime timestamp { get; set; }
+    public DateTime Timestamp { get; set; }
     
     
-    public UserEntity user { get; set; }
+    public UserEntity User { get; set; }
 }

@@ -9,29 +9,29 @@ public class ClientEntity
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("id")]
-    public int id { get; set; }
+    public int Id { get; set; }
     
     [Column("visit_time")]
-    public DateTime visitTime { set; get; }
+    public DateTime VisitTime { set; get; }
     
     [Column("operating_system")]
-    public string operatingSystem { get; set; }
+    public string OperatingSystem { get; set; }
     
     [Column("default_language")]
-    public string defaultLanguage { get; set; }
+    public string DefaultLanguage { get; set; }
     
     [Column("time_on_site")]
-    public TimeSpan timeOnSite { get; set; }
+    public TimeSpan TimeOnSite { get; set; }
     
     [Column("ip_address")]
-    public string ipAddress { get; set; }
+    public string IpAddress { get; set; }
     
     [Column("referrer_page")]
-    public string? referrerPage { get; set; }
+    public string? ReferrerPage { get; set; }
     
     [Column("downloads")]
-    public int? downloads { get; set; }
+    public int? Downloads { get; set; }
     
     
-    public List<FeedbackEntity> feedbacks { get; set; }
+    public List<FeedbackEntity> Feedbacks { get; set; }
 }

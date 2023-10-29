@@ -8,14 +8,15 @@ public class FeedbackEntity
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("id")]
-    public int id { get; set; }
+    public int Id { get; set; }
 
     [ForeignKey("client")]
     [Column("client_id")]
-    public int clientId { get; set; }
+    public int ClientId { get; set; }
 
-    [Column("message")] public string message { get; set; }
+    [Column("message")]
+    public string Message { get; set; }
 
 
-    public ClientEntity client { get; set; }
+    public ClientEntity Client { get; set; }
 }

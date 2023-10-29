@@ -24,7 +24,7 @@ public class LegacyService
         {
             throw new InvalidDataException("Database error");
         }
-        if (float.Parse(versionObj.value) > float.Parse(version))
+        if (float.Parse(versionObj.Value) > float.Parse(version))
         {
             throw new AppException(HttpStatusCode.Unauthorized, "Version is not supported");
         }
@@ -34,13 +34,13 @@ public class LegacyService
         {
             throw new AppException(HttpStatusCode.Unauthorized, null);
         }
-        await _accessRepository.DeleteAsync(accessEntity.id);
+        await _accessRepository.DeleteAsync(accessEntity.Id);
 
         var offlineLoginsObj = await _configurationRepository.GetByKey("offline_logins");
         if (offlineLoginsObj == null)
         {
             throw new InvalidDataException("Database error");
         }
-        return offlineLoginsObj.value;
+        return offlineLoginsObj.Value;
     }
 }

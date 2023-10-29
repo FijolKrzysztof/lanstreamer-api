@@ -24,7 +24,7 @@ public class DesktopAppService
         {
             throw new InvalidDataException("Database error");
         }
-        if (float.Parse(versionObj.value) > version)
+        if (float.Parse(versionObj.Value) > version)
         {
             throw new AppException(HttpStatusCode.Unauthorized, "Version is not supported");
         }

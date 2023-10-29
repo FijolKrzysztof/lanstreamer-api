@@ -11,19 +11,19 @@ public class UserEntity
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("id")]
-    public int id { get; set; }
+    public int Id { get; set; }
     
     [Column("mail")]
-    public string mail { get; set; }
+    public string Mail { get; set; }
     
     [Column("google_id")]
-    public string googleId { get; set; }
+    public string GoogleId { get; set; }
     
     [Column("app_version")]
-    public int appVersion { get; set; }
+    public int AppVersion { get; set; }
     
     [Column("last_login")]
-    public DateTime lastLogin { get; set; }
+    public DateTime LastLogin { get; set; }
     
-    public AccessEntity? access { get; set; }
+    public AccessEntity? Access { get; set; }
 }

@@ -52,7 +52,7 @@ public class ClientService
         {
             throw new AppException(HttpStatusCode.NotFound, $"Client with ID {clientId} not found");
         }
-        clientEntity.downloads++;
+        clientEntity.Downloads++;
         await _clientRepository.UpdateAsync(clientEntity);
 
         return new DownloadResponse()
