@@ -31,6 +31,5 @@ public class UserController : Controller
         return Ok(user);
     }
     
-    // TODO: SSE do app access
     // TODO: Scheduler usuwający access które są stare
 }

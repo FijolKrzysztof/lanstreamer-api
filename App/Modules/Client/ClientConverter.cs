@@ -22,12 +22,12 @@ public class ClientConverter
 
         var clientEntity = _mapper.Map<ClientEntity>(clientDto);
 
-        if (clientDto.feedbacks != null)
+        if (clientDto.Feedbacks != null)
         {
-            clientEntity.feedbacks = clientDto.feedbacks.Select(feedbackDto => new FeedbackEntity
+            clientEntity.feedbacks = clientDto.Feedbacks.Select(feedbackDto => new FeedbackEntity
             {
                 message = feedbackDto,
-                clientId = clientDto.id
+                clientId = clientDto.Id
             }).ToList();
         }
 
@@ -43,7 +43,7 @@ public class ClientConverter
 
         var clientDto = _mapper.Map<ClientDto>(clientEntity);
 
-        clientDto.feedbacks = clientEntity.feedbacks.Select(feedbackEntity => feedbackEntity.message).ToList();
+        clientDto.Feedbacks = clientEntity.feedbacks.Select(feedbackEntity => feedbackEntity.message).ToList();
 
         return clientDto;
     }

@@ -1,27 +1,40 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace lanstreamer_api.Models;
 
+[Serializable]
 public class ClientDto
 {
-    public int id { get; set; }
+    [JsonPropertyName("id")]
+    public int Id { get; set; }
     
     [Required]
-    public DateTime visitTime { set; get; }
+    [JsonPropertyName("visitTime")]
+    public DateTime VisitTime { set; get; }
     
     [Required]
-    public TimeSpan timeOnSite { get; set; }
+    [JsonPropertyName("timeOnSite")]
+    public TimeSpan TimeOnSite { get; set; }
     
     [Required]
-    public string operatingSystem { get; set; }
+    [JsonPropertyName("operatingSystem")]
+    public string OperatingSystem { get; set; }
     
     [Required]
-    public string defaultLanguage { get; set; }
+    [JsonPropertyName("defaultLanguage")]
+    public string DefaultLanguage { get; set; }
     
     [Required]
-    public string ipAddress { get; set; }
+    [JsonPropertyName("ipAddress")]
+    public string IpAddress { get; set; }
     
-    public string? referrerPage { get; set; }
-    public int? downloads { get; set; }
-    public List<string>? feedbacks { get; set; }
+    [JsonPropertyName("referrerPage")]
+    public string? ReferrerPage { get; set; }
+    
+    [JsonPropertyName("downloads")]
+    public int? Downloads { get; set; }
+    
+    [JsonPropertyName("feedbacks")]
+    public List<string>? Feedbacks { get; set; }
 }

@@ -42,13 +42,13 @@ public class UserService
 
     private async Task<UserDto> UpdateUserAndNotify(UserDto userDto)
     {
-        userDto.lastLogin = DateTime.Now;
+        userDto.LastLogin = DateTime.Now;
 
-        if (userDto.access != null)
+        if (userDto.Access != null)
         {
-            userDto.access.timestamp = Timestamp.FromDateTime(DateTime.Now);
+            userDto.Access.Timestamp = Timestamp.FromDateTime(DateTime.Now);
             
-            await _serverSentEventsService.Send(userDto.access.code, true);
+            await _serverSentEventsService.Send(userDto.Access.Code, true);
         }
 
         return userDto;

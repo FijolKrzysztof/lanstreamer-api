@@ -23,9 +23,9 @@ public class UserConverter
 
         var userEntity = _mapper.Map<UserEntity>(userDto);
 
-        if (userDto.access != null)
+        if (userDto.Access != null)
         {
-            userEntity.access = _mapper.Map<AccessEntity>(userDto.access);
+            userEntity.access = _mapper.Map<AccessEntity>(userDto.Access);
         }
 
         return userEntity;
@@ -42,7 +42,7 @@ public class UserConverter
 
         if (userEntity.access != null)
         {
-            userDto.access = _mapper.Map<Data.Models.Access>(userEntity.access);
+            userDto.Access = _mapper.Map<Data.Models.Access>(userEntity.access);
         }
 
         return userDto;

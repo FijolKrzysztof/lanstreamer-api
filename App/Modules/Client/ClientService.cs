@@ -57,7 +57,7 @@ public class ClientService
 
         return new DownloadResponse()
         {
-            link = $"https://lanstreamer.s3.eu-west-2.amazonaws.com/{s3Object.Key}"
+            Link = $"https://lanstreamer.s3.eu-west-2.amazonaws.com/{s3Object.Key}"
         }; 
     }
 }
