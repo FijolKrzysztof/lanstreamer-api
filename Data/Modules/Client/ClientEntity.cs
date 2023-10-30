@@ -26,8 +26,8 @@ public class ClientEntity
     [Column("ip_address")]
     public string IpAddress { get; set; }
     
-    [Column("referrer_page")]
-    public string? ReferrerPage { get; set; }
+    [Column("referrer_website")]
+    public string? ReferrerWebsite { get; set; }
     
     [Column("downloads")]
     public int? Downloads { get; set; }

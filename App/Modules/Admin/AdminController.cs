@@ -9,10 +9,17 @@ namespace lanstreamer_api.App.Modules.Admin;
 [Route("api/admin")]
 public class AdminController
 {
+    private readonly AdminService _adminService;
+
+    public AdminController(AdminService adminService)
+    {
+        _adminService = adminService;
+    }
+    
     [Authorize(Roles = Roles.Admin)]
     [HttpPost("upload-desktop-app")]
     public ActionResult UploadDesktopApp([FromQuery] OperatingSystem operatingSystem, IFormFile file)
     {
-        // TODO
+        return _adminService.UploadDesktopApp(operatingSystem, file);
     }
 }

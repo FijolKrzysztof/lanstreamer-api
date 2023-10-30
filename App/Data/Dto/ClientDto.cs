@@ -29,8 +29,8 @@ public class ClientDto
     [JsonPropertyName("ipAddress")]
     public string IpAddress { get; set; }
     
-    [JsonPropertyName("referrerPage")]
-    public string? ReferrerPage { get; set; }
+    [JsonPropertyName("referrerWebsite")]
+    public string? ReferrerWebsite { get; set; }
     
     [JsonPropertyName("downloads")]
     public int? Downloads { get; set; }
