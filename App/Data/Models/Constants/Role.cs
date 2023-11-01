@@ -1,6 +1,6 @@
 namespace lanstreamer_api.App.Data.Models.Enums;
 
-public class Roles
+public class Role
 {
     public const string Admin = "Admin";
 }

@@ -30,8 +30,9 @@ public class ClientController : Controller
     }
     
     [HttpGet("{clientId}/download/{operatingSystem}")]
-    public async Task<DownloadResponse> Download(int clientId, OperatingSystem operatingSystem)
+    public async Task<ActionResult> Download(int clientId, OperatingSystem operatingSystem)
     {
-        return await _clientService.Download(clientId, operatingSystem);
+        var fileBytes = await _clientService.GetFile(clientId, operatingSystem);
+        return File(fileBytes, "application/octet-stream", "lanstreamer");
     }
 }

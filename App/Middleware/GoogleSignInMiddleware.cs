@@ -52,7 +52,7 @@ public class GoogleSignInMiddleware
 
             if (adminIdentifierObj != null && payload.Subject == adminIdentifierObj.Value)
             {
-                identity.AddClaim(new Claim(ClaimTypes.Role, Roles.Admin));
+                identity.AddClaim(new Claim(ClaimTypes.Role, Role.Admin));
             }
 
             context.User = new ClaimsPrincipal(identity);

@@ -1,23 +1,26 @@
-using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using lanstreamer_api.App.Data.Models.Enums;
+using lanstreamer_api.App.Exceptions;
 using OperatingSystem = lanstreamer_api.App.Data.Models.Enums.OperatingSystem;
 
 namespace lanstreamer_api.App.Modules.Admin;
 
 public class AdminService
 {
-    public ActionResult UploadDesktopApp(OperatingSystem operatingSystem, IFormFile file)
+    public async Task UploadDesktopApp(OperatingSystem operatingSystem, IFormFile? file)
     {
-        try
+        if (file is null || file.Length == 0)
         {
-            if (file != null && file.Length > 0)
-            {
-                string filePath = ""
-            }
+            throw new AppException(HttpStatusCode.BadRequest, "File is empty");
         }
-        catch (Exception e)
+
+        if (Path.GetExtension(file.FileName).ToLower() != ".zip" || file.ContentType != "application/zip")
         {
-            Console.WriteLine(e);
-            throw;
+            throw new AppException(HttpStatusCode.BadRequest, "Wrong file format. Accepting only ZIP files");
         }
+
+        var filePath = ApplicationBuildPath.GetPath(operatingSystem);
+        var stream = new FileStream(filePath, FileMode.Append);
+        await file.CopyToAsync(stream);
     }
 }
