@@ -23,7 +23,7 @@ public class ClientService
     public async Task<ClientDto> CreateClient(ClientDto clientDto)
     {
         var clientEntity = _clientConverter.Convert(clientDto);
-        var createdClientEntity = await _clientRepository.CreateAsync(clientEntity);
+        var createdClientEntity = await _clientRepository.Create(clientEntity);
         var createdClientDto = _clientConverter.Convert(createdClientEntity);
         return createdClientDto;
     }
@@ -31,14 +31,14 @@ public class ClientService
     public async Task<ClientDto> UpdateClient(ClientDto clientDto)
     {
         var clientEntity = _clientConverter.Convert(clientDto);
-        var updatedClientEntity = await _clientRepository.UpdateAsync(clientEntity);
+        var updatedClientEntity = await _clientRepository.Update(clientEntity);
         var updatedClientDto = _clientConverter.Convert(updatedClientEntity);
         return updatedClientDto;
     }
 
     public async Task<byte[]> GetFile(int clientId, OperatingSystem operatingSystem)
     {
-        var clientEntity = await _clientRepository.GetByIdAsync(clientId);
+        var clientEntity = await _clientRepository.GetById(clientId);
         if (clientEntity == null)
         {
             throw new AppException(HttpStatusCode.Unauthorized, $"Client with ID {clientId} doesn't exist");
@@ -53,7 +53,7 @@ public class ClientService
         var fileBytes = await File.ReadAllBytesAsync(filePath);
         
         clientEntity.Downloads++;
-        await _clientRepository.UpdateAsync(clientEntity);
+        await _clientRepository.Update(clientEntity);
 
         return fileBytes;
     }

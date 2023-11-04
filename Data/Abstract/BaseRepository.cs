@@ -13,31 +13,31 @@ public abstract class BaseRepository<T> where T : class
         dbSet = this.dbContext.Set<T>();
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync()
+    public async Task<IEnumerable<T>> GetAll()
     {
         return await dbSet.ToListAsync();
     }
 
-    public async Task<T?> GetByIdAsync(int id)
+    public async Task<T?> GetById(int id)
     {
         return await dbSet.FindAsync(id);
     }
 
-    public async Task<T> CreateAsync(T entity)
+    public async Task<T> Create(T entity)
     {
         dbSet.Add(entity);
         await dbContext.SaveChangesAsync();
         return entity;
     }
 
-    public async Task<T> UpdateAsync(T entity)
+    public async Task<T> Update(T entity)
     {
         dbContext.Entry(entity).State = EntityState.Modified;
         await dbContext.SaveChangesAsync();
         return entity;
     }
 
-    public async Task DeleteAsync(int id)
+    public async Task Delete(int id)
     {
         var entity = await dbContext.Set<T>().FindAsync(id);
         if (entity != null)

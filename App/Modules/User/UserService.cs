@@ -23,7 +23,7 @@ public class UserService
         userDto = await UpdateUserAndNotify(userDto);
         
         var userEntity = _userConverter.Convert(userDto);
-        var createdUserEntity = await _userRepository.CreateAsync(userEntity);
+        var createdUserEntity = await _userRepository.Create(userEntity);
         var createdUserDto = _userConverter.Convert(createdUserEntity);
 
         return createdUserDto;
@@ -34,7 +34,7 @@ public class UserService
         userDto = await UpdateUserAndNotify(userDto);
 
         var userEntity = _userConverter.Convert(userDto);
-        var updatedUserEntity = await _userRepository.UpdateAsync(userEntity);
+        var updatedUserEntity = await _userRepository.Update(userEntity);
         var updatedUserDto = _userConverter.Convert(updatedUserEntity);
 
         return updatedUserDto;

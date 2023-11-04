@@ -30,6 +30,4 @@ public class UserController : Controller
         var user = await _userService.Update(userDto);
         return Ok(user);
     }
-    
-    // TODO: Scheduler usuwający access które są stare
 }

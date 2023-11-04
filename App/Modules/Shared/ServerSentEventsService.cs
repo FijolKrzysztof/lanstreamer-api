@@ -14,6 +14,11 @@ public class ServerSentEventsService<T>
         return channel.Reader;
     }
 
+    public async Task Unsubscribe(string key)
+    {
+        _channels.Remove(key, out Channel<T>? _);
+    }
+
     public async Task Send(string key, T data)
     {
         if (_channels.TryGetValue(key, out var channel))

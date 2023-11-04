@@ -1,4 +1,5 @@
 using lanstreamer_api.App.Middleware;
+using lanstreamer_api.App.Workers;
 using lanstreamer_api.Data.Context;
 using lanstreamer_api.services;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +33,8 @@ public class Startup
             options.UseMySql(Configuration.GetConnectionString("Database"),
                 new MySqlServerVersion(new Version(8, 0, 25)));
         });
-        
+
+        services.AddSingleton<AccessCleanupScheduler>();
         services.AddSingleton<AmazonS3Service>();
         services.AddSingleton<ServerSentEventsService<bool>>();
         services.AddMvc().AddXmlSerializerFormatters();

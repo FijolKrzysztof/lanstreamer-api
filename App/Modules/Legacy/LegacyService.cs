@@ -34,7 +34,7 @@ public class LegacyService
         {
             throw new AppException(HttpStatusCode.Unauthorized, null);
         }
-        await _accessRepository.DeleteAsync(accessEntity.Id);
+        await _accessRepository.Delete(accessEntity.Id);
 
         var offlineLoginsObj = await _configurationRepository.GetByKey("offline_logins");
         if (offlineLoginsObj == null)
