@@ -34,7 +34,7 @@ public class Startup
                 new MySqlServerVersion(new Version(8, 0, 25)));
         });
 
-        services.AddSingleton<AccessCleanupScheduler>();
+        services.AddSingleton<CleanupScheduler>();
         services.AddSingleton<AmazonS3Service>();
         services.AddSingleton<ServerSentEventsService<bool>>();
         services.AddMvc().AddXmlSerializerFormatters();
