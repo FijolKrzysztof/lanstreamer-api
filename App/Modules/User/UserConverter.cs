@@ -9,7 +9,7 @@ public class UserConverter
 {
     private readonly IMapper _mapper;
 
-    UserConverter(IMapper mapper)
+    public UserConverter(IMapper mapper)
     {
         _mapper = mapper;
     }

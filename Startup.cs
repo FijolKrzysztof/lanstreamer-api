@@ -1,6 +1,16 @@
+using Amazon.Runtime.Internal.Util;
+using lanstreamer_api.App.Client;
 using lanstreamer_api.App.Middleware;
+using lanstreamer_api.App.Modules;
+using lanstreamer_api.App.Modules.Access;
+using lanstreamer_api.App.Modules.Admin;
+using lanstreamer_api.App.Modules.Legacy;
 using lanstreamer_api.App.Workers;
+using lanstreamer_api.Data.Authentication;
+using lanstreamer_api.Data.Configuration;
 using lanstreamer_api.Data.Context;
+using lanstreamer_api.Data.Modules.User;
+using lanstreamer_api.Entities;
 using lanstreamer_api.services;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,31 +31,47 @@ public class Startup
         {
             options.AddPolicy("allowAll", builder =>
             {
-                builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+                builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader(); // TODO: to raczej dać tylko do access method i podczas testowania
             });
         });
 
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
-        
+        services.AddMvc().AddXmlSerializerFormatters(); // TODO: zastanowić się czy jednak nie usunąć
+        services.AddControllers();
+
         services.AddDbContext<ApplicationDbContext>(options =>
         {
             options.UseMySql(Configuration.GetConnectionString("Database"),
                 new MySqlServerVersion(new Version(8, 0, 25)));
         });
+        services.AddAutoMapper(_ => { });
 
-        services.AddSingleton<CleanupScheduler>();
-        services.AddSingleton<AmazonS3Service>();
+        services.AddScoped<AccessRepository>();
+        services.AddScoped<ClientRepository>();
+        services.AddScoped<ConfigurationRepository>();
+        services.AddScoped<FeedbackRepository>();
+        services.AddScoped<UserRepository>();
+
+        services.AddScoped<UserConverter>();
+        services.AddScoped<ClientConverter>();
+        
+        services.AddScoped<LegacyService>();
+        services.AddScoped<DesktopAppService>();
+        services.AddScoped<AdminService>();
+        services.AddScoped<UserService>();
+        services.AddScoped<ClientService>();
+        
         services.AddSingleton<ServerSentEventsService<bool>>();
-        services.AddMvc().AddXmlSerializerFormatters();
-        services.AddControllers();
+
+        services.AddTransient<CleanupScheduler>(); // TODO: ustalić czy się stworzył
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         if (env.IsDevelopment())
         {
-            app.UseDeveloperExceptionPage();
+            app.UseDeveloperExceptionPage(); // TODO: rozważyć czy nie dorzucić i zmienić - bo trzeba zrobić dobrą konfigurację na development i produkcję
             app.UseSwagger();
             app.UseSwaggerUI();
         }

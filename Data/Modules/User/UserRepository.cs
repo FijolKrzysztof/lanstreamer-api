@@ -1,5 +1,6 @@
 using lanstreamer_api.Data.Context;
 using lanstreamer_api.Data.Utils;
+using Microsoft.EntityFrameworkCore;
 
 namespace lanstreamer_api.Data.Modules.User;
 

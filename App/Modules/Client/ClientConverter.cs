@@ -8,7 +8,7 @@ public class ClientConverter
 {
     private readonly IMapper _mapper;
     
-    ClientConverter(IMapper mapper)
+    public ClientConverter(IMapper mapper)
     {
         _mapper = mapper;
     }

@@ -11,7 +11,7 @@ public class UserService
     private readonly UserRepository _userRepository;
     private readonly ServerSentEventsService<bool> _serverSentEventsService;
 
-    UserService(UserConverter userConverter, UserRepository userRepository, ServerSentEventsService<bool> serverSentEventsService)
+    public UserService(UserConverter userConverter, UserRepository userRepository, ServerSentEventsService<bool> serverSentEventsService)
     {
         _userConverter = userConverter;
         _userRepository = userRepository;

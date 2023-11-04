@@ -6,7 +6,7 @@ namespace lanstreamer_api.Data.Configuration;
 
 public class ConfigurationRepository : BaseRepository<ConfigurationEntity>
 {
-    ConfigurationRepository(ApplicationDbContext dbContext) : base(dbContext)
+    public ConfigurationRepository(ApplicationDbContext dbContext) : base(dbContext)
     {
     }
     

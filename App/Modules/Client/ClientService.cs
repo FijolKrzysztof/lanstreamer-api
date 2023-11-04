@@ -14,7 +14,7 @@ public class ClientService
     private readonly ClientConverter _clientConverter;
     private readonly AccessRepository _accessRepository;
 
-    ClientService(ClientConverter clientConverter, ClientRepository clientRepository, AccessRepository accessRepository)
+    public ClientService(ClientConverter clientConverter, ClientRepository clientRepository, AccessRepository accessRepository)
     {
         _clientRepository = clientRepository;
         _clientConverter = clientConverter;
