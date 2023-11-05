@@ -11,15 +11,13 @@ namespace lanstreamer_api.App.Middleware;
 public class GoogleSignInMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly ConfigurationRepository _configurationRepository;
 
-    public GoogleSignInMiddleware(RequestDelegate next, ConfigurationRepository configurationRepository)
+    public GoogleSignInMiddleware(RequestDelegate next)
     {
         _next = next;
-        _configurationRepository = configurationRepository;
     }
     
-    public async Task Invoke(HttpContext context)
+    public async Task Invoke(HttpContext context, ConfigurationRepository configurationRepository)
     {
         string? idToken = null;
 
@@ -48,7 +46,7 @@ public class GoogleSignInMiddleware
                 }
             );
 
-            var adminIdentifierObj = await _configurationRepository.GetByKey("admin_identifier");
+            var adminIdentifierObj = await configurationRepository.GetByKey("admin_identifier");
 
             if (adminIdentifierObj != null && payload.Subject == adminIdentifierObj.Value)
             {
