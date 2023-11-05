@@ -18,13 +18,6 @@ namespace lanstreamer_api;
 
 public class Startup
 {
-    public Startup(IConfiguration configuration)
-    {
-        Configuration = configuration;
-    }
-
-    private IConfiguration Configuration { get; }
-
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddCors(options =>
@@ -39,6 +32,8 @@ public class Startup
         services.AddSwaggerGen();
         services.AddMvc().AddXmlSerializerFormatters(); // TODO: zastanowić się czy jednak nie usunąć
         services.AddControllers();
+        
+        // TODO: dodać do Development appsettings testową bazę danych - czyli w pscale czy jak się to nazywalo trzeba dodać kolejną bazę danych ale tylko do testów
 
         services.AddDbContext<ApplicationDbContext>(options =>
         {
@@ -46,6 +41,8 @@ public class Startup
                 new MySqlServerVersion(new Version(8, 0, 25)));
         });
         services.AddAutoMapper(_ => { });
+        
+        services.AddHostedService<CleanupScheduler>();
 
         services.AddScoped<AccessRepository>();
         services.AddScoped<ClientRepository>();
@@ -63,9 +60,14 @@ public class Startup
         services.AddScoped<ClientService>();
         
         services.AddSingleton<ServerSentEventsService<bool>>();
-
-        services.AddTransient<CleanupScheduler>(); // TODO: ustalić czy się stworzył
     }
+
+    public Startup(IConfiguration configuration)
+    {
+        Configuration = configuration;
+    }
+
+    private IConfiguration Configuration { get; }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {

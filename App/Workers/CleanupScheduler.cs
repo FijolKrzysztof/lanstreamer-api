@@ -1,36 +1,37 @@
 using lanstreamer_api.App.Client;
-using lanstreamer_api.Data.Authentication;
 
 namespace lanstreamer_api.App.Workers;
 
-public class CleanupScheduler
+public class CleanupScheduler : IHostedService
 {
-    private readonly ILogger<CleanupScheduler> _logger;
-    private readonly Timer _accessTimer;
-    private readonly ClientService _clientService;
+    private readonly IServiceProvider _serviceProvider;
+    private Timer? _timer;
     
-    public CleanupScheduler(ILogger<CleanupScheduler> logger, ClientService clientService)
+    public CleanupScheduler(IServiceProvider serviceProvider)
     {
-        _clientService = clientService;
-        _logger = logger;
-        _accessTimer = new Timer(CleanupOldAccessRecords, null, 0, TimeSpan.FromDays(1).Milliseconds);
-        
-        LogTimerInfo();
+        _serviceProvider = serviceProvider;
     }
-    
-    private async void CleanupOldAccessRecords(object? state)
+
+    private async void Execute(object? _)
     {
         await Task.Run(async () =>
         {
-            await _clientService.CleanupOldAccessRecords();
+            var scope = _serviceProvider.CreateScope();
+            var scopedClientService = scope.ServiceProvider.GetRequiredService<ClientService>();
+            await scopedClientService.CleanupOldAccessRecords();
         });
+        
+    }
+    
+    public Task StartAsync(CancellationToken cancellationToken)
+    {
+        _timer = new Timer(Execute, null, 0, TimeSpan.FromDays(1).Milliseconds);
+        return Task.CompletedTask;
     }
 
-    private void LogTimerInfo()
+    public Task StopAsync(CancellationToken cancellationToken)
     {
-        if (_accessTimer?.Change(1, -1) ?? false)
-        {
-            _logger.LogInformation("AccessTimer is active");
-        }
+        _timer?.Change(Timeout.Infinite, 0);
+        return Task.CompletedTask;
     }
 }
