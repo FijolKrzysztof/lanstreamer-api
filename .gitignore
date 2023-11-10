@@ -8,3 +8,5 @@ riderModule.iml
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
 .idea
+appsettings.Development.json
+appsettings.json

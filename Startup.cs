@@ -37,8 +37,7 @@ public class Startup
 
         services.AddDbContext<ApplicationDbContext>(options =>
         {
-            options.UseMySql(Configuration.GetConnectionString("Database"),
-                new MySqlServerVersion(new Version(8, 0, 25)));
+            options.UseNpgsql(Configuration.GetConnectionString("Database"));
         });
         services.AddAutoMapper(_ => { });
         

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace lanstreamer_api.Entities;
 
+[Table("Feedbacks")]
 public class FeedbackEntity
 {
     [Key]
@@ -10,7 +11,7 @@ public class FeedbackEntity
     [Column("id")]
     public int Id { get; set; }
 
-    [ForeignKey("client")]
+    [ForeignKey("Client")]
     [Column("client_id")]
     public int ClientId { get; set; }
 

@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using Google.Protobuf.WellKnownTypes;
 
 namespace lanstreamer_api.App.Data.Models;
 
@@ -14,5 +13,5 @@ public class Access
     public string Code { get; set; }
     
     [JsonPropertyName("timestamp")]
-    public Timestamp Timestamp { get; set; }
+    public DateTime Timestamp { get; set; }
 }

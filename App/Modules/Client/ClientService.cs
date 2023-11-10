@@ -61,6 +61,6 @@ public class ClientService
 
     public async Task CleanupOldAccessRecords()
     {
-        await _accessRepository.DeleteRecordsOlderThan(DateTime.Now.AddHours(-1));
+        await _accessRepository.DeleteRecordsOlderThan(DateTime.UtcNow.AddHours(-1));
     }
 }

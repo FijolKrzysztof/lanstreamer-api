@@ -2,7 +2,6 @@ using System.Net;
 using lanstreamer_api.App.Exceptions;
 using lanstreamer_api.Data.Authentication;
 using lanstreamer_api.Data.Configuration;
-using Org.BouncyCastle.Bcpg;
 
 namespace lanstreamer_api.App.Modules.Legacy;
 

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace lanstreamer_api.Entities;
 
-[Table("Client")]
+[Table("Clients")]
 public class ClientEntity
 {
     [Key]

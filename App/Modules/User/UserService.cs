@@ -1,4 +1,3 @@
-using Google.Protobuf.WellKnownTypes;
 using lanstreamer_api.Data.Modules.User;
 using lanstreamer_api.Models;
 using lanstreamer_api.services;
@@ -42,11 +41,11 @@ public class UserService
 
     private async Task<UserDto> UpdateUserAndNotify(UserDto userDto)
     {
-        userDto.LastLogin = DateTime.Now;
+        userDto.LastLogin = DateTime.UtcNow;
 
         if (userDto.Access != null)
         {
-            userDto.Access.Timestamp = Timestamp.FromDateTime(DateTime.Now);
+            userDto.Access.Timestamp = DateTime.UtcNow;
             
             await _serverSentEventsService.Send(userDto.Access.Code, true);
         }

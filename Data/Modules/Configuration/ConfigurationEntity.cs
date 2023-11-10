@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace lanstreamer_api.Data.Configuration;
 
+[Table("Configurations")]
 public class ConfigurationEntity
 {
     [Key]

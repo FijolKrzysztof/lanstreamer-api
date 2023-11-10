@@ -4,6 +4,7 @@ using lanstreamer_api.Data.Modules.User;
 
 namespace lanstreamer_api.Data.Authentication;
 
+[Table("Accesses")]
 public class AccessEntity
 {
     [Key]
@@ -11,7 +12,7 @@ public class AccessEntity
     [Column("id")]
     public int Id { get; set; }
     
-    [ForeignKey("user")]
+    [ForeignKey("User")]
     [Column("user_id")]
     public int UserId { get; set; }
     

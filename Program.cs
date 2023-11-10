@@ -7,11 +7,11 @@ public class Program
         CreateHostBuilder(args).Build().Run();
     }
 
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
+    private static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
             .ConfigureWebHostDefaults(webBuilder =>
             {
-                webBuilder.UseUrls("http://0.0.0.0:80", "https://0.0.0.0:443");
+                webBuilder.UseUrls("http://0.0.0.0:80", "https://0.0.0.0:443"); // TODO: czy potrzebne?
                 webBuilder.UseStartup<Startup>();
             });
 }

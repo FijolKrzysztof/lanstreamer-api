@@ -5,7 +5,7 @@ using lanstreamer_api.Data.Authentication;
 
 namespace lanstreamer_api.Data.Modules.User;
 
-[Table("User")]
+[Table("Users")]
 public class UserEntity
 {
     [Key]
