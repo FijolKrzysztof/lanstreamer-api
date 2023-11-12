@@ -18,9 +18,15 @@ public class ClientController : Controller
     [HttpPost]
     public async Task<ActionResult<ClientDto>> CreateClient([FromBody] ClientDto clientDto)
     {
-        var createdClient = await _clientService.CreateClient(clientDto);
+        var xForwardedFor = HttpContext.Request.Headers["X-Forwarded-For"].ToString();
+        var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
+        var acceptLanguage = HttpContext.Request.Headers["Accept-Language"].ToString();
+        
+        var createdClient = await _clientService.CreateClient(clientDto, xForwardedFor, userAgent, acceptLanguage);
         return Created("", createdClient);
     }
+    
+    // TODO: zaimplementować websocket przy przesyłaniu informacji że klient dalej jest na stronie żeby zapisywać czas (time on site)
     
     [HttpPut]
     public async Task<ActionResult<ClientDto>> UpdateClient([FromBody] ClientDto clientDto)
@@ -29,8 +35,8 @@ public class ClientController : Controller
         return Ok(client);
     }
     
-    [HttpGet("{clientId}/download/{operatingSystem}")]
-    public async Task<ActionResult> Download(int clientId, OperatingSystem operatingSystem)
+    [HttpGet("{clientId}/download-app/{operatingSystem}")]
+    public async Task<ActionResult> DownloadApp(int clientId, OperatingSystem operatingSystem)
     {
         var fileBytes = await _clientService.GetFile(clientId, operatingSystem);
         return File(fileBytes, "application/octet-stream", "lanstreamer");

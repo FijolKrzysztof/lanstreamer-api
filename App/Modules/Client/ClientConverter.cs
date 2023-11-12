@@ -12,36 +12,56 @@ public class ClientConverter
     {
         _mapper = mapper;
     }
-    
-    public ClientEntity Convert(ClientDto clientDto)
+
+    public Data.Models.Client Convert(ClientDto clientDto)
     {
         if (clientDto == null)
         {
             throw new ArgumentNullException(nameof(clientDto));
         }
+        
+        return _mapper.Map<Data.Models.Client>(clientDto);
+    }
 
-        var clientEntity = _mapper.Map<ClientEntity>(clientDto);
-
-        if (clientDto.Feedbacks != null)
+    public ClientEntity ConvertToEntity(Data.Models.Client client)
+    {
+        if (client == null)
         {
-            clientEntity.Feedbacks = clientDto.Feedbacks.Select(feedbackDto => new FeedbackEntity
+            throw new ArgumentNullException(nameof(client));
+        }
+
+        var clientEntity = _mapper.Map<ClientEntity>(client);
+
+        if (client.Feedbacks is { Count: > 0 })
+        {
+            clientEntity.Feedbacks = client.Feedbacks.Select(feedbackDto => new FeedbackEntity
             {
                 Message = feedbackDto,
-                ClientId = clientDto.Id
+                ClientId = client.Id
             }).ToList();
         }
 
         return clientEntity;
     }
 
-    public ClientDto Convert(ClientEntity clientEntity)
+    public ClientDto ConvertToDto(Data.Models.Client client)
+    {
+        if (client == null)
+        {
+            throw new ArgumentNullException(nameof(client));
+        }
+
+        return _mapper.Map<ClientDto>(client);
+    }
+
+    public Data.Models.Client Convert(ClientEntity clientEntity)
     {
         if (clientEntity == null)
         {
             throw new ArgumentNullException(nameof(clientEntity));
         }
 
-        var clientDto = _mapper.Map<ClientDto>(clientEntity);
+        var clientDto = _mapper.Map<Data.Models.Client>(clientEntity);
 
         clientDto.Feedbacks = clientEntity.Feedbacks.Select(feedbackEntity => feedbackEntity.Message).ToList();
 

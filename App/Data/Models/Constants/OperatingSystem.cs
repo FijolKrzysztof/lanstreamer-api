@@ -4,4 +4,8 @@ public enum OperatingSystem
 {
     Windows,
     Linux,
+    MacOS,
+    Android,
+    IOS,
+    Other
 }

@@ -12,16 +12,9 @@ public class AccessEntity
     [Column("id")]
     public int Id { get; set; }
     
-    [ForeignKey("User")]
-    [Column("user_id")]
-    public int UserId { get; set; }
-    
     [Column("code")]
     public string Code { get; set; }
     
     [Column("timestamp")]
     public DateTime Timestamp { get; set; }
-    
-    
-    public UserEntity User { get; set; }
 }
