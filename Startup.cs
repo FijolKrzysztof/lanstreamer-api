@@ -78,7 +78,7 @@ public class Startup
         }
 
         app.UseGoogleSignInMiddleware();
-        app.UseCors("allowAll");
+        app.UseCors("allowAll"); // TODO: trzeba to zdjąć i enablować tylko lokalnie i w przypadku metody AppAccess
         app.UseRouting();
         app.UseEndpoints(endpoints =>
         {

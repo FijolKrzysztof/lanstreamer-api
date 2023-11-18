@@ -7,12 +7,12 @@ namespace lanstreamer_api.App.Client;
 public class ClientConverter
 {
     private readonly IMapper _mapper;
-    
+
     ClientConverter(IMapper mapper)
     {
         _mapper = mapper;
     }
-    
+
     public ClientEntity Convert(ClientDto clientDto)
     {
         if (clientDto == null)
@@ -22,14 +22,11 @@ public class ClientConverter
 
         var clientEntity = _mapper.Map<ClientEntity>(clientDto);
 
-        if (clientDto.Feedbacks != null)
+        clientEntity.Feedbacks = clientDto.Feedbacks.Select(feedbackDto => new FeedbackEntity
         {
-            clientEntity.Feedbacks = clientDto.Feedbacks.Select(feedbackDto => new FeedbackEntity
-            {
-                Message = feedbackDto,
-                ClientId = clientDto.Id
-            }).ToList();
-        }
+            Message = feedbackDto,
+            ClientId = clientDto.Id
+        }).ToList();
 
         return clientEntity;
     }
