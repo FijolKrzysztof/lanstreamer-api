@@ -25,14 +25,21 @@ public class ClientController : Controller
         var createdClient = await _clientService.CreateClient(clientDto, xForwardedFor, userAgent, acceptLanguage);
         return Created("", createdClient);
     }
-    
+
     [HttpPut]
     public async Task<ActionResult<ClientDto>> UpdateClient([FromBody] ClientDto clientDto)
     {
         var client = await _clientService.UpdateClient(clientDto);
         return Ok(client);
     }
-    
+
+    [HttpPost("{clientId}/update-session-duration")]
+    public async Task<ActionResult> UpdateSessionDuration(int clientId)
+    {
+        await _clientService.UpdateSessionDuration(clientId);
+        return Ok();
+    }
+
     [HttpGet("{clientId}/download-app/{operatingSystem}")]
     public async Task<ActionResult> DownloadApp(int clientId, OperatingSystem operatingSystem)
     {

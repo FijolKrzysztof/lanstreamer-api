@@ -1,3 +1,5 @@
+using System.Net;
+using lanstreamer_api.App.Exceptions;
 using lanstreamer_api.Data.Authentication;
 using lanstreamer_api.Data.Modules.User;
 using lanstreamer_api.Models;
@@ -41,9 +43,21 @@ public class UserService
 
     public async Task<UserDto> Update(UserDto userDto, string xForwardedFor)
     {
-        userDto = await UpdateUserAndNotify(userDto, xForwardedFor);
+        var userEntity = await _userRepository.GetById(userDto.Id);
 
-        var userEntity = _userConverter.Convert(userDto);
+        if (userEntity == null)
+        {
+            throw new AppException(HttpStatusCode.NotFound, $"User with id: {userDto.Id} not found");
+        }
+
+        userDto = await UpdateUserAndNotify(userDto, xForwardedFor);
+        
+        var newUserEntity = _userConverter.Convert(userDto);
+
+        userEntity.IpLocation = newUserEntity.IpLocation;
+        userEntity.Access = newUserEntity.Access;
+        userEntity.LastLogin = newUserEntity.LastLogin;
+        
         var updatedUserEntity = await _userRepository.Update(userEntity);
         var updatedUserDto = _userConverter.Convert(updatedUserEntity);
 

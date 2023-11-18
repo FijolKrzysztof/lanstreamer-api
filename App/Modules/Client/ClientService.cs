@@ -57,13 +57,34 @@ public class ClientService
 
     public async Task<ClientDto> UpdateClient(ClientDto clientDto)
     {
-        var clientEntity = _clientConverter.Convert(clientDto);
+        var clientEntity = await _clientRepository.GetById(clientDto.Id);
 
-        clientEntity.TimeOnSite = DateTime.Now - clientEntity.VisitTime;
+        if (clientEntity == null)
+        {
+            throw new AppException(HttpStatusCode.NotFound, $"Client with id: {clientDto.Id} not found");
+        }
+
+        var newClientEntity = _clientConverter.Convert(clientDto);
+
+        clientEntity.Feedbacks = newClientEntity.Feedbacks;
         
         var updatedClientEntity = await _clientRepository.Update(clientEntity);
         var updatedClientDto = _clientConverter.Convert(updatedClientEntity);
         return updatedClientDto;
+    }
+    
+    public async Task UpdateSessionDuration(int clientId)
+    {
+        var clientEntity = await _clientRepository.GetById(clientId);
+
+        if (clientEntity == null)
+        {
+            throw new AppException(HttpStatusCode.NotFound, $"Client with id: {clientId} not found");
+        }
+
+        clientEntity.TimeOnSite = DateTime.Now - clientEntity.VisitTime;
+        
+        await _clientRepository.Update(clientEntity);
     }
     
     public async Task<byte[]> GetFile(int clientId, OperatingSystem operatingSystem)
