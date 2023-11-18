@@ -26,8 +26,6 @@ public class ClientController : Controller
         return Created("", createdClient);
     }
     
-    // TODO: zaimplementować websocket przy przesyłaniu informacji że klient dalej jest na stronie żeby zapisywać czas (time on site)
-    
     [HttpPut]
     public async Task<ActionResult<ClientDto>> UpdateClient([FromBody] ClientDto clientDto)
     {

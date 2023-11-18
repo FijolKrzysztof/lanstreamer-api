@@ -35,38 +35,39 @@ public class ClientService
         var ipAddress = GetIpAddress(xForwardedFor);
         var operatingSystem = GetOs(userAgent);
         var defaultLanguage = GetDefaultLanguage(acceptLanguage);
-        var client = _clientConverter.Convert(clientDto);
 
-        client.VisitTime = DateTime.Now;
-        client.TimeOnSite = TimeSpan.Zero;
+        clientDto.VisitTime = DateTime.Now;
+        clientDto.TimeOnSite = TimeSpan.Zero;
 
         if (ipAddress != null)
         {
-            client.IpLocation = await GetIpLocation(ipAddress);
+            clientDto.IpLocation = await GetIpLocation(ipAddress);
         }
 
         if (defaultLanguage != null)
         {
-            client.Language = defaultLanguage;
+            clientDto.Language = defaultLanguage;
         }
 
-        client.OperatingSystem = operatingSystem;
+        clientDto.OperatingSystem = operatingSystem;
 
-        var clientEntity = _clientConverter.ConvertToEntity(client);
+        var clientEntity = _clientConverter.Convert(clientDto);
         var createdClientEntity = await _clientRepository.Create(clientEntity);
-        var createdClient = _clientConverter.Convert(createdClientEntity);
-        var createdClientDto = _clientConverter.ConvertToDto(createdClient);
+        var createdClientDto = _clientConverter.Convert(createdClientEntity);
         return createdClientDto;
     }
 
     public async Task<ClientDto> UpdateClient(ClientDto clientDto)
     {
         var clientEntity = _clientConverter.Convert(clientDto);
+
+        clientEntity.TimeOnSite = DateTime.Now - clientEntity.VisitTime;
+        
         var updatedClientEntity = await _clientRepository.Update(clientEntity);
         var updatedClientDto = _clientConverter.Convert(updatedClientEntity);
         return updatedClientDto;
     }
-
+    
     public async Task<byte[]> GetFile(int clientId, OperatingSystem operatingSystem)
     {
         var clientEntity = await _clientRepository.GetById(clientId);
