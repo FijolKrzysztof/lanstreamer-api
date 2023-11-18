@@ -26,4 +26,7 @@ public class UserDto
 
     [JsonPropertyName("access")]
     public Access? Access { get; set; }
+    
+    [JsonIgnore]
+    public IpLocation? IpLocation { get; set; }
 }

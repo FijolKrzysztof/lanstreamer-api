@@ -19,7 +19,9 @@ public class UserController : Controller
     [Authorize]
     public async Task<ActionResult<UserDto>> Create([FromBody] UserDto userDto)
     {
-        var user = await _userService.Create(userDto);
+        var xForwardedFor = HttpContext.Request.Headers["X-Forwarded-For"].ToString();
+        
+        var user = await _userService.Create(userDto, xForwardedFor);
         return Created("", user);
     }
     
@@ -27,7 +29,9 @@ public class UserController : Controller
     [Authorize]
     public async Task<ActionResult> Update([FromBody] UserDto userDto)
     {
-        var user = await _userService.Update(userDto);
+        var xForwardedFor = HttpContext.Request.Headers["X-Forwarded-For"].ToString();
+        
+        var user = await _userService.Update(userDto, xForwardedFor);
         return Ok(user);
     }
 }
