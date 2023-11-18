@@ -73,7 +73,7 @@ public class ClientService
         var clientEntity = await _clientRepository.GetById(clientId);
         if (clientEntity == null)
         {
-            throw new AppException(HttpStatusCode.Unauthorized, $"Client with ID {clientId} doesn't exist");
+            throw new AppException(HttpStatusCode.NotFound, $"Client with ID {clientId} doesn't exist");
         }
 
         var filePath = ApplicationBuildPath.GetPath(operatingSystem);
