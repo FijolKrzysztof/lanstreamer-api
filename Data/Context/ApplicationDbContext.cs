@@ -1,4 +1,3 @@
-using lanstreamer_api.Data.Authentication;
 using lanstreamer_api.Data.Configuration;
 using lanstreamer_api.Data.Modules.User;
 using lanstreamer_api.Entities;
@@ -15,6 +14,5 @@ public class ApplicationDbContext : DbContext
     public DbSet<ClientEntity> Clients { get; set; }
     public DbSet<FeedbackEntity> Feedbacks { get; set; }
     public DbSet<UserEntity> Users { get; set; }
-    public DbSet<AccessEntity> Accesses { get; set; }
     public DbSet<ConfigurationEntity> Configurations { get; set; }
 }

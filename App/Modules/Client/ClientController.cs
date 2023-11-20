@@ -18,11 +18,9 @@ public class ClientController : Controller
     [HttpPost]
     public async Task<ActionResult<ClientDto>> CreateClient([FromBody] ClientDto clientDto)
     {
-        var xForwardedFor = HttpContext.Request.Headers["X-Forwarded-For"].ToString();
-        var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
-        var acceptLanguage = HttpContext.Request.Headers["Accept-Language"].ToString();
+        var httpContext = HttpContext;
         
-        var createdClient = await _clientService.CreateClient(clientDto, xForwardedFor, userAgent, acceptLanguage);
+        var createdClient = await _clientService.CreateClient(clientDto, httpContext);
         return Created("", createdClient);
     }
 

@@ -1,11 +1,8 @@
 using System.Net;
-using lanstreamer_api.App.Data.Models;
 using lanstreamer_api.App.Data.Models.Enums;
 using lanstreamer_api.App.Exceptions;
-using lanstreamer_api.Data.Authentication;
 using lanstreamer_api.Models;
 using lanstreamer_api.services;
-using Newtonsoft.Json;
 using OperatingSystem = lanstreamer_api.App.Data.Models.Enums.OperatingSystem;
 
 namespace lanstreamer_api.App.Client;
@@ -27,12 +24,11 @@ public class ClientService
         _httpRequestInfoService = httpRequestInfoService;
     }
 
-    public async Task<ClientDto> CreateClient(ClientDto clientDto, string xForwardedFor, string userAgent,
-        string acceptLanguage)
+    public async Task<ClientDto> CreateClient(ClientDto clientDto, HttpContext httpContext)
     {
-        var ipAddress = _httpRequestInfoService.GetIpAddress(xForwardedFor);
-        var operatingSystem = _httpRequestInfoService.GetOs(userAgent);
-        var defaultLanguage = _httpRequestInfoService.GetDefaultLanguage(acceptLanguage);
+        var ipAddress = _httpRequestInfoService.GetIpAddress(httpContext);
+        var operatingSystem = _httpRequestInfoService.GetOs(httpContext);
+        var defaultLanguage = _httpRequestInfoService.GetDefaultLanguage(httpContext);
 
         clientDto.VisitTime = DateTime.Now;
         clientDto.TimeOnSite = TimeSpan.Zero;
@@ -67,12 +63,12 @@ public class ClientService
         var newClientEntity = _clientConverter.Convert(clientDto);
 
         clientEntity.Feedbacks = newClientEntity.Feedbacks;
-        
+
         var updatedClientEntity = await _clientRepository.Update(clientEntity);
         var updatedClientDto = _clientConverter.Convert(updatedClientEntity);
         return updatedClientDto;
     }
-    
+
     public async Task UpdateSessionDuration(int clientId)
     {
         var clientEntity = await _clientRepository.GetById(clientId);
@@ -83,10 +79,10 @@ public class ClientService
         }
 
         clientEntity.TimeOnSite = DateTime.Now - clientEntity.VisitTime;
-        
+
         await _clientRepository.Update(clientEntity);
     }
-    
+
     public async Task<byte[]> GetFile(int clientId, OperatingSystem operatingSystem)
     {
         var clientEntity = await _clientRepository.GetById(clientId);

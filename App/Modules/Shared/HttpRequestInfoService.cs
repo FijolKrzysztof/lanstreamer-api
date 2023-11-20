@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using lanstreamer_api.App.Data.Models;
 using Newtonsoft.Json;
 using OperatingSystem = lanstreamer_api.App.Data.Models.Enums.OperatingSystem;
@@ -13,8 +14,20 @@ public class HttpRequestInfoService
         _logger = logger;
     }
 
-    public string? GetIpAddress(string xForwardedForHeader)
+    public string? GetEmail(HttpContext httpContext)
     {
+        return httpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+    }
+
+    public string? GetIdentity(HttpContext httpContext)
+    {
+        return httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    }
+
+    public string? GetIpAddress(HttpContext httpContext)
+    {
+        var xForwardedForHeader = httpContext.Request.Headers["X-Forwarded-For"].ToString();
+        
         if (string.IsNullOrEmpty(xForwardedForHeader))
         {
             return null;
@@ -25,8 +38,10 @@ public class HttpRequestInfoService
         return ipAddresses[0].Trim();
     }
 
-    public OperatingSystem GetOs(string userAgent)
+    public OperatingSystem GetOs(HttpContext httpContext)
     {
+        var userAgent = httpContext.Request.Headers["User-Agent"].ToString();
+        
         if (userAgent.Contains("Windows", StringComparison.OrdinalIgnoreCase))
         {
             return OperatingSystem.Windows;
@@ -55,8 +70,10 @@ public class HttpRequestInfoService
         return OperatingSystem.Other;
     }
 
-    public string? GetDefaultLanguage(string acceptLanguage)
+    public string? GetDefaultLanguage(HttpContext httpContext)
     {
+        var acceptLanguage = httpContext.Request.Headers["Accept-Language"].ToString();
+        
         if (string.IsNullOrEmpty(acceptLanguage))
         {
             return null;

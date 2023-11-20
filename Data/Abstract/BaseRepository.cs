@@ -39,7 +39,7 @@ public abstract class BaseRepository<T> where T : class
 
     public async Task Delete(int id)
     {
-        var entity = await dbContext.Set<T>().FindAsync(id);
+        var entity = await dbSet.FindAsync(id);
         if (entity != null)
         {
             dbSet.Remove(entity);

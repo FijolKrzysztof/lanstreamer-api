@@ -1,5 +1,4 @@
 using AutoMapper;
-using lanstreamer_api.Data.Authentication;
 using lanstreamer_api.Data.Modules.User;
 using lanstreamer_api.Models;
 
@@ -21,14 +20,7 @@ public class UserConverter
             throw new ArgumentNullException();
         }
 
-        var userEntity = _mapper.Map<UserEntity>(userDto);
-
-        if (userDto.Access != null)
-        {
-            userEntity.Access = _mapper.Map<AccessEntity>(userDto.Access);
-        }
-
-        return userEntity;
+        return _mapper.Map<UserEntity>(userDto);
     }
 
     public UserDto Convert(UserEntity userEntity)
@@ -38,13 +30,6 @@ public class UserConverter
             throw new ArgumentNullException();
         }
 
-        var userDto = _mapper.Map<UserDto>(userEntity);
-
-        if (userEntity.Access != null)
-        {
-            userDto.Access = _mapper.Map<Data.Models.Access>(userEntity.Access);
-        }
-
-        return userDto;
+        return _mapper.Map<UserDto>(userEntity);
     }
 }

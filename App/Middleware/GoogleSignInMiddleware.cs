@@ -32,17 +32,29 @@ public class GoogleSignInMiddleware
 
         if (string.IsNullOrEmpty(idToken))
         {
-            throw new AppException(HttpStatusCode.Unauthorized, "Missing or invalid ID Token");
+            throw new AppException(HttpStatusCode.Unauthorized, "Missing or invalid google token");
         }
 
         try
         {
             var payload = await GoogleJsonWebSignature.ValidateAsync(idToken);
+
+            if (payload.Subject == null)
+            {
+                throw new AppException(HttpStatusCode.Unauthorized, "Cannot access google id");
+            }
+
+            if (payload.Email == null)
+            {
+                throw new AppException(HttpStatusCode.Unauthorized, "Cannot access email");
+            }
+            
             var identity = new ClaimsIdentity(
                 new []
                 {
                     new Claim(ClaimTypes.NameIdentifier, payload.Subject),
-                    new Claim(ClaimTypes.Name, payload.Name)
+                    new Claim(ClaimTypes.Name, payload.Name),
+                    new Claim(ClaimTypes.Email, payload.Email),
                 }
             );
 
@@ -59,7 +71,7 @@ public class GoogleSignInMiddleware
         }
         catch (Exception e)
         {
-            throw new AppException(HttpStatusCode.Unauthorized, "Invalid ID Token");
+            throw new AppException(HttpStatusCode.Unauthorized, "Invalid google token");
         }
     }
 }

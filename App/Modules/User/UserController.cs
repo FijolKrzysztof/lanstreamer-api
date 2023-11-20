@@ -15,23 +15,13 @@ public class UserController : Controller
         _userService = userService;
     }
 
-    [HttpPost]
+    [HttpPost("login")]
     [Authorize]
-    public async Task<ActionResult<UserDto>> Create([FromBody] UserDto userDto)
+    public async Task<ActionResult> Login(UserDto userDto)
     {
-        var xForwardedFor = HttpContext.Request.Headers["X-Forwarded-For"].ToString();
-        
-        var user = await _userService.Create(userDto, xForwardedFor);
-        return Created("", user);
-    }
-    
-    [HttpPut]
-    [Authorize]
-    public async Task<ActionResult> Update([FromBody] UserDto userDto)
-    {
-        var xForwardedFor = HttpContext.Request.Headers["X-Forwarded-For"].ToString();
-        
-        var user = await _userService.Update(userDto, xForwardedFor);
-        return Ok(user);
+        var httpContext = HttpContext;
+
+        await _userService.Login(userDto, httpContext);
+        return Ok("");
     }
 }
