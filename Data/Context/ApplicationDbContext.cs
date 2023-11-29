@@ -1,4 +1,5 @@
 using lanstreamer_api.Data.Configuration;
+using lanstreamer_api.Data.Modules.IpLocation;
 using lanstreamer_api.Data.Modules.User;
 using lanstreamer_api.Entities;
 using Microsoft.EntityFrameworkCore;

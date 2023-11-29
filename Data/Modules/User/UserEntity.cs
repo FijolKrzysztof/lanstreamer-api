@@ -1,20 +1,16 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using lanstreamer_api.Data.Modules.IpLocation;
+using lanstreamer_api.Data.Utils;
 
 namespace lanstreamer_api.Data.Modules.User;
 
 [Table("Users")]
-public class UserEntity
+public class UserEntity : BaseEntity
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    [Column("id")]
-    public int Id { get; set; }
-
     [ForeignKey("IpLocation")]
     [Column("ip_location_id")]
-    public int IpLocationId { get; set; }
+    public int? IpLocationId { get; set; }
 
     [Column("email")]
     public string Email { get; set; }

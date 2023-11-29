@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace lanstreamer_api.Data.Utils;
 
-public abstract class BaseRepository<T> where T : class
+public abstract class BaseRepository<T> where T : BaseEntity
 {
     protected readonly DbContext dbContext;
     protected readonly DbSet<T> dbSet;
@@ -25,6 +25,7 @@ public abstract class BaseRepository<T> where T : class
 
     public async Task<T> Create(T entity)
     {
+        entity.Id = default;
         dbSet.Add(entity);
         await dbContext.SaveChangesAsync();
         return entity;

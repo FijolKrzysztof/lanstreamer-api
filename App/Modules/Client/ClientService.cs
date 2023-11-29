@@ -30,7 +30,7 @@ public class ClientService
         var operatingSystem = _httpRequestInfoService.GetOs(httpContext);
         var defaultLanguage = _httpRequestInfoService.GetDefaultLanguage(httpContext);
 
-        clientDto.VisitTime = DateTime.Now;
+        clientDto.VisitTime = DateTime.Now.ToUniversalTime();
         clientDto.TimeOnSite = TimeSpan.Zero;
 
         if (ipAddress != null)
@@ -53,7 +53,7 @@ public class ClientService
 
     public async Task<ClientDto> UpdateClient(ClientDto clientDto)
     {
-        var clientEntity = await _clientRepository.GetById(clientDto.Id);
+        var clientEntity = clientDto.Id.HasValue ? await _clientRepository.GetById(clientDto.Id.Value) : null;
 
         if (clientEntity == null)
         {

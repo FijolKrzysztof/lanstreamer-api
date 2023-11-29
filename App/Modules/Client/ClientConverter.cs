@@ -1,4 +1,5 @@
 using AutoMapper;
+using lanstreamer_api.App.Data.Models;
 using lanstreamer_api.Entities;
 using lanstreamer_api.Models;
 
@@ -8,9 +9,15 @@ public class ClientConverter
 {
     private readonly IMapper _mapper;
 
-    ClientConverter(IMapper mapper)
+    public ClientConverter()
     {
-        _mapper = mapper;
+        var config = new MapperConfiguration(cfg =>
+        {
+            cfg.CreateMap<ClientDto, ClientEntity>()
+                .ReverseMap();
+        }); // TODO: dokończyć mapowanie
+
+        _mapper = new Mapper(config);
     }
 
     public ClientEntity Convert(ClientDto clientDto)
@@ -25,7 +32,7 @@ public class ClientConverter
         clientEntity.Feedbacks = clientDto.Feedbacks.Select(feedbackDto => new FeedbackEntity
         {
             Message = feedbackDto,
-            ClientId = clientDto.Id
+            ClientId = clientDto.Id.Value
         }).ToList();
 
         return clientEntity;

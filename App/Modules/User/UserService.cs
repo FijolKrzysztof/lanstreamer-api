@@ -1,5 +1,6 @@
 using lanstreamer_api.Data.Modules.User;
 using lanstreamer_api.Models;
+using lanstreamer_api.Models.Responses;
 using lanstreamer_api.services;
 
 namespace lanstreamer_api.App.Modules;
@@ -24,7 +25,7 @@ public class UserService
         _httpRequestInfoService = httpRequestInfoService;
     }
 
-    public async Task Login(UserDto newUserDto, HttpContext httpContext)
+    public async Task<LoginResponse> Login(UserDto newUserDto, HttpContext httpContext)
     {
         var googleId = _httpRequestInfoService.GetIdentity(httpContext)!;
 
@@ -50,6 +51,11 @@ public class UserService
         {
             await _serverSentEventsService.Send(userDto.AccessCode, true);
         }
+
+        return new LoginResponse()
+        {
+            Roles = _httpRequestInfoService.GetRoles(httpContext),
+        };
     }
 
     public async Task CleanupOldAccessRecords()

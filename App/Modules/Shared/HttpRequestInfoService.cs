@@ -13,6 +13,11 @@ public class HttpRequestInfoService
     {
         _logger = logger;
     }
+    
+    public List<string> GetRoles(HttpContext httpContext)
+    {
+        return httpContext.User.FindAll(ClaimTypes.Role).Select(claim => claim.Value).ToList();
+    }
 
     public string? GetEmail(HttpContext httpContext)
     {

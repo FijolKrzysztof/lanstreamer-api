@@ -1,16 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using lanstreamer_api.Data.Utils;
 
 namespace lanstreamer_api.Entities;
 
 [Table("Feedbacks")]
-public class FeedbackEntity
+public class FeedbackEntity : BaseEntity
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    [Column("id")]
-    public int Id { get; set; }
-
     [ForeignKey("Client")]
     [Column("client_id")]
     public int ClientId { get; set; }

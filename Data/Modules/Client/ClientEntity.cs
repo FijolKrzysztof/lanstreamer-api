@@ -1,30 +1,29 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using lanstreamer_api.Data.Modules.IpLocation;
+using lanstreamer_api.Data.Utils;
+using OperatingSystem = lanstreamer_api.App.Data.Models.Enums.OperatingSystem;
 
 namespace lanstreamer_api.Entities;
 
 [Table("Clients")]
-public class ClientEntity
+public class ClientEntity : BaseEntity
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    [Column("id")]
-    public int Id { get; set; }
+    [ForeignKey("IpLocation")]
+    [Column("ip_location_id")]
+    public int? IpLocationId { get; set; }
     
     [Column("visit_time")]
     public DateTime VisitTime { set; get; }
     
     [Column("operating_system")]
-    public string OperatingSystem { get; set; }
+    public OperatingSystem OperatingSystem { get; set; }
     
     [Column("default_language")]
-    public string DefaultLanguage { get; set; }
+    public string Language { get; set; }
     
     [Column("time_on_site")]
     public TimeSpan TimeOnSite { get; set; }
-    
-    [Column("ip_address")]
-    public string IpAddress { get; set; }
     
     [Column("referrer_website")]
     public string? ReferrerWebsite { get; set; }
@@ -34,4 +33,5 @@ public class ClientEntity
     
     
     public List<FeedbackEntity> Feedbacks { get; set; }
+    public IpLocationEntity? IpLocation { get; set; }
 }

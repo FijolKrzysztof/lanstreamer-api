@@ -1,4 +1,5 @@
 using lanstreamer_api.Models;
+using lanstreamer_api.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,11 +18,11 @@ public class UserController : Controller
 
     [HttpPost("login")]
     [Authorize]
-    public async Task<ActionResult> Login(UserDto userDto)
+    public async Task<ActionResult<LoginResponse>> Login(UserDto userDto)
     {
         var httpContext = HttpContext;
 
-        await _userService.Login(userDto, httpContext);
-        return Ok("");
+        var loginResponse = await _userService.Login(userDto, httpContext);
+        return Ok(loginResponse);
     }
 }

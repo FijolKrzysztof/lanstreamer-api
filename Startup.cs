@@ -1,14 +1,12 @@
-using Amazon.Runtime.Internal.Util;
 using lanstreamer_api.App.Client;
 using lanstreamer_api.App.Middleware;
 using lanstreamer_api.App.Modules;
 using lanstreamer_api.App.Modules.Access;
 using lanstreamer_api.App.Modules.Admin;
-using lanstreamer_api.App.Modules.Legacy;
 using lanstreamer_api.App.Workers;
-using lanstreamer_api.Data.Authentication;
 using lanstreamer_api.Data.Configuration;
 using lanstreamer_api.Data.Context;
+using lanstreamer_api.Data.Modules.IpLocation;
 using lanstreamer_api.Data.Modules.User;
 using lanstreamer_api.Entities;
 using lanstreamer_api.services;
@@ -39,25 +37,25 @@ public class Startup
         {
             options.UseNpgsql(Configuration.GetConnectionString("Database"));
         });
-        services.AddAutoMapper(_ => { });
+        services.AddAutoMapper(typeof(Startup));
         
         services.AddHostedService<CleanupScheduler>();
 
-        services.AddScoped<AccessRepository>();
         services.AddScoped<ClientRepository>();
         services.AddScoped<ConfigurationRepository>();
         services.AddScoped<FeedbackRepository>();
         services.AddScoped<UserRepository>();
+        services.AddScoped<IpLocationRepository>();
 
         services.AddScoped<UserConverter>();
         services.AddScoped<ClientConverter>();
         
-        services.AddScoped<LegacyService>();
         services.AddScoped<DesktopAppService>();
         services.AddScoped<AdminService>();
         services.AddScoped<UserService>();
         services.AddScoped<ClientService>();
-        
+
+        services.AddScoped<HttpRequestInfoService>();
         services.AddSingleton<ServerSentEventsService<bool>>();
     }
 
@@ -77,9 +75,13 @@ public class Startup
             app.UseSwaggerUI();
         }
 
-        app.UseGoogleSignInMiddleware();
         app.UseCors("allowAll"); // TODO: trzeba to zdjąć i enablować tylko lokalnie i w przypadku metody AppAccess
         app.UseRouting();
+        app.UseAuthentication();
+        app.UseAuthorization();
+        // app.UseGoogleSignInMiddleware();
+        app.UseMiddleware<GoogleSignInMiddleware>();
+        
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
