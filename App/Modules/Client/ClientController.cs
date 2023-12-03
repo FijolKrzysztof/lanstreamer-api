@@ -23,14 +23,15 @@ public class ClientController : Controller
         var httpContext = _httpContextAccessor.HttpContext!;
         
         var createdClient = await _clientService.CreateClient(clientDto, httpContext);
+        
         return Created("", createdClient);
     }
 
     [HttpPut]
-    public async Task<ActionResult<ClientDto>> UpdateClient([FromBody] ClientDto clientDto)
+    public async Task<ActionResult> UpdateClient([FromBody] ClientDto clientDto)
     {
-        var client = await _clientService.UpdateClient(clientDto);
-        return Ok(client);
+        await _clientService.UpdateClient(clientDto);
+        return Ok();
     }
 
     [HttpPost("{clientId}/update-session-duration")]

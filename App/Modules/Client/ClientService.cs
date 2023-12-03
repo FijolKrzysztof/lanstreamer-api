@@ -12,12 +12,12 @@ public class ClientService
 {
     private readonly IClientRepository _clientRepository;
     private readonly ClientConverter _clientConverter;
-    private readonly HttpRequestInfoService _httpRequestInfoService;
+    private readonly IHttpRequestInfoService _httpRequestInfoService;
 
     public ClientService(
         ClientConverter clientConverter,
         IClientRepository clientRepository,
-        HttpRequestInfoService httpRequestInfoService
+        IHttpRequestInfoService httpRequestInfoService
     )
     {
         _clientRepository = clientRepository;
@@ -52,9 +52,9 @@ public class ClientService
         return createdClientDto;
     }
 
-    public async Task<ClientDto> UpdateClient(ClientDto clientDto)
+    public async Task UpdateClient(ClientDto clientDto)
     {
-        var clientEntity = clientDto.Id.HasValue ? await _clientRepository.GetById(clientDto.Id.Value) : null;
+        var clientEntity = await _clientRepository.GetById(clientDto.Id);
 
         if (clientEntity == null)
         {
@@ -65,9 +65,7 @@ public class ClientService
 
         clientEntity.Feedbacks = newClientEntity.Feedbacks;
 
-        var updatedClientEntity = await _clientRepository.Update(clientEntity);
-        var updatedClientDto = _clientConverter.Convert(updatedClientEntity);
-        return updatedClientDto;
+        await _clientRepository.Update(clientEntity);
     }
 
     public async Task UpdateSessionDuration(int clientId)

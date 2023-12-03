@@ -36,7 +36,7 @@ public class ClientConverter
         clientEntity.Feedbacks = clientDto.Feedbacks.Select(feedbackDto => new FeedbackEntity
         {
             Message = feedbackDto,
-            ClientId = clientDto.Id.Value
+            ClientId = clientDto.Id
         }).ToList();
         
         return clientEntity;

@@ -1,4 +1,3 @@
-using Amazon.Runtime.Internal;
 using lanstreamer_api.App.Exceptions;
 using Newtonsoft.Json;
 
@@ -26,10 +25,10 @@ public class ErrorHandlingMiddleware
                 context.Response.StatusCode = (int)appException.HttpStatusCode;
                 context.Response.ContentType = "application/json";
 
-                var errorResponse = new ErrorResponse() { Message = appException.Message };
-                var jsonResponse = JsonConvert.SerializeObject(errorResponse);
+                // var errorResponse = new ErrorResponse() { Message = appException.Message };
+                // var jsonResponse = JsonConvert.SerializeObject(errorResponse); // TODO: message poprawić
 
-                await context.Response.WriteAsync(jsonResponse);
+                await context.Response.WriteAsync("");
             }
         }
     }

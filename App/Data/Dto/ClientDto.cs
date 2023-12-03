@@ -8,7 +8,7 @@ namespace lanstreamer_api.Models;
 public class ClientDto
 {
     [JsonPropertyName("id")]
-    public int? Id { get; set; }
+    public int Id { get; set; }
 
     [JsonPropertyName("feedbacks")]
     public List<string> Feedbacks { get; set; }

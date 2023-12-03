@@ -5,7 +5,7 @@ using OperatingSystem = lanstreamer_api.App.Data.Models.Enums.OperatingSystem;
 
 namespace lanstreamer_api.services;
 
-public class HttpRequestInfoService
+public class HttpRequestInfoService : IHttpRequestInfoService
 {
     private readonly ILogger<HttpRequestInfoService> _logger;
 
