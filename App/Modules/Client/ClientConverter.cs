@@ -14,6 +14,10 @@ public class ClientConverter
         var config = new MapperConfiguration(cfg =>
         {
             cfg.CreateMap<ClientDto, ClientEntity>()
+                .ForMember(entity => entity.OperatingSystem, opt =>
+                {
+                    opt.MapFrom(src => src.OperatingSystem.ToString());
+                })
                 .ReverseMap();
         }); // TODO: dokończyć mapowanie
 
@@ -34,7 +38,7 @@ public class ClientConverter
             Message = feedbackDto,
             ClientId = clientDto.Id.Value
         }).ToList();
-
+        
         return clientEntity;
     }
 

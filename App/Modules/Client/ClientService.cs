@@ -1,6 +1,7 @@
 using System.Net;
 using lanstreamer_api.App.Data.Models.Enums;
 using lanstreamer_api.App.Exceptions;
+using lanstreamer_api.Data.Modules.Client;
 using lanstreamer_api.Models;
 using lanstreamer_api.services;
 using OperatingSystem = lanstreamer_api.App.Data.Models.Enums.OperatingSystem;
@@ -9,13 +10,13 @@ namespace lanstreamer_api.App.Client;
 
 public class ClientService
 {
-    private readonly ClientRepository _clientRepository;
+    private readonly IClientRepository _clientRepository;
     private readonly ClientConverter _clientConverter;
     private readonly HttpRequestInfoService _httpRequestInfoService;
 
     public ClientService(
         ClientConverter clientConverter,
-        ClientRepository clientRepository,
+        IClientRepository clientRepository,
         HttpRequestInfoService httpRequestInfoService
     )
     {

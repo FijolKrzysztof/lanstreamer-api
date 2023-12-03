@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace lanstreamer_api.Data.Configuration;
 
-public class ConfigurationRepository : BaseRepository<ConfigurationEntity>
+public class ConfigurationRepository : BaseRepository<ConfigurationEntity>, IConfigurationRepository
 {
     public ConfigurationRepository(ApplicationDbContext dbContext) : base(dbContext)
     {

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace lanstreamer_api.Data.Modules.User;
 
-public class UserRepository : BaseRepository<UserEntity>
+public class UserRepository : BaseRepository<UserEntity>, IUserRepository
 {
     public UserRepository(ApplicationDbContext dbContext) : base(dbContext)
     {

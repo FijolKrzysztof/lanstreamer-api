@@ -17,7 +17,7 @@ public class ClientEntity : BaseEntity
     public DateTime VisitTime { set; get; }
     
     [Column("operating_system")]
-    public OperatingSystem OperatingSystem { get; set; }
+    public string OperatingSystem { get; set; }
     
     [Column("default_language")]
     public string Language { get; set; }

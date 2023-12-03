@@ -8,17 +8,19 @@ namespace lanstreamer_api.App.Client;
 [Route("api/client")]
 public class ClientController : Controller
 {
+    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ClientService _clientService;
 
-    public ClientController(ClientService clientService)
+    public ClientController(ClientService clientService, IHttpContextAccessor httpContextAccessor)
     {
         _clientService = clientService;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     [HttpPost]
     public async Task<ActionResult<ClientDto>> CreateClient([FromBody] ClientDto clientDto)
     {
-        var httpContext = HttpContext;
+        var httpContext = _httpContextAccessor.HttpContext!;
         
         var createdClient = await _clientService.CreateClient(clientDto, httpContext);
         return Created("", createdClient);

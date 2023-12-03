@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lanstreamer-api", "lanstreamer-api.csproj", "{3DEF8C3F-0037-42EC-A2CE-B4E95A32868F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lanstreamer-api-tests", "..\lanstreamer-api-tests\lanstreamer-api-tests\lanstreamer-api-tests.csproj", "{68EBED10-0F46-499E-83F7-913F8A3D2DCE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{3DEF8C3F-0037-42EC-A2CE-B4E95A32868F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DEF8C3F-0037-42EC-A2CE-B4E95A32868F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DEF8C3F-0037-42EC-A2CE-B4E95A32868F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68EBED10-0F46-499E-83F7-913F8A3D2DCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68EBED10-0F46-499E-83F7-913F8A3D2DCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68EBED10-0F46-499E-83F7-913F8A3D2DCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68EBED10-0F46-499E-83F7-913F8A3D2DCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
