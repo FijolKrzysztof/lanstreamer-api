@@ -6,9 +6,7 @@ public class IpLocation
     public string City;
     public string Region;
     public string Country;
-    public string Loc;
-    public string Org;
     public string Postal;
     public string Timezone;
-    public string Readme;
+    public string Loc;
 }

@@ -2,6 +2,7 @@ using System.Net;
 using lanstreamer_api.App.Data.Models.Enums;
 using lanstreamer_api.App.Exceptions;
 using lanstreamer_api.Data.Modules.Client;
+using lanstreamer_api.Entities;
 using lanstreamer_api.Models;
 using lanstreamer_api.services;
 using OperatingSystem = lanstreamer_api.App.Data.Models.Enums.OperatingSystem;
@@ -11,11 +12,11 @@ namespace lanstreamer_api.App.Client;
 public class ClientService
 {
     private readonly IClientRepository _clientRepository;
-    private readonly ClientConverter _clientConverter;
+    private readonly IClientConverter _clientConverter;
     private readonly IHttpRequestInfoService _httpRequestInfoService;
 
     public ClientService(
-        ClientConverter clientConverter,
+        IClientConverter clientConverter,
         IClientRepository clientRepository,
         IHttpRequestInfoService httpRequestInfoService
     )
@@ -27,28 +28,30 @@ public class ClientService
 
     public async Task<ClientDto> CreateClient(ClientDto clientDto, HttpContext httpContext)
     {
+        var client = _clientConverter.Convert<Data.Models.Client>(clientDto);
+        
         var ipAddress = _httpRequestInfoService.GetIpAddress(httpContext);
         var operatingSystem = _httpRequestInfoService.GetOs(httpContext);
         var defaultLanguage = _httpRequestInfoService.GetDefaultLanguage(httpContext);
 
-        clientDto.VisitTime = DateTime.Now.ToUniversalTime();
-        clientDto.TimeOnSite = TimeSpan.Zero;
+        client.VisitTime = DateTime.Now.ToUniversalTime();
+        client.TimeOnSite = TimeSpan.Zero;
 
         if (ipAddress != null)
         {
-            clientDto.IpLocation = await _httpRequestInfoService.GetIpLocation(ipAddress);
+            client.IpLocation = await _httpRequestInfoService.GetIpLocation(ipAddress);
         }
 
         if (defaultLanguage != null)
         {
-            clientDto.Language = defaultLanguage;
+            client.Language = defaultLanguage;
         }
 
-        clientDto.OperatingSystem = operatingSystem;
+        client.OperatingSystem = operatingSystem;
 
-        var clientEntity = _clientConverter.Convert(clientDto);
+        var clientEntity = _clientConverter.Convert<ClientEntity>(client);
         var createdClientEntity = await _clientRepository.Create(clientEntity);
-        var createdClientDto = _clientConverter.Convert(createdClientEntity);
+        var createdClientDto = _clientConverter.ChainConvert<Data.Models.Client>(createdClientEntity).To<ClientDto>();
         return createdClientDto;
     }
 
@@ -61,7 +64,7 @@ public class ClientService
             throw new AppException(HttpStatusCode.NotFound, $"Client with id: {clientDto.Id} not found");
         }
 
-        var newClientEntity = _clientConverter.Convert(clientDto);
+        var newClientEntity = _clientConverter.ChainConvert<Data.Models.Client>(clientDto).To<ClientEntity>();
 
         clientEntity.Feedbacks = newClientEntity.Feedbacks;
 

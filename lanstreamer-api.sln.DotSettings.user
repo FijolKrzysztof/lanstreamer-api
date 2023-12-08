@@ -4,10 +4,18 @@
   &lt;Assembly Path="/home/ja/Apps/lanstreamer-api/obj/Debug/net6.0/ref/lanstreamer-api.dll" /&gt;
   &lt;Assembly Path="/home/krzysztof/.nuget/packages/awssdk.s3/3.7.9.55/lib/netcoreapp3.1/AWSSDK.S3.dll" /&gt;
 &lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6ff2b9f4_002Dd112_002D41f3_002D89bd_002D45c1bd10dbc7/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="JsonIgnoreAttributes_ShouldBeIgnored" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Unit.Modules.Client.ClientConverterTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Unit.Modules.Shared.HttpRequestInfoServiceTests.ShouldReturnCorrectRoles&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
 	
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b3c8a3c9_002D63b8_002D411d_002D960f_002D85e47977875f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CreateClientTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b3c8a3c9_002D63b8_002D411d_002D960f_002D85e47977875f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CreateClientTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Integration.ClientControllerTests.CreateClientTest&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Integration.ClientControllerTests+CreateClientTests.CreateClient_WhenValidInputProvided_ShouldReturnCreated_ShouldAddDataToDatabase&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Integration.ClientControllerTests+CreateClientTests.CreateClient_WhenValidInputProvided_ShouldAddDataToDatabase&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Unit.Serialization.ClientDto_JsonIgnoreAttributes_ShouldBeIgnored&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
