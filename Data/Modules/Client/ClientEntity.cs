@@ -32,6 +32,6 @@ public class ClientEntity : BaseEntity
     public int? Downloads { get; set; }
     
     
-    public List<FeedbackEntity> Feedbacks { get; set; }
+    public List<FeedbackEntity>? Feedbacks { get; set; }
     public IpLocationEntity? IpLocation { get; set; }
 }

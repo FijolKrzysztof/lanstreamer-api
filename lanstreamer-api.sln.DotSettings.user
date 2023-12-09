@@ -4,7 +4,13 @@
   &lt;Assembly Path="/home/ja/Apps/lanstreamer-api/obj/Debug/net6.0/ref/lanstreamer-api.dll" /&gt;
   &lt;Assembly Path="/home/krzysztof/.nuget/packages/awssdk.s3/3.7.9.55/lib/netcoreapp3.1/AWSSDK.S3.dll" /&gt;
 &lt;/AssemblyExplorer&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6ff2b9f4_002Dd112_002D41f3_002D89bd_002D45c1bd10dbc7/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="JsonIgnoreAttributes_ShouldBeIgnored" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=00e05306_002Df07a_002D48ae_002D8b89_002Dff5f94e5d96b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="AddFeedbacks_ShouldNotUpdateAnythingOtherThanFeedbacks" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Unit.Modules.Client.ClientServiceTests.AddFeedbacks_ShouldNotUpdateAnythingOtherThanFeedbacks&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Unit.Modules.Client.ClientServiceTests.AddFeedback_ShouldThrowAnErrorWhenIdIsNotCorrect&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6ff2b9f4_002Dd112_002D41f3_002D89bd_002D45c1bd10dbc7/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="JsonIgnoreAttributes_ShouldBeIgnored" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Unit.Modules.Client.ClientConverterTests&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Unit.Modules.Shared.HttpRequestInfoServiceTests.ShouldReturnCorrectRoles&lt;/TestId&gt;
@@ -17,5 +23,22 @@
     &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Integration.ClientControllerTests+CreateClientTests.CreateClient_WhenValidInputProvided_ShouldReturnCreated_ShouldAddDataToDatabase&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Integration.ClientControllerTests+CreateClientTests.CreateClient_WhenValidInputProvided_ShouldAddDataToDatabase&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Unit.Serialization.ClientDto_JsonIgnoreAttributes_ShouldBeIgnored&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Unit.Modules.Shared.HttpRequestInfoServiceTests.ShouldReturnCorrectOs&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Unit.Modules.Client.ClientConverterTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Unit.Modules.Shared.HttpRequestInfoServiceTests.ShouldReturnCorrectIpLocation&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Unit.Modules.Shared.HttpRequestInfoServiceTests.ShouldReturnCorrectDefaultLanguage&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Unit.Modules.Shared.HttpRequestInfoServiceTests.ShouldReturnCorrectIpAddress&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Unit.Modules.Shared.HttpRequestInfoServiceTests.ShouldReturnCorrectIdentity&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Unit.Modules.Shared.HttpRequestInfoServiceTests.ShouldReturnCorrectEmail&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Unit.Modules.Shared.HttpRequestInfoServiceTests.ShouldReturnCorrectRoles&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Unit.Modules.Client.ClientServiceTests.ShouldReturnCorrectClientId&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Unit.Modules.Client.ClientServiceTests.ShouldPassReferrerWebsiteToRepository&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Unit.Modules.Client.ClientServiceTests.CreateClient_ShouldPassReferrerWebsiteToRepository&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Unit.Modules.Client.ClientServiceTests.CreateClient_ShouldPassVisitTimeToRepository&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Unit.Modules.Client.ClientServiceTests.CreateClient_ShouldPassTimeOnSiteToRepository&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Unit.Modules.Client.ClientServiceTests.CreateClient_ShouldSetFeedbacksToEmptyList&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Unit.Modules.Client.ClientServiceTests.AddFeedbacks_ShouldAddFeedbacks&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Unit.Modules.Client.ClientServiceTests.AddFeedbacks_ShouldAppendFeedbacks&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Unit.Modules.Client.ClientServiceTests.AddFeedbacks_ShouldNotUpdateAnythingOtherThanFeedbacks&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

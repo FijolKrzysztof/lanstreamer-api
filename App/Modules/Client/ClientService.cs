@@ -1,4 +1,5 @@
 using System.Net;
+using lanstreamer_api.App.Data.Dto;
 using lanstreamer_api.App.Data.Models.Enums;
 using lanstreamer_api.App.Exceptions;
 using lanstreamer_api.Data.Modules.Client;
@@ -26,7 +27,7 @@ public class ClientService
         _httpRequestInfoService = httpRequestInfoService;
     }
 
-    public async Task<ClientDto> CreateClient(ClientDto clientDto, HttpContext httpContext)
+    public async Task<CreatedObjResponse> CreateClient(ClientDto clientDto, HttpContext httpContext)
     {
         var client = _clientConverter.Convert<Data.Models.Client>(clientDto);
         
@@ -34,6 +35,7 @@ public class ClientService
         var operatingSystem = _httpRequestInfoService.GetOs(httpContext);
         var defaultLanguage = _httpRequestInfoService.GetDefaultLanguage(httpContext);
 
+        client.Feedbacks = new List<string>();
         client.VisitTime = DateTime.Now.ToUniversalTime();
         client.TimeOnSite = TimeSpan.Zero;
 
@@ -52,10 +54,13 @@ public class ClientService
         var clientEntity = _clientConverter.Convert<ClientEntity>(client);
         var createdClientEntity = await _clientRepository.Create(clientEntity);
         var createdClientDto = _clientConverter.ChainConvert<Data.Models.Client>(createdClientEntity).To<ClientDto>();
-        return createdClientDto;
+        return new CreatedObjResponse()
+        {
+            Id = createdClientDto.Id,
+        };
     }
 
-    public async Task UpdateClient(ClientDto clientDto)
+    public async Task AddFeedbacks(ClientDto clientDto)
     {
         var clientEntity = await _clientRepository.GetById(clientDto.Id);
 
@@ -63,12 +68,18 @@ public class ClientService
         {
             throw new AppException(HttpStatusCode.NotFound, $"Client with id: {clientDto.Id} not found");
         }
+        
+        var client = _clientConverter.Convert<Data.Models.Client>(clientEntity);
+        
+        if (clientDto.Feedbacks != null && clientDto.Feedbacks.Count != 0)
+        {
+            client.Feedbacks ??= new List<string>();
+            client.Feedbacks.AddRange(clientDto.Feedbacks);
+        }
 
-        var newClientEntity = _clientConverter.ChainConvert<Data.Models.Client>(clientDto).To<ClientEntity>();
+        var newClientEntity = _clientConverter.Convert<ClientEntity>(client);
 
-        clientEntity.Feedbacks = newClientEntity.Feedbacks;
-
-        await _clientRepository.Update(clientEntity);
+        await _clientRepository.Update(newClientEntity);
     }
 
     public async Task UpdateSessionDuration(int clientId)

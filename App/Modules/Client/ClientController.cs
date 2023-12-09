@@ -1,3 +1,4 @@
+using lanstreamer_api.App.Data.Dto;
 using lanstreamer_api.Models;
 using Microsoft.AspNetCore.Mvc;
 using OperatingSystem = lanstreamer_api.App.Data.Models.Enums.OperatingSystem;
@@ -18,19 +19,19 @@ public class ClientController : Controller
     }
 
     [HttpPost]
-    public async Task<ActionResult<ClientDto>> CreateClient([FromBody] ClientDto clientDto)
+    public async Task<ActionResult<CreatedObjResponse>> CreateClient([FromBody] ClientDto clientDto)
     {
         var httpContext = _httpContextAccessor.HttpContext!;
         
-        var createdClient = await _clientService.CreateClient(clientDto, httpContext);
+        var createdClientResponse = await _clientService.CreateClient(clientDto, httpContext);
         
-        return Created("", createdClient);
+        return Created("", createdClientResponse);
     }
-
-    [HttpPut]
-    public async Task<ActionResult> UpdateClient([FromBody] ClientDto clientDto)
+    
+    [HttpPost]
+    public async Task<ActionResult> AddFeedbacks([FromBody] ClientDto clientDto)
     {
-        await _clientService.UpdateClient(clientDto);
+        await _clientService.AddFeedbacks(clientDto);
         return Ok();
     }
 

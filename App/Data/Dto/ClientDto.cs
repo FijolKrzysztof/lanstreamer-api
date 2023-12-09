@@ -9,7 +9,7 @@ public class ClientDto
     public int Id { get; set; }
 
     [JsonPropertyName("feedbacks")]
-    public List<string> Feedbacks { get; set; }
+    public List<string>? Feedbacks { get; set; }
 
     [JsonPropertyName("referrerWebsite")]
     public string? ReferrerWebsite { get; set; }

@@ -9,7 +9,7 @@ public interface IHttpRequestInfoService
     string? GetEmail(HttpContext httpContext);
     string? GetIdentity(HttpContext httpContext);
     string? GetIpAddress(HttpContext httpContext);
-    OperatingSystem GetOs(HttpContext httpContext);
+    string GetOs(HttpContext httpContext);
     string? GetDefaultLanguage(HttpContext httpContext);
     Task<IpLocation> GetIpLocation(string ip);
 }

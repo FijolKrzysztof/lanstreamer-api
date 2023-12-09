@@ -25,7 +25,7 @@ public class UserService
         _httpRequestInfoService = httpRequestInfoService;
     }
 
-    public async Task<LoginResponseDto> Login(UserDto newUserDto, HttpContext httpContext)
+    public async Task<LoginResponse> Login(UserDto newUserDto, HttpContext httpContext)
     {
         var googleId = _httpRequestInfoService.GetIdentity(httpContext)!;
 
@@ -52,7 +52,7 @@ public class UserService
             await _serverSentEventsService.Send(userDto.AccessCode, true);
         }
 
-        return new LoginResponseDto()
+        return new LoginResponse()
         {
             Roles = _httpRequestInfoService.GetRoles(httpContext),
         };

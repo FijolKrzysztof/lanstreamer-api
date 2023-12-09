@@ -18,7 +18,7 @@ public class UserController : Controller
 
     [HttpPost("login")]
     [Authorize]
-    public async Task<ActionResult<LoginResponseDto>> Login(UserDto userDto)
+    public async Task<ActionResult<LoginResponse>> Login(UserDto userDto)
     {
         var httpContext = HttpContext;
 

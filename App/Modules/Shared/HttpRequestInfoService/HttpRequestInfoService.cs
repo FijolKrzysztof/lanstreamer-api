@@ -43,36 +43,9 @@ public class HttpRequestInfoService : IHttpRequestInfoService
         return ipAddresses[0].Trim();
     }
 
-    public OperatingSystem GetOs(HttpContext httpContext)
+    public string GetOs(HttpContext httpContext)
     {
-        var userAgent = httpContext.Request.Headers["User-Agent"].ToString();
-        
-        if (userAgent.Contains("Windows", StringComparison.OrdinalIgnoreCase))
-        {
-            return OperatingSystem.Windows;
-        }
-
-        if (userAgent.Contains("Mac OS", StringComparison.OrdinalIgnoreCase))
-        {
-            return OperatingSystem.MacOS;
-        }
-
-        if (userAgent.Contains("Linux", StringComparison.OrdinalIgnoreCase))
-        {
-            return OperatingSystem.Linux;
-        }
-
-        if (userAgent.Contains("Android", StringComparison.OrdinalIgnoreCase))
-        {
-            return OperatingSystem.Android;
-        }
-
-        if (userAgent.Contains("iOS", StringComparison.OrdinalIgnoreCase))
-        {
-            return OperatingSystem.IOS;
-        }
-
-        return OperatingSystem.Other;
+        return httpContext.Request.Headers["User-Agent"].ToString();
     }
 
     public string? GetDefaultLanguage(HttpContext httpContext)
