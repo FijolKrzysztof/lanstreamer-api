@@ -28,10 +28,10 @@ public class ClientController : Controller
         return Created("", createdClientResponse);
     }
     
-    [HttpPost]
-    public async Task<ActionResult> AddFeedbacks([FromBody] ClientDto clientDto)
+    [HttpPost("{clientId}/add-feedbacks")]
+    public async Task<ActionResult> AddFeedbacks(int clientId, [FromBody] List<string> feedbacks)
     {
-        await _clientService.AddFeedbacks(clientDto);
+        await _clientService.AddFeedbacks(clientId, feedbacks);
         return Ok();
     }
 
@@ -43,9 +43,13 @@ public class ClientController : Controller
     }
 
     [HttpGet("{clientId}/download-app/{operatingSystem}")]
-    public async Task<ActionResult> DownloadApp(int clientId, OperatingSystem operatingSystem)
+    public async Task<FileStreamResult> DownloadApp(int clientId, OperatingSystem operatingSystem)
     {
-        var fileBytes = await _clientService.GetFile(clientId, operatingSystem);
-        return File(fileBytes, "application/octet-stream", "lanstreamer");
+        var stream = await _clientService.GetFileStream(clientId, operatingSystem);
+        
+        return new FileStreamResult(stream, "application/octet-stream")
+        {
+            FileDownloadName = "lanstreamer.zip"
+        };
     }
 }

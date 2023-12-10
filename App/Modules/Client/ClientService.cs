@@ -6,6 +6,7 @@ using lanstreamer_api.Data.Modules.Client;
 using lanstreamer_api.Entities;
 using lanstreamer_api.Models;
 using lanstreamer_api.services;
+using lanstreamer_api.services.FileService;
 using OperatingSystem = lanstreamer_api.App.Data.Models.Enums.OperatingSystem;
 
 namespace lanstreamer_api.App.Client;
@@ -15,13 +16,16 @@ public class ClientService
     private readonly IClientRepository _clientRepository;
     private readonly IClientConverter _clientConverter;
     private readonly IHttpRequestInfoService _httpRequestInfoService;
+    private readonly IFileService _fileService;
 
     public ClientService(
         IClientConverter clientConverter,
         IClientRepository clientRepository,
-        IHttpRequestInfoService httpRequestInfoService
+        IHttpRequestInfoService httpRequestInfoService,
+        IFileService fileService
     )
     {
+        _fileService = fileService;
         _clientRepository = clientRepository;
         _clientConverter = clientConverter;
         _httpRequestInfoService = httpRequestInfoService;
@@ -35,7 +39,6 @@ public class ClientService
         var operatingSystem = _httpRequestInfoService.GetOs(httpContext);
         var defaultLanguage = _httpRequestInfoService.GetDefaultLanguage(httpContext);
 
-        client.Feedbacks = new List<string>();
         client.VisitTime = DateTime.Now.ToUniversalTime();
         client.TimeOnSite = TimeSpan.Zero;
 
@@ -60,21 +63,21 @@ public class ClientService
         };
     }
 
-    public async Task AddFeedbacks(ClientDto clientDto)
+    public async Task AddFeedbacks(int clientId, List<string> feedbacks)
     {
-        var clientEntity = await _clientRepository.GetById(clientDto.Id);
+        var clientEntity = await _clientRepository.GetById(clientId);
 
         if (clientEntity == null)
         {
-            throw new AppException(HttpStatusCode.NotFound, $"Client with id: {clientDto.Id} not found");
+            throw new AppException(HttpStatusCode.NotFound, $"Client with id: {clientId} not found");
         }
         
         var client = _clientConverter.Convert<Data.Models.Client>(clientEntity);
         
-        if (clientDto.Feedbacks != null && clientDto.Feedbacks.Count != 0)
+        if (feedbacks.Count != 0)
         {
             client.Feedbacks ??= new List<string>();
-            client.Feedbacks.AddRange(clientDto.Feedbacks);
+            client.Feedbacks.AddRange(feedbacks);
         }
 
         var newClientEntity = _clientConverter.Convert<ClientEntity>(client);
@@ -91,12 +94,12 @@ public class ClientService
             throw new AppException(HttpStatusCode.NotFound, $"Client with id: {clientId} not found");
         }
 
-        clientEntity.TimeOnSite = DateTime.Now - clientEntity.VisitTime;
+        clientEntity.TimeOnSite = DateTime.Now.ToUniversalTime() - clientEntity.VisitTime;
 
         await _clientRepository.Update(clientEntity);
     }
 
-    public async Task<byte[]> GetFile(int clientId, OperatingSystem operatingSystem)
+    public async Task<FileStream> GetFileStream(int clientId, OperatingSystem operatingSystem)
     {
         var clientEntity = await _clientRepository.GetById(clientId);
         if (clientEntity == null)
@@ -105,16 +108,17 @@ public class ClientService
         }
 
         var filePath = ApplicationBuildPath.GetPath(operatingSystem);
-        if (!File.Exists(filePath))
+        if (!_fileService.Exists(filePath))
         {
             throw new AppException(HttpStatusCode.NotFound, "File not found");
         }
 
-        var fileBytes = await File.ReadAllBytesAsync(filePath);
+        var fileStream = _fileService.ReadFileStream(filePath);
 
-        clientEntity.Downloads++;
+        clientEntity.Downloads = clientEntity.Downloads == null ? 1 : clientEntity.Downloads + 1;
+
         await _clientRepository.Update(clientEntity);
 
-        return fileBytes;
+        return fileStream;
     }
 }
