@@ -1,3 +1,4 @@
+using lanstreamer_api.App.Data.Models;
 using lanstreamer_api.Data.Modules.User;
 using lanstreamer_api.Models;
 using lanstreamer_api.Models.Responses;
@@ -7,16 +8,16 @@ namespace lanstreamer_api.App.Modules;
 
 public class UserService
 {
-    private readonly UserConverter _userConverter;
-    private readonly UserRepository _userRepository;
-    private readonly ServerSentEventsService<bool> _serverSentEventsService;
-    private readonly HttpRequestInfoService _httpRequestInfoService;
+    private readonly IUserConverter _userConverter;
+    private readonly IUserRepository _userRepository;
+    private readonly IServerSentEventsService<bool> _serverSentEventsService;
+    private readonly IHttpRequestInfoService _httpRequestInfoService;
 
     public UserService(
-        UserConverter userConverter,
-        UserRepository userRepository,
-        ServerSentEventsService<bool> serverSentEventsService,
-        HttpRequestInfoService httpRequestInfoService
+        IUserConverter userConverter,
+        IUserRepository userRepository,
+        IServerSentEventsService<bool> serverSentEventsService,
+        IHttpRequestInfoService httpRequestInfoService
     )
     {
         _userConverter = userConverter;
@@ -30,26 +31,26 @@ public class UserService
         var googleId = _httpRequestInfoService.GetIdentity(httpContext)!;
 
         var userEntity = await _userRepository.GetByGoogleId(googleId) ?? new UserEntity();
-        var userDto = _userConverter.Convert(userEntity);
-
-        userDto.GoogleId = googleId;
-        userDto.AccessCode = newUserDto.AccessCode;
-        userDto.Email = _httpRequestInfoService.GetEmail(httpContext)!;
-        userDto.LastLogin = DateTime.UtcNow;
+        var user = _userConverter.Convert<User>(userEntity);
+        
+        user.GoogleId = googleId;
+        user.AccessCode = newUserDto.AccessCode;
+        user.Email = _httpRequestInfoService.GetEmail(httpContext)!;
+        user.LastLogin = DateTime.UtcNow.ToUniversalTime();
         
         var ipAddress = _httpRequestInfoService.GetIpAddress(httpContext);
 
         if (ipAddress != null)
         {
-            userDto.IpLocation = await _httpRequestInfoService.GetIpLocation(ipAddress);
+            user.IpLocation = await _httpRequestInfoService.GetIpLocation(ipAddress);
         }
 
-        var newUserEntity = _userConverter.Convert(userDto);
+        var newUserEntity = _userConverter.Convert<UserEntity>(user);
         await _userRepository.Update(newUserEntity);
 
-        if (userDto.AccessCode != null)
+        if (user.AccessCode != null)
         {
-            await _serverSentEventsService.Send(userDto.AccessCode, true);
+            await _serverSentEventsService.Send(user.AccessCode, true);
         }
 
         return new LoginResponse()

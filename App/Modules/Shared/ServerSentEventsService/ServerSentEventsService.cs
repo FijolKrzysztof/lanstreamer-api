@@ -3,7 +3,7 @@ using System.Threading.Channels;
 
 namespace lanstreamer_api.services;
 
-public class ServerSentEventsService<T>
+public class ServerSentEventsService<T> : IServerSentEventsService<T>
 {
     private readonly ConcurrentDictionary<string, Channel<T>> _channels = new();
 
@@ -14,7 +14,7 @@ public class ServerSentEventsService<T>
         return channel.Reader;
     }
 
-    public async Task Unsubscribe(string key)
+    public void Unsubscribe(string key)
     {
         _channels.Remove(key, out Channel<T>? _);
     }

@@ -1,35 +1,25 @@
 using AutoMapper;
+using lanstreamer_api.App.Data.Models;
+using lanstreamer_api.Data.Modules.IpLocation;
 using lanstreamer_api.Data.Modules.User;
 using lanstreamer_api.Models;
+using lanstreamer_api.services.Abstract;
 
 namespace lanstreamer_api.App.Modules;
 
-public class UserConverter
+public class UserConverter : BaseConverter, IUserConverter
 {
-    private readonly IMapper _mapper;
-
-    public UserConverter(IMapper mapper)
+    public UserConverter() : base(CreateMapperConfiguration())
     {
-        _mapper = mapper;
     }
-
-    public UserEntity Convert(UserDto userDto)
+    
+    private static MapperConfiguration CreateMapperConfiguration()
     {
-        if (userDto == null)
+        return new MapperConfiguration(cfg =>
         {
-            throw new ArgumentNullException();
-        }
-
-        return _mapper.Map<UserEntity>(userDto);
-    }
-
-    public UserDto Convert(UserEntity userEntity)
-    {
-        if (userEntity == null)
-        {
-            throw new ArgumentNullException();
-        }
-
-        return _mapper.Map<UserDto>(userEntity);
+            cfg.CreateMap<User, UserEntity>().ReverseMap();
+            cfg.CreateMap<UserDto, User>().ReverseMap();
+            cfg.CreateMap<IpLocation, IpLocationEntity>().ReverseMap();
+        });
     }
 }

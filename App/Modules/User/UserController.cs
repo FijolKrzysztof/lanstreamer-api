@@ -10,17 +10,19 @@ namespace lanstreamer_api.App.Modules;
 public class UserController : Controller
 {
     private readonly UserService _userService;
+    private readonly IHttpContextAccessor _httpContextAccessor;
     
-    public UserController(UserService userService)
+    public UserController(UserService userService, IHttpContextAccessor httpContextAccessor)
     {
         _userService = userService;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     [HttpPost("login")]
     [Authorize]
     public async Task<ActionResult<LoginResponse>> Login(UserDto userDto)
     {
-        var httpContext = HttpContext;
+        var httpContext = _httpContextAccessor.HttpContext!;
 
         var loginResponse = await _userService.Login(userDto, httpContext);
         return Ok(loginResponse);
