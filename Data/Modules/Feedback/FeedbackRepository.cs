@@ -9,4 +9,10 @@ public class FeedbackRepository : BaseRepository<FeedbackEntity>, IFeedbackRepos
     public FeedbackRepository(ApplicationDbContext dbContext) : base(dbContext)
     {
     }
+    
+    public async Task AddMany(IEnumerable<FeedbackEntity> entities)
+    {
+        await dbSet.AddRangeAsync(entities);
+        await dbContext.SaveChangesAsync();
+    }
 }

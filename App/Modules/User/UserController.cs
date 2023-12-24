@@ -1,7 +1,6 @@
 using lanstreamer_api.App.Attributes;
 using lanstreamer_api.Models;
 using lanstreamer_api.Models.Responses;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace lanstreamer_api.App.Modules;

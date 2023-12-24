@@ -1,3 +1,4 @@
+using System.IO.Compression;
 using System.Net;
 using lanstreamer_api.App.Data.Models.Enums;
 using lanstreamer_api.App.Exceptions;
@@ -14,7 +15,15 @@ public class AdminService
             throw new AppException(HttpStatusCode.BadRequest, "File is empty");
         }
 
-        if (Path.GetExtension(file.FileName).ToLower() != ".zip" || file.ContentType != "application/zip")
+        try
+        {
+            var memoryStream = new MemoryStream();
+            file.CopyTo(memoryStream);
+            memoryStream.Seek(0, SeekOrigin.Begin);
+
+            new ZipArchive(memoryStream);
+        }
+        catch (Exception e)
         {
             throw new AppException(HttpStatusCode.BadRequest, "Wrong file format. Accepting only ZIP files");
         }

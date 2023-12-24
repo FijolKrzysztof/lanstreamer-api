@@ -4,5 +4,5 @@ namespace lanstreamer_api.Entities;
 
 public interface IFeedbackRepository : IBaseRepository<FeedbackEntity>
 {
-    
+    Task AddMany(IEnumerable<FeedbackEntity> entities);
 }

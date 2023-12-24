@@ -1,4 +1,5 @@
 using System.Net;
+using lanstreamer_api.App.Data.Models.Enums;
 using lanstreamer_api.App.Exceptions;
 using lanstreamer_api.Data.Configuration;
 using lanstreamer_api.Data.Modules.User;
@@ -25,7 +26,7 @@ public class DesktopAppService
 
     public async Task<bool> Access(float version, string accessCode)
     {
-        var versionObj = (await _configurationRepository.GetByKey("version"))!;
+        var versionObj = (await _configurationRepository.GetByKey(ConfigurationKey.AppVersion))!;
 
         if (float.Parse(versionObj.Value) > version)
         {

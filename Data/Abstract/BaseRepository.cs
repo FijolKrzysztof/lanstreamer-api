@@ -38,23 +38,6 @@ public abstract class BaseRepository<T> where T : BaseEntity
         return entity;
     }
     
-    public async Task<T> UpdateOrCreate(T entity)
-    {
-        var existingEntity = await GetById(entity.Id);
-
-        if (existingEntity != null)
-        {
-            entity = await Update(entity);
-        }
-        else
-        {
-            entity = await Create(entity);
-        }
-
-        await dbContext.SaveChangesAsync();
-        return entity;
-    }
-    
     public async Task Delete(int id)
     {
         var entity = await dbSet.FindAsync(id);

@@ -83,7 +83,7 @@ public class GoogleSignInMiddleware
             }
         );
         
-        var adminIdentifierObj = await configurationRepository.GetByKey("admin_identifier");
+        var adminIdentifierObj = await configurationRepository.GetByKey(ConfigurationKey.AdminIdentifier);
 
         if (adminIdentifierObj != null && payload.Subject == adminIdentifierObj.Value)
         {

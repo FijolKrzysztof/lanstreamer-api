@@ -22,6 +22,7 @@ public class ClientConverter : BaseConverter, IClientConverter
                 {
                     opt.MapFrom(client => client.Feedbacks.Select(feedback => new FeedbackEntity
                     {
+                        ClientId = client.Id,
                         Message = feedback,
                     }));
                 })

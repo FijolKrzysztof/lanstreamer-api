@@ -1,3 +1,4 @@
+using lanstreamer_api.App.Data.Models.Enums;
 using lanstreamer_api.Data.Context;
 using lanstreamer_api.Data.Utils;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,7 @@ public class ConfigurationRepository : BaseRepository<ConfigurationEntity>, ICon
     {
     }
     
-    public async Task<ConfigurationEntity?> GetByKey(string key)
+    public async Task<ConfigurationEntity?> GetByKey(ConfigurationKey key)
     {
         return await dbSet.FirstOrDefaultAsync(entity => entity.Key == key);
     }

@@ -20,6 +20,23 @@ public class UserRepository : BaseRepository<UserEntity>, IUserRepository
         return await dbContext.Set<UserEntity>().FirstOrDefaultAsync(entity => entity.AccessCode == accessCode);
     }
     
+    public async Task<UserEntity> UpdateOrCreate(UserEntity entity)
+    {
+        var existingEntity = await GetById(entity.Id);
+
+        if (existingEntity != null)
+        {
+            entity = await Update(entity);
+        }
+        else
+        {
+            entity = await Create(entity);
+        }
+
+        await dbContext.SaveChangesAsync();
+        return entity;
+    }
+    
     public async Task RemoveAccessCodeOlderThan(DateTime dateTime)
     {
         var entities = await dbContext.Set<UserEntity>()

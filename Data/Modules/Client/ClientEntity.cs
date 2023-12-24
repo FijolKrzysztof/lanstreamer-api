@@ -1,8 +1,6 @@
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using lanstreamer_api.Data.Modules.IpLocation;
 using lanstreamer_api.Data.Utils;
-using OperatingSystem = lanstreamer_api.App.Data.Models.Enums.OperatingSystem;
 
 namespace lanstreamer_api.Entities;
 

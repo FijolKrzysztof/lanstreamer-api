@@ -13,18 +13,21 @@ namespace lanstreamer_api.App.Client;
 
 public class ClientService
 {
+    private readonly IFeedbackRepository _feedbackRepository;
     private readonly IClientRepository _clientRepository;
     private readonly IClientConverter _clientConverter;
     private readonly IHttpRequestInfoService _httpRequestInfoService;
     private readonly IFileService _fileService;
 
     public ClientService(
+        IFeedbackRepository feedbackRepository,
         IClientConverter clientConverter,
         IClientRepository clientRepository,
         IHttpRequestInfoService httpRequestInfoService,
         IFileService fileService
     )
     {
+        _feedbackRepository = feedbackRepository;
         _fileService = fileService;
         _clientRepository = clientRepository;
         _clientConverter = clientConverter;
@@ -82,7 +85,10 @@ public class ClientService
 
         var newClientEntity = _clientConverter.Convert<ClientEntity>(client);
 
-        await _clientRepository.Update(newClientEntity);
+        if (newClientEntity.Feedbacks != null)
+        {
+            await _feedbackRepository.AddMany(newClientEntity.Feedbacks);
+        }
     }
 
     public async Task UpdateSessionDuration(int clientId)

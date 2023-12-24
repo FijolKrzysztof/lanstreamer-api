@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using lanstreamer_api.App.Data.Models.Enums;
 using lanstreamer_api.Data.Utils;
 
 namespace lanstreamer_api.Data.Configuration;
@@ -8,7 +9,7 @@ namespace lanstreamer_api.Data.Configuration;
 public class ConfigurationEntity : BaseEntity
 {
     [Column("key")]
-    public string Key { get; set; }
+    public ConfigurationKey Key { get; set; }
     
     [Column("value")]
     public string Value { get; set; }
