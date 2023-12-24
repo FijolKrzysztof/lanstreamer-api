@@ -9,13 +9,13 @@ namespace lanstreamer_api.App.Modules.Access;
 public class DesktopAppService
 {
     private readonly ConfigurationRepository _configurationRepository;
-    private readonly ServerSentEventsService<bool> _serverSentEventsService;
-    private readonly UserRepository _userRepository;
+    private readonly IServerSentEventsService<bool> _serverSentEventsService;
+    private readonly IUserRepository _userRepository;
 
     public DesktopAppService(
         ConfigurationRepository configurationRepository,
-        ServerSentEventsService<bool> serverSentEventsService,
-        UserRepository userRepository
+        IServerSentEventsService<bool> serverSentEventsService,
+        IUserRepository userRepository
     )
     {
         _configurationRepository = configurationRepository;

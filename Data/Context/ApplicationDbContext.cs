@@ -16,4 +16,5 @@ public class ApplicationDbContext : DbContext
     public DbSet<FeedbackEntity> Feedbacks { get; set; }
     public DbSet<UserEntity> Users { get; set; }
     public DbSet<ConfigurationEntity> Configurations { get; set; }
+    public DbSet<IpLocationEntity> IpLocations { get; set; }
 }

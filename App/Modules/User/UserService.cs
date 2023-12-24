@@ -46,7 +46,7 @@ public class UserService
         }
 
         var newUserEntity = _userConverter.Convert<UserEntity>(user);
-        await _userRepository.Update(newUserEntity);
+        await _userRepository.UpdateOrCreate(newUserEntity);
 
         if (user.AccessCode != null)
         {

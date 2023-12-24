@@ -6,5 +6,6 @@ public interface IBaseRepository<T> where T : BaseEntity
     Task<T?> GetById(int id);
     Task<T> Create(T entity);
     Task<T> Update(T entity);
+    Task<T> UpdateOrCreate(T entity);
     Task Delete(int id);
 }

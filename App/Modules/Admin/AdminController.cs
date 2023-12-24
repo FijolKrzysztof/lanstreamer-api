@@ -1,3 +1,4 @@
+using lanstreamer_api.App.Attributes;
 using lanstreamer_api.App.Data.Models.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +17,7 @@ public class AdminController : Controller
         _adminService = adminService;
     }
     
-    [Authorize(Roles = Role.Admin)]
+    [Authorization(Role.Admin)]
     [HttpPost("upload-desktop-app")]
     public async Task<ActionResult> UploadDesktopApp([FromQuery] OperatingSystem operatingSystem, IFormFile file)
     {

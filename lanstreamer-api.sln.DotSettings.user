@@ -4,9 +4,19 @@
   &lt;Assembly Path="/home/ja/Apps/lanstreamer-api/obj/Debug/net6.0/ref/lanstreamer-api.dll" /&gt;
   &lt;Assembly Path="/home/krzysztof/.nuget/packages/awssdk.s3/3.7.9.55/lib/netcoreapp3.1/AWSSDK.S3.dll" /&gt;
 &lt;/AssemblyExplorer&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=00e05306_002Df07a_002D48ae_002D8b89_002Dff5f94e5d96b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="AddFeedbacks_ShouldNotUpdateAnythingOtherThanFeedbacks" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;Project Location="/home/krzysztof/Projects/lanstreamer-api-tests/lanstreamer-api-tests" Presentation="&amp;lt;lanstreamer-api-tests&amp;gt;" /&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=25bcf47d_002D0aa5_002D4bb6_002Da5bd_002D466d6dbf38b0/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CreateClient_ShouldReturnCreatedObjResponse" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Integration.ClientControllerTests.CreateClient_ShouldReturnCreatedObjResponse&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Integration.ClientControllerTests.CreateClient_ShouldAddCorrectDataToDatabase&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::68EBED10-0F46-499E-83F7-913F8A3D2DCE::net7.0::lanstreamer_api_tests.Integration.ClientControllerTests.AddFeedbacks_ShouldAddCorrectDataToDatabase&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
+	
+	
+	
+	
+	
+	
 	
 	
 	

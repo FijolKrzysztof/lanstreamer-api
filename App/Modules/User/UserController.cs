@@ -1,3 +1,4 @@
+using lanstreamer_api.App.Attributes;
 using lanstreamer_api.Models;
 using lanstreamer_api.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
@@ -19,7 +20,7 @@ public class UserController : Controller
     }
 
     [HttpPost("login")]
-    [Authorize]
+    [Authorization]
     public async Task<ActionResult<LoginResponse>> Login(UserDto userDto)
     {
         var httpContext = _httpContextAccessor.HttpContext!;
