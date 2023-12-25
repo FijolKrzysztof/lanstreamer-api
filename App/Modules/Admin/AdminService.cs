@@ -27,9 +27,23 @@ public class AdminService
         {
             throw new AppException(HttpStatusCode.BadRequest, "Wrong file format. Accepting only ZIP files");
         }
-
+        
         var filePath = ApplicationBuildPath.GetPath(operatingSystem);
-        var stream = new FileStream(filePath, FileMode.Append);
-        await file.CopyToAsync(stream);
+        var directoryPath = Path.GetDirectoryName(filePath);
+
+        if (!Directory.Exists(directoryPath))
+        {
+            Directory.CreateDirectory(directoryPath);
+        }
+
+        try
+        {
+            var stream = new FileStream(filePath, FileMode.Append);
+            await file.CopyToAsync(stream);
+        }
+        catch (Exception e)
+        {
+            throw new AppException(HttpStatusCode.InternalServerError, "Error occurred while saving file");
+        }
     }
 }

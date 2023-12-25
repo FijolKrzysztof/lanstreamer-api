@@ -47,7 +47,7 @@ public class Startup
 
         services.AddScoped<IFileService, FileService>();
         services.AddScoped<IClientRepository, ClientRepository>();
-        services.AddScoped<ConfigurationRepository>();
+        services.AddScoped<IConfigurationRepository, ConfigurationRepository>();
         services.AddScoped<IFeedbackRepository, FeedbackRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IIpLocationRepository, IpLocationRepository>();

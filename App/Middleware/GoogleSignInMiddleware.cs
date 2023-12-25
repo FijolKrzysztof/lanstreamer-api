@@ -6,9 +6,6 @@ using lanstreamer_api.App.Data.Models.Enums;
 using lanstreamer_api.App.Exceptions;
 using lanstreamer_api.App.Modules.Shared.GoogleAuthenticationService;
 using lanstreamer_api.Data.Configuration;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 
 namespace lanstreamer_api.App.Middleware;
 
@@ -21,7 +18,7 @@ public class GoogleSignInMiddleware
         _next = next;
     }
 
-    public async Task Invoke(HttpContext context, ConfigurationRepository configurationRepository,
+    public async Task Invoke(HttpContext context, IConfigurationRepository configurationRepository,
         IGoogleAuthenticationService googleAuthenticationService)
     {
         var authorizationAttribute = context.GetEndpoint()?.Metadata?.GetMetadata<AuthorizationAttribute>();

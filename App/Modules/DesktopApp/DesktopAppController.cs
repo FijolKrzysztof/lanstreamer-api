@@ -19,9 +19,6 @@ public class DesktopAppController : Controller
     {
         Response.Headers.Add("Content-Type", "text/event-stream");
 
-        var access = await _desktopAppService.Access(version, accessCode);
-
-        await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(access.ToString()));
-        await Response.Body.FlushAsync();
+        await _desktopAppService.Access(version, accessCode, Response);
     }
 }

@@ -3,7 +3,7 @@ namespace lanstreamer_api.App.Data.Models.Enums;
 public class ApplicationBuildPath
 {
     public const string LanstreamerWindows = "application-builds/lanstreamer-windows.zip";
-    public const string LanstreamerLinux = "application-builds/lanstreamer-windows.zip";
+    public const string LanstreamerLinux = "application-builds/lanstreamer-linux.zip";
 
     public static string GetPath(OperatingSystem os)
     {
