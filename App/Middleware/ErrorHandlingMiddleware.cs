@@ -25,6 +25,14 @@ public class ErrorHandlingMiddleware
         {
             if (ex is AppException appException)
             {
+                var exception = appException.Exception;
+                if (exception != null)
+                {
+                    await Console.Error.WriteAsync(exception.ToString());
+                }
+                
+                await Console.Error.WriteAsync(appException.Message);
+
                 context.Response.StatusCode = (int)appException.HttpStatusCode;
                 context.Response.ContentType = "application/json";
 

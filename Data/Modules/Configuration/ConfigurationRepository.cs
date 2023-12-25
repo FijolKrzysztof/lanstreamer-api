@@ -11,7 +11,7 @@ public class ConfigurationRepository : BaseRepository<ConfigurationEntity>, ICon
     {
     }
     
-    public async Task<ConfigurationEntity?> GetByKey(ConfigurationKey key)
+    public async Task<ConfigurationEntity?> GetByKey(string key)
     {
         return await dbSet.FirstOrDefaultAsync(entity => entity.Key == key);
     }

@@ -33,6 +33,7 @@ public class Startup
         services.AddDbContext<ApplicationDbContext>(options =>
         {
             options.UseNpgsql(Configuration.GetConnectionString("Database"));
+            options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         });
         
         services.AddSwaggerGen();
@@ -64,6 +65,9 @@ public class Startup
         services.AddScoped<IHttpRequestInfoService, HttpRequestInfoService>();
         services.AddSingleton<IServerSentEventsService<bool>, ServerSentEventsService<bool>>();
     }
+    
+    // TODO: dodać serwis który na starcie tylko raz albo nie serwis tylko cokolwiek co doda do bazy danych na starcie
+    // odpowiednie wartości np. adminIdentifier
 
     public Startup(IConfiguration configuration)
     {

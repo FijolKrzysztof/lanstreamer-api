@@ -15,35 +15,29 @@ public class AdminService
             throw new AppException(HttpStatusCode.BadRequest, "File is empty");
         }
 
-        try
-        {
-            var memoryStream = new MemoryStream();
-            file.CopyTo(memoryStream);
-            memoryStream.Seek(0, SeekOrigin.Begin);
-
-            new ZipArchive(memoryStream);
-        }
-        catch (Exception e)
+        if (Path.GetExtension(file.FileName) != ".zip")
         {
             throw new AppException(HttpStatusCode.BadRequest, "Wrong file format. Accepting only ZIP files");
         }
-        
-        var filePath = ApplicationBuildPath.GetPath(operatingSystem);
-        var directoryPath = Path.GetDirectoryName(filePath);
-
-        if (!Directory.Exists(directoryPath))
-        {
-            Directory.CreateDirectory(directoryPath);
-        }
 
         try
         {
-            var stream = new FileStream(filePath, FileMode.Append);
-            await file.CopyToAsync(stream);
+            var filePath = ApplicationBuildPath.GetPath(operatingSystem);
+            var directoryPath = Path.GetDirectoryName(filePath);
+
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
         }
         catch (Exception e)
         {
-            throw new AppException(HttpStatusCode.InternalServerError, "Error occurred while saving file");
+            throw new AppException(HttpStatusCode.InternalServerError, "Error occurred while saving or zipping file");
         }
     }
 }

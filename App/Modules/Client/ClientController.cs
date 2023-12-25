@@ -42,7 +42,7 @@ public class ClientController : Controller
         return Ok();
     }
 
-    [HttpGet("{clientId}/download-app/{operatingSystem}")]
+    [HttpGet("{clientId}/download-app/{operatingSystem}")] // TODO: zmienić ten enum
     public async Task<FileStreamResult> DownloadApp(int clientId, OperatingSystem operatingSystem)
     {
         var stream = await _clientService.GetFileStream(clientId, operatingSystem);

@@ -28,7 +28,7 @@ public class DesktopAppService
 
     public async Task Access(float version, string accessCode, HttpResponse response)
     {
-        var versionObj = (await _configurationRepository.GetByKey(ConfigurationKey.DesktopAppVersion))!;
+        var versionObj = (await _configurationRepository.GetByKey(ConfigurationKey.DesktopAppVersion.ToString()))!;
 
         var culture = CultureInfo.CreateSpecificCulture("en-US");
         var versionValue = float.Parse(versionObj.Value, culture);
@@ -39,7 +39,7 @@ public class DesktopAppService
         
         var reader = _serverSentEventsService.Subscribe(accessCode);
 
-        var loginTimeoutObj = await _configurationRepository.GetByKey(ConfigurationKey.LoginTimeoutSeconds);
+        var loginTimeoutObj = await _configurationRepository.GetByKey(ConfigurationKey.LoginTimeoutSeconds.ToString());
         var timeout = int.Parse(loginTimeoutObj!.Value, culture);
         var cancellationTokenSource = new CancellationTokenSource();
         cancellationTokenSource.CancelAfter(TimeSpan.FromSeconds(timeout));
