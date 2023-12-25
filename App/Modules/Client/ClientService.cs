@@ -37,7 +37,7 @@ public class ClientService
     public async Task<CreatedObjResponse> CreateClient(ClientDto clientDto, HttpContext httpContext)
     {
         var client = _clientConverter.Convert<Data.Models.Client>(clientDto);
-        
+
         var ipAddress = _httpRequestInfoService.GetIpAddress(httpContext);
         var operatingSystem = _httpRequestInfoService.GetOs(httpContext);
         var defaultLanguage = _httpRequestInfoService.GetDefaultLanguage(httpContext);
@@ -66,7 +66,7 @@ public class ClientService
         };
     }
 
-    public async Task AddFeedbacks(int clientId, List<string> feedbacks)
+    public async Task AddFeedbacks(int clientId, string feedback)
     {
         var clientEntity = await _clientRepository.GetById(clientId);
 
@@ -74,21 +74,15 @@ public class ClientService
         {
             throw new AppException(HttpStatusCode.NotFound, $"Client with id: {clientId} not found");
         }
-        
+
         var client = _clientConverter.Convert<Data.Models.Client>(clientEntity);
-        
-        if (feedbacks.Count != 0)
-        {
-            client.Feedbacks ??= new List<string>();
-            client.Feedbacks.AddRange(feedbacks);
-        }
+
+        client.Feedbacks ??= new List<string>();
+        client.Feedbacks.Add(feedback);
 
         var newClientEntity = _clientConverter.Convert<ClientEntity>(client);
 
-        if (newClientEntity.Feedbacks != null)
-        {
-            await _feedbackRepository.AddMany(newClientEntity.Feedbacks);
-        }
+        await _feedbackRepository.Create(newClientEntity.Feedbacks!.ElementAt(0));
     }
 
     public async Task UpdateSessionDuration(int clientId)

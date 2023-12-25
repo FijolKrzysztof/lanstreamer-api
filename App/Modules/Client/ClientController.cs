@@ -28,10 +28,10 @@ public class ClientController : Controller
         return Created("", createdClientResponse);
     }
     
-    [HttpPost("{clientId}/add-feedbacks")]
-    public async Task<ActionResult> AddFeedbacks(int clientId, [FromBody] List<string> feedbacks)
+    [HttpPost("{clientId}/add-feedback")]
+    public async Task<ActionResult> AddFeedbacks(int clientId, [FromBody] string feedback)
     {
-        await _clientService.AddFeedbacks(clientId, feedbacks);
+        await _clientService.AddFeedbacks(clientId, feedback);
         return Ok();
     }
 
