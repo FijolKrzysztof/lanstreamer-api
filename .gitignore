@@ -4,9 +4,6 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 # Elastic Beanstalk Files
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml
 .idea
 appsettings.Development.json
 appsettings.json
