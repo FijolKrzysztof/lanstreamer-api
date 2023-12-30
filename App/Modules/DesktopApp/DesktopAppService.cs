@@ -61,7 +61,9 @@ public class DesktopAppService
 
                         await _userRepository.Update(userEntity);
                         
-                        await response.Body.WriteAsync(Encoding.UTF8.GetBytes(1.ToString()), cancellationToken);
+                        var offlineLoginsObj = await _configurationRepository.GetByKey(ConfigurationKey.OfflineLogins.ToString());
+                        
+                        await response.Body.WriteAsync(Encoding.UTF8.GetBytes(offlineLoginsObj!.Value), cancellationToken);
                         await response.Body.FlushAsync(cancellationToken);
                         
                         _serverSentEventsService.Unsubscribe(accessCode);

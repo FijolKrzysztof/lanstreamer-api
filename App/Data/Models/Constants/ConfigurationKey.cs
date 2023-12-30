@@ -5,4 +5,5 @@ public enum ConfigurationKey
     AdminIdentifier,
     DesktopAppVersion,
     LoginTimeoutSeconds,
+    OfflineLogins,
 }
