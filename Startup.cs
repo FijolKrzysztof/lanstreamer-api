@@ -8,6 +8,7 @@ using lanstreamer_api.App.Modules.Shared.GoogleAuthenticationService;
 using lanstreamer_api.App.Workers;
 using lanstreamer_api.Data.Configuration;
 using lanstreamer_api.Data.Context;
+using lanstreamer_api.Data.Modules.AccessCode;
 using lanstreamer_api.Data.Modules.Client;
 using lanstreamer_api.Data.Modules.IpLocation;
 using lanstreamer_api.Data.Modules.User;
@@ -38,13 +39,11 @@ public class Startup
         
         services.AddSwaggerGen();
         services.AddControllers();
-
-        // TODO: dodać do Development appsettings testową bazę danych - czyli w pscale czy jak się to nazywalo trzeba dodać kolejną bazę danych ale tylko do testów
-
+        
         services.AddAutoMapper(typeof(Startup));
         services.AddHttpContextAccessor();
         
-        // services.AddHostedService<CleanupScheduler>(); // TODO: odkomentować
+        services.AddHostedService<CleanupScheduler>(); // TODO: odkomentować
 
         services.AddScoped<IFileService, FileService>();
         services.AddScoped<IClientRepository, ClientRepository>();
@@ -52,6 +51,7 @@ public class Startup
         services.AddScoped<IFeedbackRepository, FeedbackRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IIpLocationRepository, IpLocationRepository>();
+        services.AddScoped<IAccessRepository, AccessRepository>();
 
         services.AddScoped<IUserConverter, UserConverter>();
         services.AddScoped<IClientConverter, ClientConverter>();

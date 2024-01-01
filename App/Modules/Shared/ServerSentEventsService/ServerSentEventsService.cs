@@ -16,7 +16,10 @@ public class ServerSentEventsService<T> : IServerSentEventsService<T>
 
     public void Unsubscribe(string key)
     {
-        _channels.Remove(key, out Channel<T>? _);
+        if (_channels.ContainsKey(key))
+        {
+            _channels.TryRemove(key, out Channel<T>? _);
+        }
     }
 
     public async Task Send(string key, T data)

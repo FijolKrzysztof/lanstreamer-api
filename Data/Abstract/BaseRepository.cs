@@ -13,6 +13,12 @@ public abstract class BaseRepository<T> where T : BaseEntity
         dbSet = this.dbContext.Set<T>();
     }
 
+    public async Task<T?> Reload(T entity)
+    {
+        await dbContext.Entry(entity).ReloadAsync();
+        return entity;
+    }
+    
     public async Task<IEnumerable<T>> GetAll()
     {
         return await dbSet.ToListAsync();
@@ -44,6 +50,16 @@ public abstract class BaseRepository<T> where T : BaseEntity
         if (entity != null)
         {
             dbSet.Remove(entity);
+            await dbContext.SaveChangesAsync();
+        }
+    }
+    
+    public async Task DeleteMany(IEnumerable<int> ids)
+    {
+        var entities = await dbSet.Where(entity => ids.Contains(entity.Id)).ToListAsync();
+        if (entities.Any())
+        {
+            dbSet.RemoveRange(entities);
             await dbContext.SaveChangesAsync();
         }
     }

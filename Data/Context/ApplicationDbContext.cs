@@ -1,4 +1,5 @@
 using lanstreamer_api.Data.Configuration;
+using lanstreamer_api.Data.Modules.AccessCode;
 using lanstreamer_api.Data.Modules.IpLocation;
 using lanstreamer_api.Data.Modules.User;
 using lanstreamer_api.Entities;
@@ -17,4 +18,5 @@ public class ApplicationDbContext : DbContext
     public DbSet<UserEntity> Users { get; set; }
     public DbSet<ConfigurationEntity> Configurations { get; set; }
     public DbSet<IpLocationEntity> IpLocations { get; set; }
+    public DbSet<AccessEntity> Accesses { get; set; }
 }

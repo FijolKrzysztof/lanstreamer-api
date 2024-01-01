@@ -1,4 +1,5 @@
 using lanstreamer_api.App.Data.Models;
+using lanstreamer_api.Data.Modules.AccessCode;
 using lanstreamer_api.Data.Modules.User;
 using lanstreamer_api.Models;
 using lanstreamer_api.Models.Responses;
@@ -12,18 +13,21 @@ public class UserService
     private readonly IUserRepository _userRepository;
     private readonly IServerSentEventsService<bool> _serverSentEventsService;
     private readonly IHttpRequestInfoService _httpRequestInfoService;
+    private readonly IAccessRepository _accessRepository;
 
     public UserService(
         IUserConverter userConverter,
         IUserRepository userRepository,
         IServerSentEventsService<bool> serverSentEventsService,
-        IHttpRequestInfoService httpRequestInfoService
+        IHttpRequestInfoService httpRequestInfoService,
+        IAccessRepository accessRepository
     )
     {
         _userConverter = userConverter;
         _userRepository = userRepository;
         _serverSentEventsService = serverSentEventsService;
         _httpRequestInfoService = httpRequestInfoService;
+        _accessRepository = accessRepository;
     }
 
     public async Task<LoginResponse> Login(UserDto newUserDto, HttpContext httpContext)
@@ -34,7 +38,6 @@ public class UserService
         var user = _userConverter.Convert<User>(userEntity);
         
         user.GoogleId = googleId;
-        user.AccessCode = newUserDto.AccessCode;
         user.Email = _httpRequestInfoService.GetEmail(httpContext)!;
         user.LastLogin = DateTime.UtcNow.ToUniversalTime();
         
@@ -46,13 +49,27 @@ public class UserService
         }
 
         var newUserEntity = _userConverter.Convert<UserEntity>(user);
-        await _userRepository.UpdateOrCreate(newUserEntity);
+        newUserEntity = await _userRepository.UpdateOrCreate(newUserEntity);
 
-        if (user.AccessCode != null)
+        var accessCode = newUserDto.AccessCode;
+        
+        if (accessCode != null)
         {
-            await _serverSentEventsService.Send(user.AccessCode, true);
+            var oldAccessEntity = await _accessRepository.FindByUserId(newUserEntity.Id);
+            if (oldAccessEntity != null)
+            {
+                await _accessRepository.Delete(oldAccessEntity.Id);
+            }
+            
+            var accessEntity = await _accessRepository.FindByCode(accessCode);
+            accessEntity!.UserId = newUserEntity.Id;
+            await _accessRepository.Update(accessEntity);
+            
+            await _serverSentEventsService.Send(accessCode, true);
         }
-
+        
+        // TODO: test do sprawdzania czy poprzednie access się usunęło
+     
         return new LoginResponse()
         {
             Roles = _httpRequestInfoService.GetRoles(httpContext),
@@ -61,6 +78,15 @@ public class UserService
 
     public async Task CleanupOldAccessRecords()
     {
-        await _userRepository.RemoveAccessCodeOlderThan(DateTime.UtcNow.AddHours(-1));
+        var expiredAccesses = await _accessRepository.GetExpiredRecords();
+        if (!expiredAccesses.Any())
+        {
+            return;
+        }
+        await _accessRepository.DeleteMany(expiredAccesses.Select(a => a.Id));
+        foreach(var expiredAccess in expiredAccesses)
+        {
+            _serverSentEventsService.Unsubscribe(expiredAccess.Code);
+        }
     }
 }

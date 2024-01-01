@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using lanstreamer_api.Data.Modules.AccessCode;
 using lanstreamer_api.Data.Modules.IpLocation;
 using lanstreamer_api.Data.Utils;
 
@@ -24,8 +25,6 @@ public class UserEntity : BaseEntity
     [Column("last_login")]
     public DateTime LastLogin { get; set; }
 
-    [Column("access_code")]
-    public string? AccessCode { get; set; }
-
     public IpLocationEntity? IpLocation { get; set; }
+    public AccessEntity? Access { get; set; }
 }
