@@ -27,7 +27,7 @@ public class Startup
         {
             options.AddPolicy("allowAll", builder =>
             {
-                builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader(); // TODO: to raczej dać tylko do access method i podczas testowania
+                builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
             });
         });
 
@@ -65,21 +65,21 @@ public class Startup
         services.AddScoped<IHttpRequestInfoService, HttpRequestInfoService>();
         services.AddSingleton<IServerSentEventsService<bool>, ServerSentEventsService<bool>>();
     }
-    
-    // TODO: dodać serwis który na starcie tylko raz albo nie serwis tylko cokolwiek co doda do bazy danych na starcie
-    // odpowiednie wartości np. adminIdentifier
 
     public Startup(IConfiguration configuration)
     {
         Configuration = configuration;
+        
+        // TODO: źle się liczą pobrania, bo w bazie mam 2 pobrania osoby która dała feedback a raz pobrałem
+        // + nie ma informacji o tym ile byłem na stronie - jest 0 0 0 0... w columnie od czasu spędzonego na stronie
     }
 
     private IConfiguration Configuration { get; }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext dbContext)
     {
-        app.UseCors("allowAll"); // TODO: trzeba to zdjąć i enablować tylko lokalnie i w przypadku metody AppAccess
         app.UseRouting();
+        app.UseCors();
         app.UseMiddleware<ErrorHandlingMiddleware>();
         app.UseMiddleware<GoogleSignInMiddleware>();
         

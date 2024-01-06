@@ -1,4 +1,5 @@
 using System.Text;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace lanstreamer_api.App.Modules.Access;
@@ -14,6 +15,7 @@ public class DesktopAppController : Controller
         _desktopAppService = desktopAppService;
     }
 
+    [EnableCors("allowAll")]
     [HttpGet("access")]
     public async Task Access([FromQuery] float version, [FromQuery] string accessCode)
     {

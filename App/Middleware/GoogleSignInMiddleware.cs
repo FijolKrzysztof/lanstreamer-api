@@ -90,9 +90,6 @@ public class GoogleSignInMiddleware
             identity.AddClaim(new Claim(ClaimTypes.Role, Role.Admin.ToString()));
         }
 
-        // TODO: dodać test który by sprawdzał czy w bazie danych są wszystkie konfiguracje dołożone - może
-        // w startup dać jakiś assert?
-
         identity.AddClaim(new Claim(ClaimTypes.Role, Role.User.ToString()));
 
         context.User = new ClaimsPrincipal(identity);
