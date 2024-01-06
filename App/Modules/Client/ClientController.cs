@@ -42,14 +42,13 @@ public class ClientController : Controller
         return Ok();
     }
 
-    [HttpGet("{clientId}/download-app/{operatingSystem}")] // TODO: zmienić ten enum
+    [HttpGet("{clientId}/download-app/{operatingSystem}")]
     public async Task<FileStreamResult> DownloadApp(int clientId, OperatingSystem operatingSystem)
     {
+        Response.Headers.Add("Content-Disposition", "attachment; filename=lanstreamer.zip");
+        
         var stream = await _clientService.GetFileStream(clientId, operatingSystem);
         
-        return new FileStreamResult(stream, "application/octet-stream")
-        {
-            FileDownloadName = "lanstreamer.zip"
-        };
+        return new FileStreamResult(stream, "application/octet-stream");
     }
 }
