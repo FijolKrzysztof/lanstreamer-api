@@ -1,6 +1,5 @@
 using System.Net;
 using lanstreamer_api.App.Data.Dto;
-using lanstreamer_api.App.Data.Models.Enums;
 using lanstreamer_api.App.Exceptions;
 using lanstreamer_api.Data.Modules.Client;
 using lanstreamer_api.Entities;
@@ -107,7 +106,7 @@ public class ClientService
             throw new AppException(HttpStatusCode.NotFound, $"Client with ID {clientId} doesn't exist");
         }
 
-        var filePath = ApplicationBuildPath.GetPath(operatingSystem);
+        var filePath = await _fileService.GetDesktopAppPath(operatingSystem);
         if (!_fileService.Exists(filePath))
         {
             throw new AppException(HttpStatusCode.NotFound, "File not found");

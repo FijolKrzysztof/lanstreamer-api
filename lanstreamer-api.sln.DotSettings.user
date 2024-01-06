@@ -1,4 +1,5 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=3DEF8C3F_002D0037_002D42EC_002DA2CE_002DB4E95A32868F_002Fd_003AApp_002Fd_003AModules_002Fd_003AClient_002Ff_003AClientController_002Ecs/@EntryIndexedValue">ExplicitlyExcluded</s:String>
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;
   &lt;Assembly Path="/home/ja/Apps/lanstreamer-api/obj/Debug/net6.0/lanstreamer-api.dll" /&gt;
   &lt;Assembly Path="/home/ja/Apps/lanstreamer-api/obj/Debug/net6.0/ref/lanstreamer-api.dll" /&gt;
@@ -21,17 +22,17 @@
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5fff7128_002D75f7_002D4dcc_002D9546_002D220e2bc3dd1d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ShouldThrowAnError_WhenWrongAppVersion" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Project Location="/home/krzysztof/Projects/lanstreamer-api-tests" Presentation="&amp;lt;lanstreamer-api-tests&amp;gt;" /&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=75b1eafe_002Dcaaf_002D4cc1_002D959f_002D09635e1a8afc/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Login_ShouldReturnCorrectRoles" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Project Location="/home/krzysztof/Projects/lanstreamer-api-tests" Presentation="&amp;lt;lanstreamer-api-tests&amp;gt;" /&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=bbe277f8_002D5695_002D411d_002Db0f5_002De3c6c577cd5e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Login_ShouldAddCorrectDataToDatabase" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::BAF0135A-A883-4BD4-B844-A6A2FC74149B::net7.0::lanstreamer_api_tests.Integration.DesktopAppControllerTests.ShouldThrowAnError_WhenWrongAppVersion&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::BAF0135A-A883-4BD4-B844-A6A2FC74149B::net7.0::lanstreamer_api_tests.Integration.DesktopAppControllerTests.ShouldReturnTrue&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::BAF0135A-A883-4BD4-B844-A6A2FC74149B::net7.0::lanstreamer_api_tests.Integration.DesktopAppControllerTests.ShouldPassTimeout&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::BAF0135A-A883-4BD4-B844-A6A2FC74149B::net7.0::lanstreamer_api_tests.Unit.Modules.Client.ClientServiceTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::BAF0135A-A883-4BD4-B844-A6A2FC74149B::net7.0::lanstreamer_api_tests.Integration.AdminControllerTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::BAF0135A-A883-4BD4-B844-A6A2FC74149B::net7.0::lanstreamer_api_tests.Integration.DesktopAppControllerTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::BAF0135A-A883-4BD4-B844-A6A2FC74149B::net7.0::lanstreamer_api_tests.Integration.UserControllerTests.Login_ShouldAddCorrectDataToDatabase&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::BAF0135A-A883-4BD4-B844-A6A2FC74149B::net7.0::lanstreamer_api_tests.Integration.UserControllerTests&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=75b1eafe_002Dcaaf_002D4cc1_002D959f_002D09635e1a8afc/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Login_ShouldReturnCorrectRoles" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=dcf8b4f9_002D9e68_002D467b_002D8ea3_002Dadc56eb9c234/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="UploadDesktopApp_ShouldNotAuthorize_WhenNoAdminRole" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Project Location="/home/krzysztof/Projects/lanstreamer-api-tests" Presentation="&amp;lt;lanstreamer-api-tests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String>
 	

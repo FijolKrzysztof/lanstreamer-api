@@ -1,13 +1,19 @@
-using System.IO.Compression;
 using System.Net;
-using lanstreamer_api.App.Data.Models.Enums;
 using lanstreamer_api.App.Exceptions;
+using lanstreamer_api.services.FileService;
 using OperatingSystem = lanstreamer_api.App.Data.Models.Enums.OperatingSystem;
 
 namespace lanstreamer_api.App.Modules.Admin;
 
 public class AdminService
 {
+    private readonly IFileService _fileService;
+    
+    public AdminService(IFileService fileService)
+    {
+        _fileService = fileService;
+    }
+    
     public async Task UploadDesktopApp(OperatingSystem operatingSystem, IFormFile? file)
     {
         if (file is null || file.Length == 0)
@@ -22,7 +28,7 @@ public class AdminService
 
         try
         {
-            var filePath = ApplicationBuildPath.GetPath(operatingSystem);
+            var filePath = await _fileService.GetDesktopAppPath(operatingSystem);
             var directoryPath = Path.GetDirectoryName(filePath);
 
             if (!Directory.Exists(directoryPath))

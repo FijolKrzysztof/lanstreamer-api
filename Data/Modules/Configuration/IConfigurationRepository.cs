@@ -5,5 +5,5 @@ namespace lanstreamer_api.Data.Configuration;
 
 public interface IConfigurationRepository : IBaseRepository<ConfigurationEntity>
 {
-    Task<ConfigurationEntity?> GetByKey(string key);
+    Task<string> GetByKey(ConfigurationKey key);
 }

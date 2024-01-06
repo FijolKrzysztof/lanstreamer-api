@@ -26,7 +26,7 @@ public class AdminController : Controller
     [RequestFormLimits(MultipartBodyLengthLimit = 10000000000)] 
     public async Task<ActionResult> UploadDesktopApp([FromQuery][BindRequired] OperatingSystem operatingSystem, [FromForm] IFormFile file)
     {
-        // TODO: dodać testy z dużymi plikami, chyba trzeba będzie też zamienić na stream
+        // TODO: dodać testy z dużymi plikami
         await _adminService.UploadDesktopApp(operatingSystem, file);
         return Ok();
     }

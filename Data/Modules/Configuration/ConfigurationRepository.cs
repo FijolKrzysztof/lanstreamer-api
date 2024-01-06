@@ -1,4 +1,6 @@
+using System.Net;
 using lanstreamer_api.App.Data.Models.Enums;
+using lanstreamer_api.App.Exceptions;
 using lanstreamer_api.Data.Context;
 using lanstreamer_api.Data.Utils;
 using Microsoft.EntityFrameworkCore;
@@ -10,9 +12,16 @@ public class ConfigurationRepository : BaseRepository<ConfigurationEntity>, ICon
     public ConfigurationRepository(ApplicationDbContext dbContext) : base(dbContext)
     {
     }
-    
-    public async Task<ConfigurationEntity?> GetByKey(string key)
+
+    public async Task<string> GetByKey(ConfigurationKey key)
     {
-        return await dbSet.FirstOrDefaultAsync(entity => entity.Key == key);
+        var entity = await dbSet.FirstOrDefaultAsync(entity => entity.Key == key.ToString());
+
+        if (entity == null)
+        {
+            throw new AppException(HttpStatusCode.InternalServerError, "Configuration not found");
+        }
+
+        return entity.Value;
     }
 }

@@ -22,7 +22,7 @@ public class ClientController : Controller
     public async Task<ActionResult<CreatedObjResponse>> CreateClient([FromBody] ClientDto clientDto)
     {
         var httpContext = _httpContextAccessor.HttpContext!;
-        
+        // TODO: naprawić pobieranie IP
         var createdClientResponse = await _clientService.CreateClient(clientDto, httpContext);
         
         return Created("", createdClientResponse);
@@ -50,5 +50,22 @@ public class ClientController : Controller
         var stream = await _clientService.GetFileStream(clientId, operatingSystem);
         
         return new FileStreamResult(stream, "application/octet-stream");
+    }
+    
+    [HttpHead("{clientId}/download-app/{operatingSystem}")]
+    public async Task<IActionResult> CheckAppExistence(int clientId, OperatingSystem operatingSystem)
+    {
+        // TODO: testy
+        
+        var stream = await _clientService.GetFileStream(clientId, operatingSystem);
+
+        if (stream != null)
+        {
+            return Ok();
+        }
+        else
+        {
+            return NotFound();
+        }
     }
 }

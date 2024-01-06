@@ -32,17 +32,17 @@ public class DesktopAppService
 
     public async Task Access(float version, string accessCode, HttpResponse response)
     {
-        var versionObj = (await _configurationRepository.GetByKey(ConfigurationKey.DesktopAppVersion.ToString()))!;
+        var versionConfig = (await _configurationRepository.GetByKey(ConfigurationKey.DesktopAppVersion))!;
 
         var culture = CultureInfo.CreateSpecificCulture("en-US");
-        var versionValue = float.Parse(versionObj.Value, culture);
+        var versionValue = float.Parse(versionConfig, culture);
         if (versionValue > version)
         {
             throw new AppException(HttpStatusCode.Unauthorized, "Version is not supported");
         }
         
-        var loginTimeoutObj = await _configurationRepository.GetByKey(ConfigurationKey.LoginTimeoutSeconds.ToString());
-        var timeout = int.Parse(loginTimeoutObj!.Value, culture);
+        var loginTimeout = await _configurationRepository.GetByKey(ConfigurationKey.LoginTimeoutSeconds);
+        var timeout = int.Parse(loginTimeout, culture);
 
         var accessEntity = await _accessRepository.Create(new AccessEntity()
         {
@@ -73,9 +73,9 @@ public class DesktopAppService
 
                         await _userRepository.Update(userEntity);
                         
-                        var offlineLoginsObj = await _configurationRepository.GetByKey(ConfigurationKey.OfflineLogins.ToString());
+                        var offlineLogins = await _configurationRepository.GetByKey(ConfigurationKey.OfflineLogins);
                         
-                        await response.Body.WriteAsync(Encoding.UTF8.GetBytes(offlineLoginsObj!.Value), cancellationToken);
+                        await response.Body.WriteAsync(Encoding.UTF8.GetBytes(offlineLogins), cancellationToken);
                         await response.Body.FlushAsync(cancellationToken);
                         
                         _serverSentEventsService.Unsubscribe(accessCode);

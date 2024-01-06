@@ -6,4 +6,7 @@ public enum ConfigurationKey
     DesktopAppVersion,
     LoginTimeoutSeconds,
     OfflineLogins,
+    StoragePath,
+    LanstreamerLinuxFilename,
+    LanstreamerWindowsFilename,
 }
