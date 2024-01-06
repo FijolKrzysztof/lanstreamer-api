@@ -16,7 +16,7 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-COPY ["ssl/certificate.pfx", "certificate.pfx"]
+COPY ["Ssl/certificate.pfx", "certificate.pfx"]
 COPY ["appsettings.json", "appsettings.json"]
 
 ENTRYPOINT ["dotnet", "lanstreamer-api.dll"]

@@ -53,7 +53,7 @@ public class UserService
 
         var accessCode = newUserDto.AccessCode;
         
-        if (accessCode != null)
+        if (!string.IsNullOrEmpty(accessCode))
         {
             var oldAccessEntity = await _accessRepository.FindByUserId(newUserEntity.Id);
             if (oldAccessEntity != null)

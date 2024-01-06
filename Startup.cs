@@ -76,7 +76,7 @@ public class Startup
 
     private IConfiguration Configuration { get; }
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext dbContext)
     {
         app.UseCors("allowAll"); // TODO: trzeba to zdjąć i enablować tylko lokalnie i w przypadku metody AppAccess
         app.UseRouting();
