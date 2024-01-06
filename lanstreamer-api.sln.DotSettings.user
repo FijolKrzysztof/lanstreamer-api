@@ -5,6 +5,11 @@
   &lt;Assembly Path="/home/ja/Apps/lanstreamer-api/obj/Debug/net6.0/ref/lanstreamer-api.dll" /&gt;
   &lt;Assembly Path="/home/krzysztof/.nuget/packages/awssdk.s3/3.7.9.55/lib/netcoreapp3.1/AWSSDK.S3.dll" /&gt;
 &lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=07fae00d_002D35b4_002D4275_002D9141_002Deaf177113acf/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Access_ShouldUpdateAppVersion" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::BAF0135A-A883-4BD4-B844-A6A2FC74149B::net7.0::lanstreamer_api_tests.Integration.DesktopAppControllerTests.Access_ShouldUpdateAppVersion&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1072c32b_002De275_002D477d_002D8409_002Dbc11ce9b380f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="UploadDesktopApp_ShouldReturnCorrectStatusCode" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Project Location="/home/krzysztof/Projects/lanstreamer-api-tests" Presentation="&amp;lt;lanstreamer-api-tests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String>
@@ -13,6 +18,11 @@
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=25bcf47d_002D0aa5_002D4bb6_002Da5bd_002D466d6dbf38b0/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CreateClient_ShouldReturnCreatedObjResponse" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Project Location="/home/krzysztof/Projects/lanstreamer-api-tests" Presentation="&amp;lt;lanstreamer-api-tests&amp;gt;" /&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=413aedb3_002Dcc4f_002D4588_002D9264_002D6c9e07632b59/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="DesktopAppControllerTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::BAF0135A-A883-4BD4-B844-A6A2FC74149B::net7.0::lanstreamer_api_tests.Integration.DesktopAppControllerTests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=44b7b682_002D6a40_002D4283_002Db4f2_002D192e0a220bac/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ShouldConvertUserToUserEntity" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
@@ -24,16 +34,36 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5fff7128_002D75f7_002D4dcc_002D9546_002D220e2bc3dd1d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ShouldThrowAnError_WhenWrongAppVersion" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Project Location="/home/krzysztof/Projects/lanstreamer-api-tests" Presentation="&amp;lt;lanstreamer-api-tests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6c3b9b4d_002D8b32_002D4096_002D945f_002Dfa01a841a4f5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Access_ShouldReturnNumber #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::BAF0135A-A883-4BD4-B844-A6A2FC74149B::net7.0::lanstreamer_api_tests.Integration.DesktopAppControllerTests.Access_ShouldReturnNumber&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=75b1eafe_002Dcaaf_002D4cc1_002D959f_002D09635e1a8afc/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Login_ShouldReturnCorrectRoles" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Project Location="/home/krzysztof/Projects/lanstreamer-api-tests" Presentation="&amp;lt;lanstreamer-api-tests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=bbe277f8_002D5695_002D411d_002Db0f5_002De3c6c577cd5e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Login_ShouldAddCorrectDataToDatabase" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7653ab58_002D8c02_002D4034_002D91c9_002D992e6c64be6c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CheckAppExistence_ShouldReturnOk" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Project Location="/home/krzysztof/Projects/lanstreamer-api-tests" Presentation="&amp;lt;lanstreamer-api-tests&amp;gt;" /&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=bbe277f8_002D5695_002D411d_002Db0f5_002De3c6c577cd5e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Login_ShouldAddCorrectDataToDatabase" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::BAF0135A-A883-4BD4-B844-A6A2FC74149B::net7.0::lanstreamer_api_tests.Integration.UserControllerTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::BAF0135A-A883-4BD4-B844-A6A2FC74149B::net7.0::lanstreamer_api_tests.Integration.ClientControllerTests.CheckAppExistence_ShouldReturnNotFound&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c8a5f4a7_002D2623_002D40c3_002D94c0_002D93fdfc4fe18c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Access_ShouldReturnNumber" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::BAF0135A-A883-4BD4-B844-A6A2FC74149B::net7.0::lanstreamer_api_tests.Integration.DesktopAppControllerTests.Access_ShouldReturnNumber&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=dcf8b4f9_002D9e68_002D467b_002D8ea3_002Dadc56eb9c234/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="UploadDesktopApp_ShouldNotAuthorize_WhenNoAdminRole" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Project Location="/home/krzysztof/Projects/lanstreamer-api-tests" Presentation="&amp;lt;lanstreamer-api-tests&amp;gt;" /&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f4d58dd6_002D456d_002D4435_002D827b_002D0ce3c77f55db/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Access_ShouldReturnNumber #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::BAF0135A-A883-4BD4-B844-A6A2FC74149B::net7.0::lanstreamer_api_tests.Integration.Controllers.DesktopAppControllerTests.Access_ShouldReturnNumber&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::BAF0135A-A883-4BD4-B844-A6A2FC74149B::net7.0::lanstreamer_api_tests.Database.ConfigurationTests.AllConfigurations_ShouldBeSeeded&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	
 	

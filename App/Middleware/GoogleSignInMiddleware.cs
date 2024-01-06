@@ -18,8 +18,11 @@ public class GoogleSignInMiddleware
         _next = next;
     }
 
-    public async Task Invoke(HttpContext context, IConfigurationRepository configurationRepository,
-        IGoogleAuthenticationService googleAuthenticationService)
+    public async Task Invoke(
+        HttpContext context,
+        IConfigurationRepository configurationRepository,
+        IGoogleAuthenticationService googleAuthenticationService
+    )
     {
         var authorizationAttribute = context.GetEndpoint()?.Metadata?.GetMetadata<AuthorizationAttribute>();
 
@@ -55,7 +58,7 @@ public class GoogleSignInMiddleware
         {
             throw new AppException(HttpStatusCode.Unauthorized, "Invalid google token");
         }
-        
+
         if (payload.Subject == null)
         {
             throw new AppException(HttpStatusCode.Unauthorized, "Cannot access google id");
@@ -65,7 +68,7 @@ public class GoogleSignInMiddleware
         {
             throw new AppException(HttpStatusCode.Unauthorized, "Cannot access email");
         }
-        
+
         if (payload.Name == null)
         {
             throw new AppException(HttpStatusCode.Unauthorized, "Cannot access name");
@@ -79,7 +82,7 @@ public class GoogleSignInMiddleware
                 new Claim(ClaimTypes.Email, payload.Email),
             }
         );
-        
+
         var adminIdentifier = await configurationRepository.GetByKey(ConfigurationKey.AdminIdentifier);
 
         if (payload.Subject == adminIdentifier)
@@ -89,7 +92,7 @@ public class GoogleSignInMiddleware
 
         // TODO: dodać test który by sprawdzał czy w bazie danych są wszystkie konfiguracje dołożone - może
         // w startup dać jakiś assert?
-        
+
         identity.AddClaim(new Claim(ClaimTypes.Role, Role.User.ToString()));
 
         context.User = new ClaimsPrincipal(identity);

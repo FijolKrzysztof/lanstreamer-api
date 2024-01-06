@@ -1,7 +1,6 @@
 using System.Security.Claims;
 using lanstreamer_api.App.Data.Models;
 using Newtonsoft.Json;
-using OperatingSystem = lanstreamer_api.App.Data.Models.Enums.OperatingSystem;
 
 namespace lanstreamer_api.services;
 

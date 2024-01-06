@@ -1,8 +1,5 @@
-using System.Net;
 using lanstreamer_api.App.Attributes;
 using lanstreamer_api.App.Data.Models.Enums;
-using lanstreamer_api.App.Exceptions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using OperatingSystem = lanstreamer_api.App.Data.Models.Enums.OperatingSystem;

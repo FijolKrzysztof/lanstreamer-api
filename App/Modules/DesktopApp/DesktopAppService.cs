@@ -40,7 +40,7 @@ public class DesktopAppService
         {
             throw new AppException(HttpStatusCode.Unauthorized, "Version is not supported");
         }
-        
+
         var loginTimeout = await _configurationRepository.GetByKey(ConfigurationKey.LoginTimeoutSeconds);
         var timeout = int.Parse(loginTimeout, culture);
 
@@ -49,39 +49,41 @@ public class DesktopAppService
             Code = accessCode,
             ExpirationDate = DateTime.Now.AddSeconds(timeout).ToUniversalTime(),
         });
-        
+
         var reader = _serverSentEventsService.Subscribe(accessCode);
-        
+
         var cancellationTokenSource = new CancellationTokenSource();
         cancellationTokenSource.CancelAfter(TimeSpan.FromSeconds(timeout));
 
         var cancellationToken = cancellationTokenSource.Token;
-        
+
         try
         {
             while (await reader.WaitToReadAsync(cancellationToken))
             {
                 while (reader.TryRead(out var access))
                 {
-                    if (access)
+                    if (!access)
                     {
-                        var accessEntityWithUserId = (await _accessRepository.GetById(accessEntity.Id))!;
-                        accessEntityWithUserId = await _accessRepository.Reload(accessEntityWithUserId);
-                        var userEntity = await _userRepository.GetById(accessEntityWithUserId!.UserId!.Value);
-
-                        userEntity!.AppVersion = version;
-
-                        await _userRepository.Update(userEntity);
-                        
-                        var offlineLogins = await _configurationRepository.GetByKey(ConfigurationKey.OfflineLogins);
-                        
-                        await response.Body.WriteAsync(Encoding.UTF8.GetBytes(offlineLogins), cancellationToken);
-                        await response.Body.FlushAsync(cancellationToken);
-                        
-                        _serverSentEventsService.Unsubscribe(accessCode);
-                        await _accessRepository.Delete(accessEntity.Id);
                         return;
                     }
+
+                    var accessEntityWithUserId = (await _accessRepository.GetById(accessEntity.Id))!;
+                    accessEntityWithUserId = await _accessRepository.Reload(accessEntityWithUserId);
+                    var userEntity = await _userRepository.GetById(accessEntityWithUserId!.UserId!.Value);
+
+                    userEntity!.AppVersion = version;
+
+                    await _userRepository.Update(userEntity);
+
+                    var offlineLogins = await _configurationRepository.GetByKey(ConfigurationKey.OfflineLogins);
+
+                    await response.Body.WriteAsync(Encoding.UTF8.GetBytes(offlineLogins), cancellationToken);
+                    await response.Body.FlushAsync(cancellationToken);
+
+                    _serverSentEventsService.Unsubscribe(accessCode);
+                    await _accessRepository.Delete(accessEntity.Id);
+                    return;
                 }
             }
         }

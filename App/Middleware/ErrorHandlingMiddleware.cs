@@ -6,20 +6,20 @@ namespace lanstreamer_api.App.Middleware;
 
 public class ErrorHandlingMiddleware
 {
-    private readonly RequestDelegate next;
-    private readonly ILogger<ErrorHandlingMiddleware> logger;
+    private readonly RequestDelegate _next;
+    private readonly ILogger<ErrorHandlingMiddleware> _logger;
 
     public ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger)
     {
-        this.next = next;
-        this.logger = logger;
+        _next = next;
+        _logger = logger;
     }
 
     public async Task Invoke(HttpContext context)
     {
         try
         {
-            await next(context);
+            await _next(context);
         }
         catch (Exception ex)
         {
@@ -62,7 +62,7 @@ public class ErrorHandlingMiddleware
                 await context.Response.WriteAsync(jsonResponse);
             }
             
-            logger.LogError(ex, "Error occurred");
+            _logger.LogError(ex, "Error occurred");
         }
     }
 }

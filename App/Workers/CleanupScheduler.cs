@@ -24,7 +24,7 @@ public class CleanupScheduler : IHostedService
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        _timer = new Timer(Execute, null, 0, TimeSpan.FromDays(1).Milliseconds);
+        _timer = new Timer(Execute, null, 0, TimeSpan.FromHours(1).Milliseconds);
         return Task.CompletedTask;
     }
 

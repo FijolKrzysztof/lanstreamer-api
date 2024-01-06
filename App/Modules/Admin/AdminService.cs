@@ -31,15 +31,13 @@ public class AdminService
             var filePath = await _fileService.GetDesktopAppPath(operatingSystem);
             var directoryPath = Path.GetDirectoryName(filePath);
 
-            if (!Directory.Exists(directoryPath))
+            if (!Directory.Exists(directoryPath) && directoryPath is not null)
             {
                 Directory.CreateDirectory(directoryPath);
             }
 
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
+            await using var stream = new FileStream(filePath, FileMode.Create);
+            await file.CopyToAsync(stream);
         }
         catch (Exception e)
         {
