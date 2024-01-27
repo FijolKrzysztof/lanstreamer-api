@@ -52,9 +52,9 @@ public class ClientController : Controller
     }
     
     [HttpHead("{clientId}/download-app/{operatingSystem}")]
-    public async Task<IActionResult> CheckAppExistence(int clientId, OperatingSystem operatingSystem)
+    public async Task<IActionResult> CheckAppPresence(int clientId, OperatingSystem operatingSystem)
     {
-        var stream = await _clientService.GetFileStream(clientId, operatingSystem);
+        var stream = await _clientService.GetFileStream(clientId, operatingSystem, true);
 
         if (stream != null)
         {

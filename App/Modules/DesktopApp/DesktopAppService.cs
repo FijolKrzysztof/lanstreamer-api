@@ -89,9 +89,8 @@ public class DesktopAppService
         }
         catch (Exception e)
         {
-            // TODO: czy nie powinienem logować tych błędów?
             _serverSentEventsService.Unsubscribe(accessCode);
-            throw new AppException(HttpStatusCode.RequestTimeout, "Timeout waiting for user login");
+            throw new AppException(HttpStatusCode.RequestTimeout, "Timeout waiting for user login", e);
         }
     }
 }

@@ -3,8 +3,8 @@ using System.Text.Json.Serialization;
 namespace lanstreamer_api.Models.Responses;
 
 [Serializable]
-public class LoginResponse
+public record LoginResponse
 {
     [JsonPropertyName("roles")]
-    public List<string> Roles { get; set; }
+    public List<string> Roles { get; init; }
 }

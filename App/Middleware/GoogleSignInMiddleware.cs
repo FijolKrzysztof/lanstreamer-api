@@ -56,7 +56,7 @@ public class GoogleSignInMiddleware
         }
         catch (Exception e)
         {
-            throw new AppException(HttpStatusCode.Unauthorized, "Invalid google token");
+            throw new AppException(HttpStatusCode.Unauthorized, "Invalid google token", e);
         }
 
         if (payload.Subject == null)

@@ -1,14 +1,13 @@
-using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace lanstreamer_api.Models;
 
 [Serializable]
-public class ClientDto
+public record ClientDto
 {
     [JsonProperty("id")]
-    public int Id { get; set; }
+    public int Id { get; init; }
 
     [JsonProperty("referrerWebsite")]
-    public string? ReferrerWebsite { get; set; }
+    public string? ReferrerWebsite { get; init; }
 }

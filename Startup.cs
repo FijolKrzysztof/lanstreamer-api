@@ -69,9 +69,6 @@ public class Startup
     public Startup(IConfiguration configuration)
     {
         Configuration = configuration;
-        
-        // TODO: źle się liczą pobrania, bo w bazie mam 2 pobrania osoby która dała feedback a raz pobrałem
-        // + nie ma informacji o tym ile byłem na stronie - jest 0 0 0 0... w columnie od czasu spędzonego na stronie
     }
 
     private IConfiguration Configuration { get; }

@@ -41,7 +41,7 @@ public class AdminService
         }
         catch (Exception e)
         {
-            throw new AppException(HttpStatusCode.InternalServerError, "Error occurred while saving or zipping file");
+            throw new AppException(HttpStatusCode.InternalServerError, "Error occurred while saving or zipping file", e);
         }
     }
 }

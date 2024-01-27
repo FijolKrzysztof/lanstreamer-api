@@ -56,10 +56,10 @@
     &lt;TestId&gt;xUnit::BAF0135A-A883-4BD4-B844-A6A2FC74149B::net7.0::lanstreamer_api_tests.Integration.DesktopAppControllerTests.Access_ShouldReturnNumber&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=dcf8b4f9_002D9e68_002D467b_002D8ea3_002Dadc56eb9c234/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="UploadDesktopApp_ShouldNotAuthorize_WhenNoAdminRole" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=dcf8b4f9_002D9e68_002D467b_002D8ea3_002Dadc56eb9c234/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="UploadDesktopApp_ShouldNotAuthorize_WhenNoAdminRole" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Project Location="/home/krzysztof/Projects/lanstreamer-api-tests" Presentation="&amp;lt;lanstreamer-api-tests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f4d58dd6_002D456d_002D4435_002D827b_002D0ce3c77f55db/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Access_ShouldReturnNumber #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f4d58dd6_002D456d_002D4435_002D827b_002D0ce3c77f55db/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Access_ShouldReturnNumber #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Project Location="/home/krzysztof/Projects/lanstreamer-api-tests" Presentation="&amp;lt;lanstreamer-api-tests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String>
 	

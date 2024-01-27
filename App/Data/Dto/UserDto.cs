@@ -5,11 +5,11 @@ using Newtonsoft.Json;
 namespace lanstreamer_api.Models;
 
 [Serializable]
-public class UserDto
+public record UserDto
 {
     [JsonProperty("id")]
-    public int Id { get; set; }
+    public int Id { get; init; }
 
     [JsonProperty("accessCode")]
-    public string? AccessCode { get; set; }
+    public string? AccessCode { get; init; }
 }

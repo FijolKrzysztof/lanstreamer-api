@@ -98,7 +98,8 @@ public class ClientService
         await _clientRepository.Update(clientEntity);
     }
 
-    public async Task<FileStream> GetFileStream(int clientId, OperatingSystem operatingSystem)
+    public async Task<FileStream> GetFileStream(int clientId, OperatingSystem operatingSystem,
+        bool isHeadRequest = false)
     {
         var clientEntity = await _clientRepository.GetById(clientId);
         if (clientEntity == null)
@@ -114,8 +115,12 @@ public class ClientService
 
         var fileStream = _fileService.ReadFileStream(filePath);
 
-        clientEntity.Downloads = clientEntity.Downloads == null ? 1 : clientEntity.Downloads + 1;
+        if (isHeadRequest)
+        {
+            return fileStream;
+        }
 
+        clientEntity.Downloads = clientEntity.Downloads == null ? 1 : clientEntity.Downloads + 1;
         await _clientRepository.Update(clientEntity);
 
         return fileStream;

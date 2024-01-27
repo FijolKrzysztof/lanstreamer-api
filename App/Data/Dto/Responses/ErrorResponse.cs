@@ -3,11 +3,11 @@ using Newtonsoft.Json;
 namespace lanstreamer_api.App.Data.Dto.Responses;
 
 [Serializable]
-public class ErrorResponse
+public record ErrorResponse
 {
     [JsonProperty("statusCode")]
-    public int StatusCode { get; set; }
+    public int StatusCode { get; init; }
 
     [JsonProperty("message")]
-    public string Message { get; set; }
+    public string Message { get; init; }
 }
