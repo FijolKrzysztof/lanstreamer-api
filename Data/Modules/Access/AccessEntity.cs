@@ -4,6 +4,7 @@ using lanstreamer_api.Data.Utils;
 
 namespace lanstreamer_api.Data.Modules.AccessCode;
 
+[Table("Accesses")]
 public class AccessEntity : BaseEntity
 {
     [ForeignKey("User")]

@@ -26,6 +26,8 @@ public class CleanupScheduler : IHostedService
     {
         _timer = new Timer(Execute, null, 0, TimeSpan.FromHours(1).Milliseconds);
         return Task.CompletedTask;
+        
+        // TODO: ustalić czy przenieść część konfiguracji z bazy do appsettings
     }
 
     public Task StopAsync(CancellationToken cancellationToken)

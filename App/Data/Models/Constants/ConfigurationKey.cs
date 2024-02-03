@@ -5,6 +5,7 @@ public enum ConfigurationKey
     AdminIdentifier,
     DesktopAppVersion,
     LoginTimeoutSeconds,
+    SchedulerIntervalMinutes,
     OfflineLogins,
     StoragePath,
     LanstreamerLinuxFilename,

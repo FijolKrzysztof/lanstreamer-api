@@ -43,7 +43,7 @@ public class Startup
         services.AddAutoMapper(typeof(Startup));
         services.AddHttpContextAccessor();
         
-        services.AddHostedService<CleanupScheduler>(); // TODO: odkomentować
+        services.AddHostedService<CleanupScheduler>(); // TODO: testy
 
         services.AddScoped<IFileService, FileService>();
         services.AddScoped<IClientRepository, ClientRepository>();
